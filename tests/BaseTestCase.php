@@ -1,0 +1,127 @@
+<?php declare (strict_types = 1);
+
+namespace Tests;
+
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\TestCase;
+use Slim\Http\Environment;
+use Slim\Http\Headers;
+use Slim\Http\Request;
+use Slim\Http\RequestBody;
+use Slim\Http\Response;
+use Slim\Http\Uri;
+use Tests\DatabaseTrait;
+use Wallet\App;
+
+class BaseTestCase extends TestCase
+{
+    const ENV_TESTING_FILE = '.env.testing';
+
+    protected $app;
+
+    protected $cli;
+
+    protected $container;
+
+    protected $entityManager;
+
+    protected $dbConnection;
+
+    protected $queryBuilder;
+
+    public function setUp(): void
+    {
+        $this->createApplication();
+        $this->createCli();
+        $this->createEntityManager();
+
+        $traits = array_flip(class_uses(static::class));
+        if (isset($traits[DatabaseTrait::class])) {
+            $this->migrate();
+        }
+    }
+
+    public function tearDown(): void
+    {
+        $traits = array_flip(class_uses(static::class));
+        if (isset($traits[DatabaseTrait::class])) {
+            $this->rollback();
+        }
+    }
+
+    public function createEntityManager(): void
+    {
+        $this->entityManager = $this->container->get(EntityManager::class);
+        $this->dbConnection  = $this->entityManager->getConnection();
+    }
+
+    public function queryBuilder(): QueryBuilder
+    {
+        return $this->dbConnection->createQueryBuilder();
+    }
+
+    public function createApplication(): void
+    {
+        $app       = new App(static::ENV_TESTING_FILE);
+        $container = $app->getContainer();
+
+        require __DIR__ . '/../bootstrap/dependencies.php';
+        require __DIR__ . '/../routes/api.php';
+
+        $this->app       = $app;
+        $this->container = $container;
+    }
+
+    public function request(array $options, array $params): Request
+    {
+        $default = [
+            'content_type' => 'application/json',
+            'method'       => 'get',
+            'uri'          => '/',
+        ];
+
+        $options = array_merge($default, $options);
+
+        $env          = Environment::mock();
+        $uri          = Uri::createFromString($options['uri']);
+        $headers      = Headers::createFromEnvironment($env);
+        $cookies      = [];
+        $serverParams = $env->all();
+        $body         = new RequestBody();
+
+        $request = new Request($options['method'], $uri, $headers, $cookies, $serverParams, $body);
+        $request = $request->withParsedBody($params);
+        $request = $request->withHeader('Content-Type', $options['content_type']);
+        $request = $request->withMethod($options['method']);
+
+        return $request;
+    }
+
+    public function runApp(string $method, string $uri, array $params = [], array $options = [])
+    {
+        $options['method'] = $method;
+        $options['uri']    = $uri;
+
+        $request = $this->request($options, $params);
+
+        return $this->app->process($request, new Response());
+    }
+
+    public function createCli(): void
+    {
+        $this->cli = require __DIR__ . '/../bootstrap/doctrine.php';
+    }
+
+    public function executeCommand(string $command): string
+    {
+        $input  = new \Symfony\Component\Console\Input\StringInput("$command");
+        $output = new \Symfony\Component\Console\Output\BufferedOutput();
+        $input->setInteractive(false);
+        $returnCode = $this->cli->doRun($input, $output);
+        if ($returnCode != 0) {
+            throw new \RuntimeException('Failed to execute command. ' . $output->fetch());
+        }
+        return $output->fetch();
+    }
+}
