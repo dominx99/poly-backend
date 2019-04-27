@@ -12,7 +12,7 @@ before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS wallet_test;'
 
 before_script:
-  - cp .env.example .env.testing
+  - cp .env.travis .env.testing
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 

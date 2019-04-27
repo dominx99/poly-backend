@@ -26,7 +26,9 @@ abstract class Validator
     {
         foreach ($this->getRules() as $field => $rule) {
             try {
-                $rule->setName(ucfirst($field))->assert($params[$field]);
+                $param = isset($params[$field]) ? $params[$field] : null;
+
+                $rule->setName(ucfirst($field))->assert($param);
             } catch (NestedValidationException $e) {
                 $this->errors[$field] = $e->getMessages();
             }

@@ -26,7 +26,7 @@ class App extends DIApp
     /**
      * @return self
      */
-    public function create(): self
+    public static function create(): self
     {
         return new static(static::DEVELOPMENT_ENV);
     }
