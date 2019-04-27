@@ -59,7 +59,7 @@ class UserView
      * @param  array $user
      * @return self
      */
-    public function createFromDatabase(array $user): self
+    public static function createFromDatabase(array $user): self
     {
         return new static(
             $user['id'],
