@@ -10,12 +10,20 @@ use Wallet\System\Infrastructure\StatusMessage;
 class LoginFail implements Responsable
 {
     /**
+     * @param string $message
+     */
+    public function __construct(string $message = StatusMessage::LOGIN_ERROR)
+    {
+        $this->message = $message;
+    }
+
+    /**
      * @return \Slim\Http\Response
      */
     public function toResponse(): Response
     {
         return (new Response())->withJson([
-            'error' => StatusMessage::LOGIN_ERROR,
+            'error' => $this->message,
         ], StatusCode::HTTP_UNAUTHORIZED);
     }
 }

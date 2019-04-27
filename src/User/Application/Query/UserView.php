@@ -22,9 +22,9 @@ class UserView
     /**
      * @param string $id
      * @param string $email
-     * @param string $password
+     * @param string|null $password
      */
-    public function __construct(string $id, string $email, string $password)
+    public function __construct(string $id, string $email, string $password = null)
     {
         $this->id       = $id;
         $this->email    = $email;

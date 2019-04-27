@@ -4,7 +4,9 @@ namespace Wallet\System\Infrastructure;
 
 class StatusMessage
 {
-    const ERROR = 'something went wrong';
+    const ERROR = 'Something went wrong';
 
-    const LOGIN_ERROR = 'credentials are wrong';
+    const LOGIN_ERROR = 'Credentials are wrong';
+
+    const LOGIN_SOCIAL_ERROR = 'User was not found';
 }

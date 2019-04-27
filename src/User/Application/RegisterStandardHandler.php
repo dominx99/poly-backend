@@ -3,19 +3,19 @@
 namespace Wallet\User\Application;
 
 use Wallet\System\Contracts\Handler;
-use Wallet\User\Infrastructure\UsersRepository;
+use Wallet\User\Infrastructure\ORMUsers;
 
 class RegisterStandardHandler implements Handler
 {
     /**
-     * @var \Wallet\User\Infrastructure\UsersRepository
+     * @var \Wallet\User\Infrastructure\ORMUsers
      */
     protected $users;
 
     /**
-     * @param \Wallet\User\Infrastructure\UsersRepository $users
+     * @param \Wallet\User\Infrastructure\ORMUsers $users
      */
-    public function __construct(UsersRepository $users)
+    public function __construct(ORMUsers $users)
     {
         $this->users = $users;
     }

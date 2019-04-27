@@ -12,7 +12,7 @@ class Password
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", nullable=false)
+     * @ORM\Column(name="password", type="string", nullable=true)
      */
     private $password;
 

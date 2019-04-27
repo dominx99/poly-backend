@@ -27,10 +27,31 @@ class DbalUsers
     }
 
     /**
+     * @param \Wallet\User\Infrastructure\UserFilters $filters
+     * @return void
+     */
+    public function find(UserFilters $filters)
+    {
+        $this->queryBuilder
+            ->select('*')
+            ->from('users', 'u');
+
+        foreach ($filters->getFilters() as $column => $value) {
+            $this->queryBuilder
+                ->where("u.{$column} = :{$column}")
+                ->setParameter($column, $value);
+        }
+
+        $user = $this->connection->fetchAssoc($this->queryBuilder->getSQL(), $this->queryBuilder->getParameters());
+
+        return $user ? UserView::createFromDatabase($user) : null;
+    }
+
+    /**
      * @param  string $email
      * @return null|\Wallet\User\Application\Query\UserView
      */
-    public function getByEmail(string $email)
+    public function findByEmail(string $email)
     {
         $this->queryBuilder
             ->select('*')

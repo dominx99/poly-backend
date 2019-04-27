@@ -4,11 +4,13 @@ namespace Wallet\User\Infrastructure;
 
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\Uuid;
+use Wallet\User\Domain\SocialProvider;
+use Wallet\User\Domain\SocialProvider\Name;
 use Wallet\User\Domain\User;
 use Wallet\User\Domain\User\Email;
 use Wallet\User\Domain\User\Password;
 
-class UsersRepository
+class ORMUsers
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -29,13 +31,39 @@ class UsersRepository
      */
     public function add(array $params): void
     {
+        $id = isset($params['id']) ? $params['id'] : Uuid::uuid4();
+
         $user = new User(
-            Uuid::uuid4(),
+            $id,
             new Email($params['email']),
             new Password($params['password'])
         );
 
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param array $params
+     * @return void
+     */
+    public function addWithProvider(array $params): void
+    {
+        $user = new User(
+            Uuid::uuid4(),
+            new Email($params['email'])
+        );
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $socialProvider = new SocialProvider(
+            Uuid::uuid4(),
+            $user,
+            new Name($params['provider_name'])
+        );
+
+        $this->entityManager->persist($socialProvider);
         $this->entityManager->flush();
     }
 }

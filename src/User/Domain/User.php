@@ -36,11 +36,16 @@ class User
     private $password;
 
     /**
+     * @ORM\OneToMany(targetEntity="Wallet\User\Domain\SocialProvider", mappedBy="user")
+     */
+    private $providers;
+
+    /**
      * @param \Ramsey\Uuid\Uuid                 $id
      * @param \Wallet\User\Domain\User\Email    $email
-     * @param \Wallet\User\Domain\User\Password $password
+     * @param \Wallet\User\Domain\User\Password|null $password
      */
-    public function __construct(Uuid $id, Email $email, Password $password)
+    public function __construct(Uuid $id, Email $email, Password $password = null)
     {
         $this->id       = $id;
         $this->email    = $email;

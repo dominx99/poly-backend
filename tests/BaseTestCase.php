@@ -13,6 +13,7 @@ use Slim\Http\Response;
 use Slim\Http\Uri;
 use Tests\DatabaseTrait;
 use Wallet\App;
+use Wallet\System\System;
 
 class BaseTestCase extends TestCase
 {
@@ -23,6 +24,8 @@ class BaseTestCase extends TestCase
     protected $cli;
 
     protected $container;
+
+    protected $system;
 
     protected $entityManager;
 
@@ -71,6 +74,7 @@ class BaseTestCase extends TestCase
 
         $this->app       = $app;
         $this->container = $container;
+        $this->system    = new System($this->container);
     }
 
     public function request(array $options, array $params): Request

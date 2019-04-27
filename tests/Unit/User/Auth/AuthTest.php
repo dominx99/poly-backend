@@ -70,7 +70,5 @@ class AuthTest extends BaseTestCase
         $body = json_decode((string) $response->getBody(), true);
 
         $this->assertArrayHasKey('token', $body['data']);
-
-        $tokenData = JWT::decode($body['data']['token'], getenv('JWT_KEY'), ['HS256']);
     }
 }

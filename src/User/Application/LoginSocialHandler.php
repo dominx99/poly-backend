@@ -4,11 +4,13 @@ namespace Wallet\User\Application;
 
 use Wallet\System\Contracts\Query;
 use Wallet\System\Contracts\Responsable;
+use Wallet\System\Infrastructure\StatusMessage;
+use Wallet\User\Application\LoginSocial;
 use Wallet\User\Infrastructure\DbalUsers;
 use Wallet\User\Responses\LoginFail;
 use Wallet\User\Responses\LoginSuccess;
 
-class LoginStandardHandler implements Query
+class LoginSocialHandler implements Query
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers
@@ -24,21 +26,13 @@ class LoginStandardHandler implements Query
     }
 
     /**
-     * @param  LoginStandard $command
+     * @param \Wallet\User\Application\LoginSocial $command
      * @return \Wallet\System\Contracts\Responsable
      */
-    public function execute(LoginStandard $command): Responsable
+    public function execute(LoginSocial $command): Responsable
     {
-        $user = $this->users->findByEmail($command->email());
-
-        if (!$user) {
-            return new LoginFail();
-        }
-
-        $result = password_verify($command->password(), $user->password());
-
-        if (!$result) {
-            return new LoginFail();
+        if (!$user = $this->users->findByEmail($command->email())) {
+            return new LoginFail(StatusMessage::LOGIN_SOCIAL_ERROR);
         }
 
         return new LoginSuccess($user);

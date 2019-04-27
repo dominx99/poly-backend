@@ -17,7 +17,7 @@ class Version20190316193219 extends AbstractMigration
 
         $table->addColumn('id', 'string');
         $table->addColumn('email', 'string');
-        $table->addColumn('password', 'string');
+        $table->addColumn('password', 'string')->setNotnull(false);
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',

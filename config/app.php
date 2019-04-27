@@ -17,4 +17,10 @@ return [
     'orm'                          => [
         'entities_dir' => [__DIR__ . '/../src/Framework/Entities'],
     ],
+    'auth'                         => [
+        'google' => [
+            'client_id'     => getenv('GOOGLE_CLIENT_ID'),
+            'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),
+        ],
+    ],
 ];
