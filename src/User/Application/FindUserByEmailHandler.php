@@ -9,7 +9,7 @@ use Wallet\User\Infrastructure\DbalUsers;
 class FindUserByEmailHandler implements Query
 {
     /**
-     * @var string
+     * @var \Wallet\User\Infrastructure\DbalUsers
      */
     protected $users;
 

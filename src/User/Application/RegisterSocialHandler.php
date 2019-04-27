@@ -15,6 +15,11 @@ class RegisterSocialHandler implements Handler
     protected $dbalUsers;
 
     /**
+     * @var \Wallet\User\Infrastructure\ORMUsers
+     */
+    protected $ormUsers;
+
+    /**
      * @param \Wallet\User\Infrastructure\DbalUsers $dbalUsers
      * @param \Wallet\User\Infrastructure\ORMUsers $ormUsers
      */
