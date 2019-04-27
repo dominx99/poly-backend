@@ -1,0 +1,25 @@
+group: edge
+language: php
+php:
+  - '7.1'
+  - '7.2'
+  - '7.3'
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS wallet_test;'
+
+before_script:
+  - cp .env.example .env.testing
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+
+script:
+  - vendor/bin/phpcs --standard=psr2 src/
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

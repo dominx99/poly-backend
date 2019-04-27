@@ -9,8 +9,6 @@ class ProviderAuthValidator extends Validator
 {
     public function __construct()
     {
-        $this->extendRule('access_token',
-            v::notEmpty()
-        );
+        $this->extendRule('access_token', v::notEmpty());
     }
 }
