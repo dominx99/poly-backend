@@ -9,6 +9,11 @@ use Wallet\System\Contracts\Query;
 class System
 {
     /**
+     * @var \DI\Container
+     */
+    private $container;
+
+    /**
      * @param \DI\Container $container
      */
     public function __construct(Container $container)
@@ -31,11 +36,11 @@ class System
      * @param  \Wallet\System\Contracts\Query $query
      * @return mixed
      */
-    public function execute(Query $query)
+    public function execute(Command $command)
     {
-        $handler = $this->resolveHandler($query);
+        $handler = $this->resolveHandler($command);
 
-        return $handler->execute($query);
+        return $handler->execute($command);
     }
 
     /**

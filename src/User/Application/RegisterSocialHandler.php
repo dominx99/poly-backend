@@ -2,11 +2,12 @@
 
 namespace Wallet\User\Application;
 
+use Wallet\System\Contracts\Handler;
 use Wallet\User\Application\RegisterSocial;
 use Wallet\User\Infrastructure\DbalUsers;
 use Wallet\User\Infrastructure\ORMUsers;
 
-class RegisterSocialHandler
+class RegisterSocialHandler implements Handler
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers
@@ -27,7 +28,7 @@ class RegisterSocialHandler
      * @param \Wallet\User\Application\RegisterSocial $command
      * @return void
      */
-    public function handle(RegisterSocial $command)
+    public function handle(RegisterSocial $command): void
     {
         $user = $this->dbalUsers->findByEmail($command->email());
 

@@ -10,6 +10,11 @@ use Wallet\System\Infrastructure\StatusMessage;
 class LoginFail implements Responsable
 {
     /**
+     * @var string
+     */
+    private $message;
+
+    /**
      * @param string $message
      */
     public function __construct(string $message = StatusMessage::LOGIN_ERROR)

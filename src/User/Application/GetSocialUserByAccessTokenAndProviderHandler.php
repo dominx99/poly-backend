@@ -5,10 +5,11 @@ namespace Wallet\User\Application;
 use Overtrue\Socialite\AccessToken;
 use Overtrue\Socialite\SocialiteManager;
 use Overtrue\Socialite\User;
+use Wallet\System\Contracts\Query;
 use Wallet\User\Application\Exception\NotFoundSocialUserException;
 use Wallet\User\Application\GetSocialUserByAccessTokenAndProvider;
 
-class GetSocialUserByAccessTokenAndProviderHandler
+class GetSocialUserByAccessTokenAndProviderHandler implements Query
 {
     /**
      * @var \Overtrue\Socialite\SocialiteManager

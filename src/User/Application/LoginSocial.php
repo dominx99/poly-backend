@@ -3,9 +3,9 @@
 namespace Wallet\User\Application;
 
 use Overtrue\Socialite\User;
-use Wallet\System\Contracts\Query;
+use Wallet\System\Contracts\Command;
 
-class LoginSocial implements Query
+class LoginSocial implements Command
 {
     /**
      * @var string

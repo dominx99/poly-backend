@@ -2,9 +2,9 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
+use Wallet\System\Contracts\Command;
 
-class GetSocialUserByAccessTokenAndProvider implements Query
+class GetSocialUserByAccessTokenAndProvider implements Command
 {
     /**
      * @var string

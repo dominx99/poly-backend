@@ -47,8 +47,9 @@ class User
      */
     public function __construct(Uuid $id, Email $email, Password $password = null)
     {
-        $this->id       = $id;
-        $this->email    = $email;
-        $this->password = $password;
+        $this->id        = $id;
+        $this->email     = $email;
+        $this->password  = $password;
+        $this->providers = [];
     }
 }

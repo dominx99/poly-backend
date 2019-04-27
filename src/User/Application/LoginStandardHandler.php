@@ -24,7 +24,7 @@ class LoginStandardHandler implements Query
     }
 
     /**
-     * @param  LoginStandard $command
+     * @param  \Wallet\User\Application\LoginStandard $command
      * @return \Wallet\System\Contracts\Responsable
      */
     public function execute(LoginStandard $command): Responsable

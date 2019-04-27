@@ -2,9 +2,9 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
+use Wallet\System\Contracts\Command;
 
-class LoginStandard implements Query
+class LoginStandard implements Command
 {
     /**
      * @var string

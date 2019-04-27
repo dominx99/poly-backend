@@ -2,9 +2,9 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
+use Wallet\System\Contracts\Command;
 
-class FindUserByEmail implements Query
+class FindUserByEmail implements Command
 {
     /**
      * @var string
