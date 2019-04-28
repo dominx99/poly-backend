@@ -3,24 +3,15 @@
 namespace Wallet\User\Application;
 
 use Wallet\System\Application\Validation\Validator;
+use \Respect\Validation\Validator as v;
 
 class UserStoreValidator extends Validator
 {
     public function __construct()
     {
         $this->extendRules([
-            'email' => v::required(),
+            'email'    => v::notEmpty()->email(),
+            'password' => v::notEmpty()->length(6, 32),
         ]);
-    }
-
-    /**
-     * @return void
-     */
-    public function extendPasswordRule(): void
-    {
-        $this->extendRule(
-            'password',
-            v::required()
-        );
     }
 }

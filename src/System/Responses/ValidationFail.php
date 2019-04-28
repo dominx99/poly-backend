@@ -3,6 +3,7 @@
 namespace Wallet\System\Responses;
 
 use Slim\Http\Response;
+use Slim\Http\StatusCode;
 use Wallet\System\Contracts\Responsable;
 
 class ValidationFail implements Responsable
@@ -27,6 +28,6 @@ class ValidationFail implements Responsable
     {
         return (new Response())->withJson([
             'errors' => $this->errors,
-        ], 400);
+        ], StatusCode::HTTP_BAD_REQUEST);
     }
 }

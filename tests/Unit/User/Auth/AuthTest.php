@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Tests\Unit\Auth;
+namespace Tests\Unit\User\Auth;
 
 use Ramsey\Uuid\Uuid;
 use Tests\BaseTestCase;
@@ -58,7 +58,7 @@ class AuthTest extends BaseTestCase
     {
         $response = $this->runApp('POST', '/api/auth/register', [
             'email'    => 'example@test.com',
-            'password' => 'test',
+            'password' => 'secret',
         ]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -70,5 +70,24 @@ class AuthTest extends BaseTestCase
         $body = json_decode((string) $response->getBody(), true);
 
         $this->assertArrayHasKey('token', $body['data']);
+    }
+
+    /** @test */
+    public function that_register_with_wrong_data_will_return_errors()
+    {
+        $response = $this->runApp('POST', '/api/auth/register', [
+            'email'    => 'example@test',
+            'password' => 'test123',
+        ]);
+
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $this->assertDatabaseMissing('users', [
+            'email' => 'example@test',
+        ]);
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertArrayHasKey('email', $body['errors']);
     }
 }

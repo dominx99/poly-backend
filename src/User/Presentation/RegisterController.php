@@ -4,9 +4,11 @@ namespace Wallet\User\Presentation;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Wallet\System\Responses\ValidationFail;
 use Wallet\System\System;
 use Wallet\User\Application\LoginStandard;
 use Wallet\User\Application\RegisterStandard;
+use Wallet\User\Application\UserStoreValidator;
 
 class RegisterController
 {
@@ -16,11 +18,17 @@ class RegisterController
     protected $system;
 
     /**
+     * @var \Wallet\User\Application\UserStoreValidator
+     */
+    protected $validator;
+
+    /**
      * @param \Wallet\System\System $system
      */
-    public function __construct(System $system)
+    public function __construct(System $system, UserStoreValidator $validator)
     {
-        $this->system = $system;
+        $this->system    = $system;
+        $this->validator = $validator;
     }
 
     /**
@@ -29,7 +37,11 @@ class RegisterController
      */
     public function register(Request $request): Response
     {
-        // !TODO - validation here
+        $validation = $this->validator->validate($request->getParams());
+
+        if ($validation->failed()) {
+            return (new ValidationFail($validation->getErrors()))->toResponse();
+        }
 
         $registerCommand = new RegisterStandard(
             $request->getParam('email'),

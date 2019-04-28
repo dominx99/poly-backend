@@ -32,7 +32,7 @@ trait DatabaseTrait
         $this->entityManager->flush();
     }
 
-    public function assertDatabaseHas(string $table, array $data): void
+    public function assertDatabase(string $table, array $data): bool
     {
         $queryBuilder = $this->queryBuilder();
 
@@ -46,8 +46,16 @@ trait DatabaseTrait
                 ->setParameter($key, $value);
         }
 
-        $result = (bool) $this->dbConnection->fetchAssoc($queryBuilder->getSQL(), $queryBuilder->getParameters());
+        return (bool) $this->dbConnection->fetchAssoc($queryBuilder->getSQL(), $queryBuilder->getParameters());
+    }
 
-        Assert::assertTrue($result);
+    public function assertDatabaseHas(string $table, array $data): void
+    {
+        Assert::assertTrue($this->assertDatabase($table, $data));
+    }
+
+    public function assertDatabaseMissing(string $table, array $data): void
+    {
+        Assert::assertFalse($this->assertDatabase($table, $data));
     }
 }
