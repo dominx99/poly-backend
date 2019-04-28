@@ -17,8 +17,6 @@ use Wallet\System\System;
 
 class BaseTestCase extends TestCase
 {
-    const ENV_TESTING_FILE = '.env.testing';
-
     protected $app;
 
     protected $cli;
@@ -66,7 +64,7 @@ class BaseTestCase extends TestCase
 
     public function createApplication(): void
     {
-        $app       = new App(static::ENV_TESTING_FILE);
+        $app       = App::createForTesting();
         $container = $app->getContainer();
 
         require __DIR__ . '/../bootstrap/dependencies.php';
