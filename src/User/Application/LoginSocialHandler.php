@@ -2,7 +2,6 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
 use Wallet\System\Contracts\Responsable;
 use Wallet\System\Infrastructure\StatusMessage;
 use Wallet\User\Application\LoginSocial;
@@ -10,7 +9,7 @@ use Wallet\User\Infrastructure\DbalUsers;
 use Wallet\User\Responses\LoginFail;
 use Wallet\User\Responses\LoginSuccess;
 
-class LoginSocialHandler implements Query
+class LoginSocialHandler
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers

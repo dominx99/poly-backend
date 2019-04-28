@@ -2,10 +2,9 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Handler;
 use Wallet\User\Infrastructure\ORMUsers;
 
-class RegisterStandardHandler implements Handler
+class RegisterStandardHandler
 {
     /**
      * @var \Wallet\User\Infrastructure\ORMUsers

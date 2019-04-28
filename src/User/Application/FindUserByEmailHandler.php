@@ -2,11 +2,10 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
 use Wallet\User\Application\FindUserByEmail;
 use Wallet\User\Infrastructure\DbalUsers;
 
-class FindUserByEmailHandler implements Query
+class FindUserByEmailHandler
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers

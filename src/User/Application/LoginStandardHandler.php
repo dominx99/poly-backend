@@ -2,13 +2,12 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Query;
 use Wallet\System\Contracts\Responsable;
 use Wallet\User\Infrastructure\DbalUsers;
 use Wallet\User\Responses\LoginFail;
 use Wallet\User\Responses\LoginSuccess;
 
-class LoginStandardHandler implements Query
+class LoginStandardHandler
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers

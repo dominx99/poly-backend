@@ -2,12 +2,11 @@
 
 namespace Wallet\User\Application;
 
-use Wallet\System\Contracts\Handler;
 use Wallet\User\Application\RegisterSocial;
 use Wallet\User\Infrastructure\DbalUsers;
 use Wallet\User\Infrastructure\ORMUsers;
 
-class RegisterSocialHandler implements Handler
+class RegisterSocialHandler
 {
     /**
      * @var \Wallet\User\Infrastructure\DbalUsers

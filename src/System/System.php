@@ -4,7 +4,6 @@ namespace Wallet\System;
 
 use DI\Container;
 use Wallet\System\Contracts\Command;
-use Wallet\System\Contracts\Query;
 
 class System
 {
@@ -22,7 +21,7 @@ class System
     }
 
     /**
-     * @param  \Wallet\System\Contracts\Command $command
+     * @param \Wallet\System\Contracts\Command $command
      * @return void
      */
     public function handle(Command $command): void
@@ -33,7 +32,7 @@ class System
     }
 
     /**
-     * @param  \Wallet\System\Contracts\Query $query
+     * @param \Wallet\System\Contracts\Command $command
      * @return mixed
      */
     public function execute(Command $command)
@@ -45,7 +44,7 @@ class System
 
     /**
      * @param  object $command
-     * @return \Wallet\System\Contracts\Handler|\Wallet\System\Contracts\Query
+     * @return object
      */
     public function resolveHandler(object $command)
     {
