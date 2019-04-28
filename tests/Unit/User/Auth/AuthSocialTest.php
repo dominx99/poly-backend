@@ -42,6 +42,20 @@ class AuthSocialTest extends BaseTestCase
     }
 
     /** @test */
+    public function that_validation_works()
+    {
+        $response = $this->runApp('POST', '/api/auth/login/google', [
+            'access_token' => '',
+        ]);
+
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertArrayHasKey('access_token', $body['errors']);
+    }
+
+    /** @test */
     public function that_social_auth_works()
     {
         $socialUser = $this->createMock(User::class);

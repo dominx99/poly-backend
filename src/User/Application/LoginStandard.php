@@ -27,17 +27,6 @@ class LoginStandard implements Command
     }
 
     /**
-     * @return array
-     */
-    public function credentials(): array
-    {
-        return [
-            'email'    => $this->email,
-            'password' => $this->password,
-        ];
-    }
-
-    /**
      * @return string
      */
     public function email(): string

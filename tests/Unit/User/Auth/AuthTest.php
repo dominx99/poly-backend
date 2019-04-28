@@ -51,6 +51,17 @@ class AuthTest extends BaseTestCase
         $body = json_decode((string) $response->getBody(), true);
 
         $this->assertEquals(StatusMessage::LOGIN_ERROR, $body['error']);
+
+        $response = $this->runApp('POST', '/api/auth/login', [
+            'email'    => 'example@test',
+            'password' => 'test',
+        ]);
+
+        $this->assertEquals(401, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals(StatusMessage::LOGIN_ERROR, $body['error']);
     }
 
     /** @test */
