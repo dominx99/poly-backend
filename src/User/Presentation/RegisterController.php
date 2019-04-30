@@ -8,7 +8,7 @@ use Wallet\System\Responses\ValidationFail;
 use Wallet\System\System;
 use Wallet\User\Application\LoginStandard;
 use Wallet\User\Application\RegisterStandard;
-use Wallet\User\Application\UserStoreValidator;
+use Wallet\User\Application\Validation\UserStoreValidator;
 
 class RegisterController
 {
@@ -18,7 +18,7 @@ class RegisterController
     protected $system;
 
     /**
-     * @var \Wallet\User\Application\UserStoreValidator
+     * @var \Wallet\User\Application\Validation\UserStoreValidator
      */
     protected $validator;
 

@@ -54,16 +54,14 @@ class ORMUsers
             new Email($params['email'])
         );
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
         $socialProvider = new SocialProvider(
             Uuid::uuid4(),
-            $user,
             new Name($params['provider_name'])
         );
 
-        $this->entityManager->persist($socialProvider);
+        $user->addSocialProvider($socialProvider);
+
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 }

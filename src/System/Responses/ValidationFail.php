@@ -2,32 +2,16 @@
 
 namespace Wallet\System\Responses;
 
-use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use Wallet\System\Contracts\Responsable;
+use Wallet\System\Responses\Fail;
 
-class ValidationFail implements Responsable
+class ValidationFail extends Fail
 {
-    /**
-     * @var array
-     */
-    private $errors;
-
     /**
      * @param array $errors
      */
     public function __construct(array $errors)
     {
-        $this->errors = $errors;
-    }
-
-    /**
-     * @return \Slim\Http\Response
-     */
-    public function toResponse(): Response
-    {
-        return (new Response())->withJson([
-            'errors' => $this->errors,
-        ], StatusCode::HTTP_BAD_REQUEST);
+        parent::__construct(['errors' => $errors], StatusCode::HTTP_BAD_REQUEST);
     }
 }

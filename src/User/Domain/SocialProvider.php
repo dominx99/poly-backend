@@ -40,10 +40,19 @@ class SocialProvider
      * @param \Wallet\User\Domain\User $user
      * @param string $name
      */
-    public function __construct(Uuid $id, User $user, Name $name)
+    public function __construct(Uuid $id, Name $name)
     {
         $this->id   = $id;
-        $this->user = $user;
         $this->name = $name;
+    }
+
+    public function addUser(User $user)
+    {
+        if ($this->user === $user) {
+            return;
+        }
+
+        $this->user = $user;
+        $user->addSocialProvider($this);
     }
 }

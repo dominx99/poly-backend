@@ -17,4 +17,17 @@ class JWT extends FirebaseJWT
             'id' => $user->id(),
         ], getenv('JWT_KEY'));
     }
+
+    /**
+     * @param string $token
+     * @param string|array $key
+     * @param array $allowedAlgs
+     * @return void
+     */
+    public static function decodeFromBearer(string $token, $key, array $allowedAlgs = [])
+    {
+        $token = substr($token, 7);
+
+        return (array) static::decode($token, $key, $allowedAlgs);
+    }
 }

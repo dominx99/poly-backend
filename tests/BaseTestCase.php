@@ -4,6 +4,7 @@ namespace Tests;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 use Slim\Http\Environment;
 use Slim\Http\Headers;
@@ -31,6 +32,8 @@ class BaseTestCase extends TestCase
 
     protected $queryBuilder;
 
+    protected $token;
+
     public function setUp(): void
     {
         $this->createApplication();
@@ -49,6 +52,8 @@ class BaseTestCase extends TestCase
         if (isset($traits[DatabaseTrait::class])) {
             $this->rollback();
         }
+
+        $this->token = null;
     }
 
     public function createEntityManager(): void
@@ -75,7 +80,14 @@ class BaseTestCase extends TestCase
         $this->system    = new System($this->container);
     }
 
-    public function request(array $options, array $params): Request
+    public function authById(string $id): void
+    {
+        $this->token = JWT::encode([
+            'id' => $id,
+        ], getenv('JWT_KEY'));
+    }
+
+    public function request(array $options, array $params = []): Request
     {
         $default = [
             'content_type' => 'application/json',
@@ -96,6 +108,10 @@ class BaseTestCase extends TestCase
         $request = $request->withParsedBody($params);
         $request = $request->withHeader('Content-Type', $options['content_type']);
         $request = $request->withMethod($options['method']);
+
+        if ($this->token) {
+            $request = $request->withHeader('Authorization', "Bearer {$this->token}");
+        }
 
         return $request;
     }

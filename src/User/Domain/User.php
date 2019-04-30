@@ -2,9 +2,11 @@
 
 namespace Wallet\User\Domain;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
 use Wallet\User\Domain\User\Email;
 use Wallet\User\Domain\User\Password;
+use Wallet\Wallet\Domain\Wallet;
 use \Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,9 +38,34 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Wallet\User\Domain\SocialProvider", mappedBy="user")
+     * @var \Wallet\User\Domain\SocialProvider[]
+     *
+     * @ORM\OneToMany(targetEntity="Wallet\User\Domain\SocialProvider", mappedBy="user", cascade={"persist"})
      */
     private $providers;
+
+    /**
+     * @var \Wallet\Wallet\Domain\Wallet[]
+     *
+     * @ORM\OneToMany(targetEntity="Wallet\Wallet\Domain\Wallet", mappedBy="owner")
+     */
+    private $ownWallets;
+
+    /**
+     * @var \Wallet\Wallet\Domain\Wallet[]
+     *
+     * @ORM\ManyToMany(targetEntity="Wallet\Wallet\Domain\Wallet", inversedBy="members")
+     * @ORM\JoinTable(
+     *  name="user_wallet",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="wallet_id", referencedColumnName="id")
+     *  }
+     * )
+     */
+    private $sharedWallets;
 
     /**
      * @param \Ramsey\Uuid\Uuid                 $id
@@ -47,9 +74,53 @@ class User
      */
     public function __construct(Uuid $id, Email $email, Password $password = null)
     {
-        $this->id        = $id;
-        $this->email     = $email;
-        $this->password  = $password;
-        $this->providers = [];
+        $this->id            = $id;
+        $this->email         = $email;
+        $this->password      = $password;
+        $this->providers     = new ArrayCollection();
+        $this->ownWallets    = new ArrayCollection();
+        $this->sharedWallets = new ArrayCollection();
+    }
+
+    /**
+     * @param SocialProvider $provider
+     * @return void
+     */
+    public function addSocialProvider(SocialProvider $provider): void
+    {
+        if ($this->providers->contains($provider)) {
+            return;
+        }
+
+        $this->providers->add($provider);
+        $provider->addUser($this);
+    }
+
+    /**
+     * @param \Wallet\Wallet\Domain\Wallet $wallet
+     * @return void
+     */
+    public function addWallet(Wallet $wallet): void
+    {
+        if ($this->ownWallets->contains($wallet)) {
+            return;
+        }
+
+        $this->ownWallets->add($wallet);
+        $wallet->addOwner($this);
+    }
+
+    /**
+     * @param \Wallet\Wallet\Domain\Wallet $wallet
+     * @return void
+     */
+    public function joinWallet(Wallet $wallet): void
+    {
+        if ($this->sharedWallets->contains($wallet)) {
+            return;
+        }
+
+        $this->sharedWallets->add($wallet);
+        $wallet->addMember($this);
     }
 }

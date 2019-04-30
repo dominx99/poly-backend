@@ -2,33 +2,17 @@
 
 namespace Wallet\User\Responses;
 
-use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use Wallet\System\Contracts\Responsable;
 use Wallet\System\Infrastructure\StatusMessage;
+use Wallet\System\Responses\Fail;
 
-class LoginFail implements Responsable
+class LoginFail extends Fail
 {
     /**
-     * @var string
+     * @param string $error
      */
-    private $message;
-
-    /**
-     * @param string $message
-     */
-    public function __construct(string $message = StatusMessage::LOGIN_ERROR)
+    public function __construct(string $error = StatusMessage::LOGIN_ERROR)
     {
-        $this->message = $message;
-    }
-
-    /**
-     * @return \Slim\Http\Response
-     */
-    public function toResponse(): Response
-    {
-        return (new Response())->withJson([
-            'error' => $this->message,
-        ], StatusCode::HTTP_UNAUTHORIZED);
+        parent::__construct(['error' => $error], StatusCode::HTTP_UNAUTHORIZED);
     }
 }

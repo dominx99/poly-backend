@@ -40,6 +40,11 @@ $container->set(
     Di\autowire(\Wallet\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
 );
 
+$container->set(
+    \Wallet\Wallet\Application\CreateWallet::class,
+    Di\autowire(\Wallet\Wallet\Application\CreateWalletHandler::class)
+);
+
 $container->set(EntityManager::class, function () use ($container) {
     $appConfig = $container->get('appConfig');
 
@@ -64,6 +69,11 @@ $container->set(EntityManager::class, function () use ($container) {
 $container->set(
     \Wallet\User\Infrastructure\DbalUsers::class,
     DI\autowire(\Wallet\User\Infrastructure\DbalUsers::class)
+);
+
+$container->set(
+    \Wallet\User\Infrastructure\DbalWallets::class,
+    DI\autowire(\Wallet\User\Infrastructure\DbalWallets::class)
 );
 
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {

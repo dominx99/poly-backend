@@ -1,17 +1,16 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace Wallet\Wallet\Application\Validation;
 
 use Wallet\System\Application\Validation\Validator;
 use \Respect\Validation\Validator as v;
 
-class UserStoreValidator extends Validator
+class WalletStoreValidator extends Validator
 {
     public function __construct()
     {
         $this->extendRules([
-            'email'    => v::notEmpty()->email(),
-            'password' => v::notEmpty()->length(6, 32),
+            'name' => v::notEmpty()->alpha()->length(3, 16),
         ]);
     }
 }
