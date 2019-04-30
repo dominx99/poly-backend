@@ -22,9 +22,9 @@ class JWT extends FirebaseJWT
      * @param string $token
      * @param string|array $key
      * @param array $allowedAlgs
-     * @return void
+     * @return array
      */
-    public static function decodeFromBearer(string $token, $key, array $allowedAlgs = [])
+    public static function decodeFromBearer(string $token, $key, array $allowedAlgs = []): array
     {
         $token = substr($token, 7);
 

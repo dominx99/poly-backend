@@ -38,21 +38,21 @@ class User
     private $password;
 
     /**
-     * @var \Wallet\User\Domain\SocialProvider[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\User\Domain\SocialProvider[]
      *
      * @ORM\OneToMany(targetEntity="Wallet\User\Domain\SocialProvider", mappedBy="user", cascade={"persist"})
      */
     private $providers;
 
     /**
-     * @var \Wallet\Wallet\Domain\Wallet[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\Wallet\Domain\Wallet[]
      *
      * @ORM\OneToMany(targetEntity="Wallet\Wallet\Domain\Wallet", mappedBy="owner")
      */
     private $ownWallets;
 
     /**
-     * @var \Wallet\Wallet\Domain\Wallet[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\Wallet\Domain\Wallet[]
      *
      * @ORM\ManyToMany(targetEntity="Wallet\Wallet\Domain\Wallet", inversedBy="members")
      * @ORM\JoinTable(

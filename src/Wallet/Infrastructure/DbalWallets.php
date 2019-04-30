@@ -28,7 +28,7 @@ class DbalWallets
 
     /**
      * @param string $slug
-     * @return Wallet\Wallet\Application\Query\WalletView|null
+     * @return \Wallet\Wallet\Application\Query\WalletView|null
      */
     public function findBySlug(string $slug)
     {

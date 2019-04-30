@@ -35,9 +35,9 @@ class WalletView
     /**
      * @return string
      */
-    public function email(): string
+    public function name(): string
     {
-        return $this->email;
+        return $this->name;
     }
 
     /**

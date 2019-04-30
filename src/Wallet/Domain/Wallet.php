@@ -46,7 +46,7 @@ class Wallet
     private $owner;
 
     /**
-     * @var \Wallet\User\Domain\User[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\User\Domain\User[]
      *
      * @ORM\ManyToMany(targetEntity="Wallet\User\Domain\User", mappedBy="sharedWallets")
      */
@@ -54,8 +54,8 @@ class Wallet
 
     /**
      * @param \Ramsey\Uuid\Uuid                 $id
-     * @param \Wallet\User\Domain\User\Name    $name
-     * @param \Wallet\User\Domain\User\Slug $slug
+     * @param \Wallet\Wallet\Domain\Wallet\Name    $name
+     * @param \Wallet\Wallet\Domain\Wallet\Slug $slug
      */
     public function __construct(Uuid $id, Name $name, Slug $slug)
     {

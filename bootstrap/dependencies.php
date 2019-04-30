@@ -72,8 +72,8 @@ $container->set(
 );
 
 $container->set(
-    \Wallet\User\Infrastructure\DbalWallets::class,
-    DI\autowire(\Wallet\User\Infrastructure\DbalWallets::class)
+    \Wallet\Wallet\Infrastructure\DbalWallets::class,
+    DI\autowire(\Wallet\Wallet\Infrastructure\DbalWallets::class)
 );
 
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {
