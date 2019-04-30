@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\User\Infrastructure;
 
-use DateInterval;
-use DateTime;
 use Firebase\JWT\JWT;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
@@ -72,7 +70,7 @@ class JWTMiddlewareTest extends BaseTestCase
     {
         $token = JWT::encode([
             'id'  => 'xyz',
-            'exp' => (new DateTime('now'))->sub(new DateInterval('PT3M')),
+            'exp' => time() - 3600,
         ], getenv('JWT_KEY'));
 
         $request = $this->request([
