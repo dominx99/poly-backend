@@ -72,7 +72,7 @@ class JWTMiddlewareTest extends BaseTestCase
     {
         $token = JWT::encode([
             'id'  => 'xyz',
-            'exp' => (new DateTime('now'))->sub(new DateInterval('PT3600S')),
+            'exp' => (new DateTime('now'))->sub(new DateInterval('PT3M')),
         ], getenv('JWT_KEY'));
 
         $request = $this->request([
