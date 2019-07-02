@@ -1,14 +1,14 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Infrastructure;
+namespace App\User\Infrastructure;
 
 use Doctrine\ORM\EntityManager;
 use Ramsey\Uuid\Uuid;
-use Wallet\User\Domain\SocialProvider;
-use Wallet\User\Domain\SocialProvider\Name;
-use Wallet\User\Domain\User;
-use Wallet\User\Domain\User\Email;
-use Wallet\User\Domain\User\Password;
+use App\User\Domain\SocialProvider;
+use App\User\Domain\SocialProvider\Name;
+use App\User\Domain\User;
+use App\User\Domain\User\Email;
+use App\User\Domain\User\Password;
 
 class ORMUsers
 {

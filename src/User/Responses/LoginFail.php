@@ -1,10 +1,10 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Responses;
+namespace App\User\Responses;
 
 use Slim\Http\StatusCode;
-use Wallet\System\Infrastructure\StatusMessage;
-use Wallet\System\Responses\Fail;
+use App\System\Infrastructure\StatusMessage;
+use App\System\Responses\Fail;
 
 class LoginFail extends Fail
 {

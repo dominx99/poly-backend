@@ -1,7 +1,7 @@
 version: "3"
 services:
 
-  wallet:
+  poly_backend:
     image: nginx:alpine
     working_dir: /application
     ports:
@@ -15,10 +15,10 @@ services:
   db:
     image: mysql
     volumes:
-      - wallet_db:/var/lib/mysql
+      - poly_backend_db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=wallet
+      - MYSQL_DATABASE=poly_backend
       - MYSQL_HOST=127.0.0.1
     ports:
       - "3306:3306"
@@ -27,7 +27,7 @@ services:
 
   php:
     build: docker/php
-    container_name: wallet
+    container_name: poly_backend
     working_dir: /application
     volumes:
       - .:/application:delegated
@@ -36,4 +36,4 @@ services:
       - db
 
 volumes:
-  wallet_db:
+  poly_backend_db:

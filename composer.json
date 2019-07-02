@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Wallet\\": "src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {

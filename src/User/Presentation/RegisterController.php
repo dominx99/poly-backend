@@ -1,29 +1,29 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Presentation;
+namespace App\User\Presentation;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Wallet\System\Responses\ValidationFail;
-use Wallet\System\System;
-use Wallet\User\Application\LoginStandard;
-use Wallet\User\Application\RegisterStandard;
-use Wallet\User\Application\Validation\UserStoreValidator;
+use App\System\Responses\ValidationFail;
+use App\System\System;
+use App\User\Application\LoginStandard;
+use App\User\Application\RegisterStandard;
+use App\User\Application\Validation\UserStoreValidator;
 
 class RegisterController
 {
     /**
-     * @var \Wallet\System\System
+     * @var \App\System\System
      */
     protected $system;
 
     /**
-     * @var \Wallet\User\Application\Validation\UserStoreValidator
+     * @var \App\User\Application\Validation\UserStoreValidator
      */
     protected $validator;
 
     /**
-     * @param \Wallet\System\System $system
+     * @param \App\System\System $system
      */
     public function __construct(System $system, UserStoreValidator $validator)
     {

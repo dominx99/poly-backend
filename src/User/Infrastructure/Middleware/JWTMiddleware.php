@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Infrastructure\Middleware;
+namespace App\User\Infrastructure\Middleware;
 
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
@@ -8,9 +8,9 @@ use Firebase\JWT\SignatureInvalidException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use UnexpectedValueException;
-use Wallet\System\Infrastructure\JWT;
-use Wallet\System\Infrastructure\StatusMessage;
-use Wallet\System\Responses\Fail;
+use App\System\Infrastructure\JWT;
+use App\System\Infrastructure\StatusMessage;
+use App\System\Responses\Fail;
 
 class JWTMiddleware
 {

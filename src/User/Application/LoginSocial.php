@@ -1,9 +1,9 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
 use Overtrue\Socialite\User;
-use Wallet\System\Contracts\Command;
+use App\System\Contracts\Command;
 
 class LoginSocial implements Command
 {

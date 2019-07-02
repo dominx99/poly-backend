@@ -1,9 +1,9 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Infrastructure;
+namespace App\User\Infrastructure;
 
 use Doctrine\ORM\EntityManager;
-use Wallet\User\Application\Query\UserView;
+use App\User\Application\Query\UserView;
 
 class DbalUsers
 {
@@ -27,7 +27,7 @@ class DbalUsers
     }
 
     /**
-     * @param \Wallet\User\Infrastructure\UserFilters $filters
+     * @param \App\User\Infrastructure\UserFilters $filters
      * @return void
      */
     public function find(UserFilters $filters)
@@ -49,7 +49,7 @@ class DbalUsers
 
     /**
      * @param  string $email
-     * @return null|\Wallet\User\Application\Query\UserView
+     * @return null|\App\User\Application\Query\UserView
      */
     public function findByEmail(string $email)
     {

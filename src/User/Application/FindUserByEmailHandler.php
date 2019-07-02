@@ -1,19 +1,19 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
-use Wallet\User\Application\FindUserByEmail;
-use Wallet\User\Infrastructure\DbalUsers;
+use App\User\Application\FindUserByEmail;
+use App\User\Infrastructure\DbalUsers;
 
 class FindUserByEmailHandler
 {
     /**
-     * @var \Wallet\User\Infrastructure\DbalUsers
+     * @var \App\User\Infrastructure\DbalUsers
      */
     protected $users;
 
     /**
-     * @param \Wallet\User\Infrastructure\DbalUsers $users
+     * @param \App\User\Infrastructure\DbalUsers $users
      */
     public function __construct(DbalUsers $users)
     {
@@ -21,8 +21,8 @@ class FindUserByEmailHandler
     }
 
     /**
-     * @param \Wallet\User\Application\FindUserByEmail $command
-     * @return null|\Wallet\User\Application\Query\UserView
+     * @param \App\User\Application\FindUserByEmail $command
+     * @return null|\App\User\Application\Query\UserView
      */
     public function execute(FindUserByEmail $command)
     {

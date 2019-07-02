@@ -7,3 +7,4 @@ composer.lock
 tags
 .tags
 .composer
+.phpunit.result.cache

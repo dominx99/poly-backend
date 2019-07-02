@@ -13,8 +13,8 @@ use Slim\Http\RequestBody;
 use Slim\Http\Response;
 use Slim\Http\Uri;
 use Tests\DatabaseTrait;
-use Wallet\App;
-use Wallet\System\System;
+use App\App;
+use App\System\System;
 
 class BaseTestCase extends TestCase
 {

@@ -5,12 +5,12 @@ namespace Tests\Unit\User\Auth;
 use Overtrue\Socialite\User;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
-use Wallet\System\Infrastructure\StatusMessage;
-use Wallet\User\Application\Exception\NotFoundSocialUserException;
-use Wallet\User\Application\FindUserByEmail;
-use Wallet\User\Application\GetSocialUserByAccessTokenAndProvider;
-use Wallet\User\Application\LoginSocial;
-use Wallet\User\Application\RegisterSocial;
+use App\System\Infrastructure\StatusMessage;
+use App\User\Application\Exception\NotFoundSocialUserException;
+use App\User\Application\FindUserByEmail;
+use App\User\Application\GetSocialUserByAccessTokenAndProvider;
+use App\User\Application\LoginSocial;
+use App\User\Application\RegisterSocial;
 
 class AuthSocialTest extends BaseTestCase
 {
@@ -18,7 +18,7 @@ class AuthSocialTest extends BaseTestCase
 
     /**
      * @test
-     * @throws \Wallet\User\Application\Exception\NotFoundSocialUserException
+     * @throws \App\User\Application\Exception\NotFoundSocialUserException
      */
     public function that_wrong_access_token_throws_exception()
     {

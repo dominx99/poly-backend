@@ -1,10 +1,10 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Application\Validation;
+namespace App\System\Application\Validation;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator as v;
-use Wallet\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
+use App\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
 
 abstract class Validator
 {

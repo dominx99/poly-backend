@@ -1,8 +1,8 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application\Validation;
+namespace App\User\Application\Validation;
 
-use Wallet\System\Application\Validation\Validator;
+use App\System\Application\Validation\Validator;
 use \Respect\Validation\Validator as v;
 
 class UserStoreValidator extends Validator

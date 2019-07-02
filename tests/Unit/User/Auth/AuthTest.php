@@ -5,8 +5,8 @@ namespace Tests\Unit\User\Auth;
 use Ramsey\Uuid\Uuid;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
-use Wallet\System\Infrastructure\JWT;
-use Wallet\System\Infrastructure\StatusMessage;
+use App\System\Infrastructure\JWT;
+use App\System\Infrastructure\StatusMessage;
 
 class AuthTest extends BaseTestCase
 {

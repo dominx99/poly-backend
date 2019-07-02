@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Domain\User;
+namespace App\User\Domain\User;
 
 use \Doctrine\ORM\Mapping as ORM;
 

@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet;
+namespace App;
 
 use DI\Bridge\Slim\App as DIApp;
 use DI\ContainerBuilder;

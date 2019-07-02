@@ -3,7 +3,7 @@
 namespace Tests\Unit\System\Application\Validation;
 
 use Respect\Validation\Validator as v;
-use Wallet\System\Application\Validation\Validator;
+use App\System\Application\Validation\Validator;
 
 class FakeValidator extends Validator
 {

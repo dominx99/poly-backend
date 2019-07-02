@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Contracts;
+namespace App\System\Contracts;
 
 use Slim\Http\Response;
 

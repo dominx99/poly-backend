@@ -4,7 +4,7 @@ namespace Tests\Unit\System\Application\Validation;
 
 use Tests\BaseTestCase;
 use Tests\Unit\System\Application\Validation\FakeValidator;
-use Wallet\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
+use App\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
 
 class ValidatorTest extends BaseTestCase
 {
@@ -27,7 +27,7 @@ class ValidatorTest extends BaseTestCase
 
     /**
      * @test
-     * @throws \Wallet\System\Application\Exceptions\ValidationRuleAlreadyExistsException
+     * @throws \App\System\Application\Exceptions\ValidationRuleAlreadyExistsException
      */
     public function that_you_cannot_extend_same_rule_twice()
     {

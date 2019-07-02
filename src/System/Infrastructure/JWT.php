@@ -1,14 +1,14 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Infrastructure;
+namespace App\System\Infrastructure;
 
 use Firebase\JWT\JWT as FirebaseJWT;
-use Wallet\User\Application\Query\UserView;
+use App\User\Application\Query\UserView;
 
 class JWT extends FirebaseJWT
 {
     /**
-     * @param  \Wallet\User\Application\Query\UserView $user
+     * @param  \App\User\Application\Query\UserView $user
      * @return string
      */
     public static function fromUser(UserView $user): string

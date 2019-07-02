@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Domain\SocialProvider;
+namespace App\User\Domain\SocialProvider;
 
 use \Doctrine\ORM\Mapping as ORM;
 

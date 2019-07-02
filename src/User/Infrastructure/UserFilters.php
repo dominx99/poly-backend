@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Infrastructure;
+namespace App\User\Infrastructure;
 
 class UserFilters
 {

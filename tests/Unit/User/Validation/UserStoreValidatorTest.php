@@ -3,7 +3,7 @@
 namespace Tests\Unit\User\Validation;
 
 use Tests\BaseTestCase;
-use Wallet\User\Application\Validation\UserStoreValidator;
+use App\User\Application\Validation\UserStoreValidator;
 
 class UserStoreValidatorTest extends BaseTestCase
 {

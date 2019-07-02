@@ -1,9 +1,9 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System;
+namespace App\System;
 
 use DI\Container;
-use Wallet\System\Contracts\Command;
+use App\System\Contracts\Command;
 
 class System
 {
@@ -21,7 +21,7 @@ class System
     }
 
     /**
-     * @param \Wallet\System\Contracts\Command $command
+     * @param \App\System\Contracts\Command $command
      * @return void
      */
     public function handle(Command $command): void
@@ -32,7 +32,7 @@ class System
     }
 
     /**
-     * @param \Wallet\System\Contracts\Command $command
+     * @param \App\System\Contracts\Command $command
      * @return mixed
      */
     public function execute(Command $command)

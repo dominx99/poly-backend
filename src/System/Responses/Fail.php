@@ -1,11 +1,11 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Responses;
+namespace App\System\Responses;
 
 use Slim\Http\Response;
 use Slim\Http\StatusCode;
-use Wallet\System\Contracts\Responsable;
-use Wallet\System\Infrastructure\StatusMessage;
+use App\System\Contracts\Responsable;
+use App\System\Infrastructure\StatusMessage;
 
 class Fail implements Responsable
 {

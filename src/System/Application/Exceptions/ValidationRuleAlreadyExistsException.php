@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Application\Exceptions;
+namespace App\System\Application\Exceptions;
 
 class ValidationRuleAlreadyExistsException extends \Exception
 {

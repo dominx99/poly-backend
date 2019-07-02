@@ -1,25 +1,25 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Presentation;
+namespace App\User\Presentation;
 
 use Overtrue\Socialite\SocialiteManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Wallet\System\Responses\ValidationFail;
-use Wallet\System\System;
-use Wallet\User\Application\Exception\NotFoundSocialUserException;
-use Wallet\User\Application\FindUserByEmail;
-use Wallet\User\Application\GetSocialUserByAccessTokenAndProvider;
-use Wallet\User\Application\LoginSocial;
-use Wallet\User\Application\LoginStandard;
-use Wallet\User\Application\RegisterSocial;
-use Wallet\User\Application\Validation\ProviderAuthValidator;
-use Wallet\User\Responses\LoginFail;
+use App\System\Responses\ValidationFail;
+use App\System\System;
+use App\User\Application\Exception\NotFoundSocialUserException;
+use App\User\Application\FindUserByEmail;
+use App\User\Application\GetSocialUserByAccessTokenAndProvider;
+use App\User\Application\LoginSocial;
+use App\User\Application\LoginStandard;
+use App\User\Application\RegisterSocial;
+use App\User\Application\Validation\ProviderAuthValidator;
+use App\User\Responses\LoginFail;
 
 class LoginController
 {
     /**
-     * @var \Wallet\System\System
+     * @var \App\System\System
      */
     protected $system;
 
@@ -29,14 +29,14 @@ class LoginController
     protected $socialite;
 
     /**
-     * @var \Wallet\User\Application\Validation\ProviderAuthValidator
+     * @var \App\User\Application\Validation\ProviderAuthValidator
      */
     protected $providerValidator;
 
     /**
-     * @param \Wallet\System\System $system
+     * @param \App\System\System $system
      * @param \Overtrue\Socialite\SocialiteManager $socialite
-     * @param \Wallet\User\Application\Validation\ProviderAuthValidator $providerValidator
+     * @param \App\User\Application\Validation\ProviderAuthValidator $providerValidator
      */
     public function __construct(
         System $system,

@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Infrastructure;
+namespace App\System\Infrastructure;
 
 class StatusMessage
 {

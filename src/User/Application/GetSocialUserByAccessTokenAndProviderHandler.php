@@ -1,12 +1,12 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
 use Overtrue\Socialite\AccessToken;
 use Overtrue\Socialite\SocialiteManager;
 use Overtrue\Socialite\User;
-use Wallet\User\Application\Exception\NotFoundSocialUserException;
-use Wallet\User\Application\GetSocialUserByAccessTokenAndProvider;
+use App\User\Application\Exception\NotFoundSocialUserException;
+use App\User\Application\GetSocialUserByAccessTokenAndProvider;
 
 class GetSocialUserByAccessTokenAndProviderHandler
 {
@@ -24,7 +24,7 @@ class GetSocialUserByAccessTokenAndProviderHandler
     }
 
     /**
-     * @param \Wallet\User\Application\GetSocialUserByAccessTokenAndProvider $command
+     * @param \App\User\Application\GetSocialUserByAccessTokenAndProvider $command
      * @return \Overtrue\Socialite\User
      */
     public function execute(GetSocialUserByAccessTokenAndProvider $command): User

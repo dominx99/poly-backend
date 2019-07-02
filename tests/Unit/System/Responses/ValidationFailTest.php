@@ -3,7 +3,7 @@
 namespace Tests\Unit\System\Responses;
 
 use Tests\BaseTestCase;
-use Wallet\System\Responses\ValidationFail;
+use App\System\Responses\ValidationFail;
 
 class ValidationFailTest extends BaseTestCase
 {

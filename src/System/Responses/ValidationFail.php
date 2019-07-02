@@ -1,9 +1,9 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\System\Responses;
+namespace App\System\Responses;
 
 use Slim\Http\StatusCode;
-use Wallet\System\Responses\Fail;
+use App\System\Responses\Fail;
 
 class ValidationFail extends Fail
 {

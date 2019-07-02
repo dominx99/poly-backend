@@ -2,11 +2,10 @@
 
 namespace Tests;
 
-use Doctrine\DBAL\Query\QueryBuilder;
+use App\User\Domain\User;
 use PHPUnit\Framework\Assert;
-use Wallet\User\Domain\User;
-use Wallet\User\Domain\User\Email;
-use Wallet\User\Domain\User\Password;
+use App\User\Domain\User\Email;
+use App\User\Domain\User\Password;
 
 trait DatabaseTrait
 {

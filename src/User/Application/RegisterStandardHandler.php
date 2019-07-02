@@ -1,18 +1,18 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
-use Wallet\User\Infrastructure\ORMUsers;
+use App\User\Infrastructure\ORMUsers;
 
 class RegisterStandardHandler
 {
     /**
-     * @var \Wallet\User\Infrastructure\ORMUsers
+     * @var \App\User\Infrastructure\ORMUsers
      */
     protected $users;
 
     /**
-     * @param \Wallet\User\Infrastructure\ORMUsers $users
+     * @param \App\User\Infrastructure\ORMUsers $users
      */
     public function __construct(ORMUsers $users)
     {

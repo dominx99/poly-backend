@@ -11,38 +11,33 @@ $appConfig = require 'config/app.php';
 $container->set('appConfig', $appConfig);
 
 $container->set(
-    \Wallet\User\Application\LoginStandard::class,
-    Di\autowire(\Wallet\User\Application\LoginStandardHandler::class)
+    \App\User\Application\LoginStandard::class,
+    Di\autowire(\App\User\Application\LoginStandardHandler::class)
 );
 
 $container->set(
-    \Wallet\User\Application\RegisterStandard::class,
-    Di\autowire(\Wallet\User\Application\RegisterStandardHandler::class)
+    \App\User\Application\RegisterStandard::class,
+    Di\autowire(\App\User\Application\RegisterStandardHandler::class)
 );
 
 $container->set(
-    \Wallet\User\Application\LoginSocial::class,
-    Di\autowire(\Wallet\User\Application\LoginSocialHandler::class)
+    \App\User\Application\LoginSocial::class,
+    Di\autowire(\App\User\Application\LoginSocialHandler::class)
 );
 
 $container->set(
-    \Wallet\User\Application\RegisterSocial::class,
-    Di\autowire(\Wallet\User\Application\RegisterSocialHandler::class)
+    \App\User\Application\RegisterSocial::class,
+    Di\autowire(\App\User\Application\RegisterSocialHandler::class)
 );
 
 $container->set(
-    \Wallet\User\Application\FindUserByEmail::class,
-    Di\autowire(\Wallet\User\Application\FindUserByEmailHandler::class)
+    \App\User\Application\FindUserByEmail::class,
+    Di\autowire(\App\User\Application\FindUserByEmailHandler::class)
 );
 
 $container->set(
-    \Wallet\User\Application\GetSocialUserByAccessTokenAndProvider::class,
-    Di\autowire(\Wallet\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
-);
-
-$container->set(
-    \Wallet\Wallet\Application\CreateWallet::class,
-    Di\autowire(\Wallet\Wallet\Application\CreateWalletHandler::class)
+    \App\User\Application\GetSocialUserByAccessTokenAndProvider::class,
+    Di\autowire(\App\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
 );
 
 $container->set(EntityManager::class, function () use ($container) {
@@ -67,13 +62,8 @@ $container->set(EntityManager::class, function () use ($container) {
 });
 
 $container->set(
-    \Wallet\User\Infrastructure\DbalUsers::class,
-    DI\autowire(\Wallet\User\Infrastructure\DbalUsers::class)
-);
-
-$container->set(
-    \Wallet\Wallet\Infrastructure\DbalWallets::class,
-    DI\autowire(\Wallet\Wallet\Infrastructure\DbalWallets::class)
+    \App\User\Infrastructure\DbalUsers::class,
+    DI\autowire(\App\User\Infrastructure\DbalUsers::class)
 );
 
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {

@@ -1,23 +1,23 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
-use Wallet\System\Contracts\Responsable;
-use Wallet\System\Infrastructure\StatusMessage;
-use Wallet\User\Application\LoginSocial;
-use Wallet\User\Infrastructure\DbalUsers;
-use Wallet\User\Responses\LoginFail;
-use Wallet\User\Responses\LoginSuccess;
+use App\System\Contracts\Responsable;
+use App\System\Infrastructure\StatusMessage;
+use App\User\Application\LoginSocial;
+use App\User\Infrastructure\DbalUsers;
+use App\User\Responses\LoginFail;
+use App\User\Responses\LoginSuccess;
 
 class LoginSocialHandler
 {
     /**
-     * @var \Wallet\User\Infrastructure\DbalUsers
+     * @var \App\User\Infrastructure\DbalUsers
      */
     protected $users;
 
     /**
-     * @param \Wallet\User\Infrastructure\DbalUsers $users
+     * @param \App\User\Infrastructure\DbalUsers $users
      */
     public function __construct(DbalUsers $users)
     {
@@ -25,8 +25,8 @@ class LoginSocialHandler
     }
 
     /**
-     * @param \Wallet\User\Application\LoginSocial $command
-     * @return \Wallet\System\Contracts\Responsable
+     * @param \App\User\Application\LoginSocial $command
+     * @return \App\System\Contracts\Responsable
      */
     public function execute(LoginSocial $command): Responsable
     {

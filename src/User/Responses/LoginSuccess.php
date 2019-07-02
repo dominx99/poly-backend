@@ -1,15 +1,15 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Responses;
+namespace App\User\Responses;
 
-use Wallet\System\Infrastructure\JWT;
-use Wallet\System\Responses\Success;
-use Wallet\User\Application\Query\UserView;
+use App\System\Infrastructure\JWT;
+use App\System\Responses\Success;
+use App\User\Application\Query\UserView;
 
 class LoginSuccess extends Success
 {
     /**
-     * @param \Wallet\User\Application\Query\UserView $user
+     * @param \App\User\Application\Query\UserView $user
      */
     public function __construct(UserView $user)
     {

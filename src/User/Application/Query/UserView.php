@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application\Query;
+namespace App\User\Application\Query;
 
 class UserView
 {

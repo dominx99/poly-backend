@@ -1,21 +1,21 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Application;
+namespace App\User\Application;
 
-use Wallet\System\Contracts\Responsable;
-use Wallet\User\Infrastructure\DbalUsers;
-use Wallet\User\Responses\LoginFail;
-use Wallet\User\Responses\LoginSuccess;
+use App\System\Contracts\Responsable;
+use App\User\Infrastructure\DbalUsers;
+use App\User\Responses\LoginFail;
+use App\User\Responses\LoginSuccess;
 
 class LoginStandardHandler
 {
     /**
-     * @var \Wallet\User\Infrastructure\DbalUsers
+     * @var \App\User\Infrastructure\DbalUsers
      */
     protected $users;
 
     /**
-     * @param \Wallet\User\Infrastructure\DbalUsers $users
+     * @param \App\User\Infrastructure\DbalUsers $users
      */
     public function __construct(DbalUsers $users)
     {
@@ -23,8 +23,8 @@ class LoginStandardHandler
     }
 
     /**
-     * @param  \Wallet\User\Application\LoginStandard $command
-     * @return \Wallet\System\Contracts\Responsable
+     * @param  \App\User\Application\LoginStandard $command
+     * @return \App\System\Contracts\Responsable
      */
     public function execute(LoginStandard $command): Responsable
     {

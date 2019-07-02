@@ -3,7 +3,7 @@
 namespace Tests\Unit\User\Validation;
 
 use Tests\BaseTestCase;
-use Wallet\User\Application\Validation\ProviderAuthValidator;
+use App\User\Application\Validation\ProviderAuthValidator;
 
 class ProviderAuthValidatorTest extends BaseTestCase
 {

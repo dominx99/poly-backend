@@ -7,8 +7,8 @@ use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
-use Wallet\System\Infrastructure\StatusMessage;
-use Wallet\User\Infrastructure\Middleware\JWTMiddleware;
+use App\System\Infrastructure\StatusMessage;
+use App\User\Infrastructure\Middleware\JWTMiddleware;
 
 class JWTMiddlewareTest extends BaseTestCase
 {

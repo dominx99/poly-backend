@@ -5,8 +5,8 @@ namespace Tests\Unit\User;
 use Ramsey\Uuid\Uuid;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
-use Wallet\User\Infrastructure\DbalUsers;
-use Wallet\User\Infrastructure\UserFilters;
+use App\User\Infrastructure\DbalUsers;
+use App\User\Infrastructure\UserFilters;
 
 class QueryUsersTest extends BaseTestCase
 {

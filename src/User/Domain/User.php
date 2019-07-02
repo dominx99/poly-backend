@@ -1,12 +1,11 @@
 <?php declare (strict_types = 1);
 
-namespace Wallet\User\Domain;
+namespace App\User\Domain;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
-use Wallet\User\Domain\User\Email;
-use Wallet\User\Domain\User\Password;
-use Wallet\Wallet\Domain\Wallet;
+use App\User\Domain\User\Email;
+use App\User\Domain\User\Password;
 use \Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,53 +23,30 @@ class User
     private $id;
 
     /**
-     * @var \Wallet\User\Domain\User\Email
+     * @var \App\User\Domain\User\Email
      *
-     * @ORM\Embedded(class="\Wallet\User\Domain\User\Email", columnPrefix=false)
+     * @ORM\Embedded(class="\App\User\Domain\User\Email", columnPrefix=false)
      */
     private $email;
 
     /**
-     * @var \Wallet\User\Domain\User\Password
+     * @var \App\User\Domain\User\Password
      *
-     * @ORM\Embedded(class="\Wallet\User\Domain\User\Password", columnPrefix=false)
+     * @ORM\Embedded(class="\App\User\Domain\User\Password", columnPrefix=false)
      */
     private $password;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\User\Domain\SocialProvider[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\User\Domain\SocialProvider[]
      *
-     * @ORM\OneToMany(targetEntity="Wallet\User\Domain\SocialProvider", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\User\Domain\SocialProvider", mappedBy="user", cascade={"persist"})
      */
     private $providers;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\Wallet\Domain\Wallet[]
-     *
-     * @ORM\OneToMany(targetEntity="Wallet\Wallet\Domain\Wallet", mappedBy="owner")
-     */
-    private $ownWallets;
-
-    /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\Wallet\Wallet\Domain\Wallet[]
-     *
-     * @ORM\ManyToMany(targetEntity="Wallet\Wallet\Domain\Wallet", inversedBy="members")
-     * @ORM\JoinTable(
-     *  name="user_wallet",
-     *  joinColumns={
-     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     *  },
-     *  inverseJoinColumns={
-     *      @ORM\JoinColumn(name="wallet_id", referencedColumnName="id")
-     *  }
-     * )
-     */
-    private $sharedWallets;
-
-    /**
      * @param \Ramsey\Uuid\Uuid                 $id
-     * @param \Wallet\User\Domain\User\Email    $email
-     * @param \Wallet\User\Domain\User\Password|null $password
+     * @param \App\User\Domain\User\Email    $email
+     * @param \App\User\Domain\User\Password|null $password
      */
     public function __construct(Uuid $id, Email $email, Password $password = null)
     {
@@ -78,8 +54,6 @@ class User
         $this->email         = $email;
         $this->password      = $password;
         $this->providers     = new ArrayCollection();
-        $this->ownWallets    = new ArrayCollection();
-        $this->sharedWallets = new ArrayCollection();
     }
 
     /**
@@ -95,32 +69,5 @@ class User
         $this->providers->add($provider);
         $provider->addUser($this);
     }
-
-    /**
-     * @param \Wallet\Wallet\Domain\Wallet $wallet
-     * @return void
-     */
-    public function addWallet(Wallet $wallet): void
-    {
-        if ($this->ownWallets->contains($wallet)) {
-            return;
-        }
-
-        $this->ownWallets->add($wallet);
-        $wallet->addOwner($this);
-    }
-
-    /**
-     * @param \Wallet\Wallet\Domain\Wallet $wallet
-     * @return void
-     */
-    public function joinWallet(Wallet $wallet): void
-    {
-        if ($this->sharedWallets->contains($wallet)) {
-            return;
-        }
-
-        $this->sharedWallets->add($wallet);
-        $wallet->addMember($this);
-    }
 }
+
