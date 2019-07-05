@@ -24,7 +24,7 @@ class Version20190316193219 extends AbstractMigration
         ]);
 
         $table->addColumn('updated_at', 'datetime', [
-            'columnDefinition' => 'timestamp default null on update current_timestamp',
+            'columnDefinition' => 'timestamp null default null on update current_timestamp',
         ]);
 
         $table->setPrimaryKey(['id']);
