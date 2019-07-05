@@ -20,4 +20,3 @@ class MapGeneratorTest extends BaseTestCase
         $this->assertEquals($elementsOnMap, count($map->getFields()));
     }
 }
-

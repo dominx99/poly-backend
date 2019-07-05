@@ -9,4 +9,3 @@ abstract class Block
         return $this->type;
     }
 }
-

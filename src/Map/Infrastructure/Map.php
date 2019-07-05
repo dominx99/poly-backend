@@ -51,4 +51,3 @@ final class Map
         return $result;
     }
 }
-

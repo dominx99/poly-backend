@@ -8,7 +8,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS wallet_test;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
 
 before_script:
   - cp .env.travis .env.testing

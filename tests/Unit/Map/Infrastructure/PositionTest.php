@@ -4,6 +4,7 @@ namespace Tests\Unit\Map\Infrastructure;
 
 use Tests\BaseTestCase;
 use App\Map\Infrastructure\Position;
+use App\Map\Exceptions\UnexpectedPositionException;
 
 class PositionTest extends BaseTestCase
 {
@@ -16,10 +17,44 @@ class PositionTest extends BaseTestCase
         $this->assertEquals(10, $position->getYPos());
     }
 
-    public function cannot_declare_wrong_position()
+    /**
+     * @test
+     * @dataProvider wrongPositions
+     */
+    public function cannot_declare_wrong_position($x, $y)
     {
-        $position = new Position(-10, 2);
+        $this->expectException(UnexpectedPositionException::class);
 
-        $this->assertEquals(-10, $position->getXPos());
+        new Position($x, $y);
+    }
+
+    /** @test */
+    public function that_compares_two_positions()
+    {
+        $position = new Position(5, 5);
+
+        $this->assertTrue($position->is(new Position(5, 5)));
+
+        $position = new Position(16, 7);
+
+        $this->assertTrue($position->is(new Position(16, 7)));
+    }
+
+    /** @test */
+    public function that_moves_in_random_directions()
+    {
+        $position = new Position(4, 4);
+        $position->moveRandom();
+
+        $this->assertFalse($position->is(new Position(4, 4)));
+    }
+
+    public function wrongPositions()
+    {
+        return [
+            [-10, 5],
+            [0, -1],
+            [-1, -2],
+        ];
     }
 }

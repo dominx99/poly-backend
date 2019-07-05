@@ -6,11 +6,6 @@ use App\Map\Infrastructure\Blocks\EmptyBlock;
 
 final class MapGenerator
 {
-    // maps -> HasMany -> positions
-    // positions | map_id object_id objectable
-    // armies -> HasOne -> position
-    // buildings -> HasOne ->position
-
     public function generate(MapSize $size)
     {
         $this->currentPosition = $size->getCenterPosition();
@@ -50,4 +45,3 @@ final class MapGenerator
         $this->currentPosition = $clone;
     }
 }
-
