@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\System\Application\Validation;
 
@@ -26,7 +26,7 @@ abstract class Validator
     {
         foreach ($this->getRules() as $field => $rule) {
             try {
-                $param = isset($params[$field]) ? $params[$field] : null;
+                $param = $params[$field] ?? null;
 
                 $rule->setName(ucfirst($field))->assert($param);
             } catch (NestedValidationException $e) {

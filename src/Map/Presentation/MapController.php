@@ -19,13 +19,13 @@ final class MapController
     {
         $map = $this->generator->generate(new MapSize(32, 16));
 
-        $fields = $map->getFields();
+        $fields    = $map->getFields();
         $newFields = [];
 
         foreach ($fields as $field) {
             $newFields[] = [
-                'x' => $field['position']->getXPos(),
-                'y' => $field['position']->getYPos(),
+                'x'    => $field['position']->getXPos(),
+                'y'    => $field['position']->getYPos(),
                 'type' => $field['block']->get(),
             ];
         }

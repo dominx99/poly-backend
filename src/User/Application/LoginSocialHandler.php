@@ -1,10 +1,9 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\User\Application;
 
 use App\System\Contracts\Responsable;
 use App\System\Infrastructure\StatusMessage;
-use App\User\Application\LoginSocial;
 use App\User\Infrastructure\DbalUsers;
 use App\User\Responses\LoginFail;
 use App\User\Responses\LoginSuccess;

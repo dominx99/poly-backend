@@ -20,7 +20,7 @@ final class MapSize
      */
     public function __construct(int $width, int $height)
     {
-        $this->width = $width;
+        $this->width  = $width;
         $this->height = $height;
     }
 

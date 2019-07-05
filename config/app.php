@@ -5,7 +5,7 @@ return [
     'app'                          => [
         'dev' => true,
     ],
-    'db'                           => [
+    'db' => [
         'driver'   => getenv('DB_DRIVER'),
         'host'     => getenv('DB_HOST'),
         'port'     => getenv('DB_PORT'),
@@ -14,10 +14,10 @@ return [
         'password' => getenv('DB_PASSWORD'),
         'charset'  => 'utf8',
     ],
-    'orm'                          => [
+    'orm' => [
         'entities_dir' => [__DIR__ . '/../src/Framework/Entities'],
     ],
-    'auth'                         => [
+    'auth' => [
         'google' => [
             'client_id'     => getenv('GOOGLE_CLIENT_ID'),
             'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),

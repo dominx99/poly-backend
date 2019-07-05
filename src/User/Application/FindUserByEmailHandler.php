@@ -1,8 +1,7 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\User\Application;
 
-use App\User\Application\FindUserByEmail;
 use App\User\Infrastructure\DbalUsers;
 
 class FindUserByEmailHandler

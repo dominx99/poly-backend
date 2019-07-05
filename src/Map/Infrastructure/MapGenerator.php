@@ -9,8 +9,8 @@ final class MapGenerator
     public function generate(MapSize $size)
     {
         $this->currentPosition = $size->getCenterPosition();
-        $this->map = new Map($size);
-        $this->moves = (int) round((1 / 2) * $size->countFields());
+        $this->map             = new Map($size);
+        $this->moves           = (int) round((1 / 2) * $size->countFields());
 
         while ($this->moves > 0) {
             $this->changePosition();

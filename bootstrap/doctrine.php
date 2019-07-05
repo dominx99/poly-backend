@@ -7,7 +7,6 @@ use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 
@@ -42,7 +41,7 @@ $cli = new Application('Doctrine Migrations');
 $cli->setCatchExceptions(true);
 $cli->setHelperSet($helperSet);
 
-$cli->addCommands(array(
+$cli->addCommands([
     new \Doctrine\Migrations\Tools\Console\Command\ExecuteCommand(),
     new \Doctrine\Migrations\Tools\Console\Command\GenerateCommand(),
     new \Doctrine\Migrations\Tools\Console\Command\LatestCommand(),
@@ -50,6 +49,6 @@ $cli->addCommands(array(
     new \Doctrine\Migrations\Tools\Console\Command\RollupCommand(),
     new \Doctrine\Migrations\Tools\Console\Command\StatusCommand(),
     new \Doctrine\Migrations\Tools\Console\Command\VersionCommand(),
-));
+]);
 
 return $cli;

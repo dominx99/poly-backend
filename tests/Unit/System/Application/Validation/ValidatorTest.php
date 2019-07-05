@@ -1,9 +1,8 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit\System\Application\Validation;
 
 use Tests\BaseTestCase;
-use Tests\Unit\System\Application\Validation\FakeValidator;
 use App\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
 
 class ValidatorTest extends BaseTestCase

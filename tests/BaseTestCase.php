@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Tests;
 
@@ -12,7 +12,6 @@ use Slim\Http\Request;
 use Slim\Http\RequestBody;
 use Slim\Http\Response;
 use Slim\Http\Uri;
-use Tests\DatabaseTrait;
 use App\App;
 use App\System\System;
 
@@ -140,6 +139,7 @@ class BaseTestCase extends TestCase
         if ($returnCode != 0) {
             throw new \RuntimeException('Failed to execute command. ' . $output->fetch());
         }
+
         return $output->fetch();
     }
 }

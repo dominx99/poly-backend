@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit\System\Responses;
 
@@ -11,7 +11,7 @@ class ValidationFailTest extends BaseTestCase
     public function that_it_works()
     {
         $responsable = new ValidationFail([
-            'name'  => [
+            'name' => [
                 'Name is required',
             ],
             'email' => [

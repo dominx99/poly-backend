@@ -12,4 +12,3 @@ $app->group('/api', function () use ($app) {
 
     $app->get('/map/generate', [MapController::class, 'generate']);
 });
-

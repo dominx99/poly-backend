@@ -1,9 +1,8 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\System\Responses;
 
 use Slim\Http\StatusCode;
-use App\System\Responses\Fail;
 
 class ValidationFail extends Fail
 {

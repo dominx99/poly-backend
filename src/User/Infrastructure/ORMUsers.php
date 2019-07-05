@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\User\Infrastructure;
 
@@ -31,7 +31,7 @@ class ORMUsers
      */
     public function add(array $params): void
     {
-        $id = isset($params['id']) ? $params['id'] : Uuid::uuid4();
+        $id = $params['id'] ?? Uuid::uuid4();
 
         $user = new User(
             $id,

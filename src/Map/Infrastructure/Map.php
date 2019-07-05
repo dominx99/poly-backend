@@ -19,7 +19,7 @@ final class Map
     {
         $this->fields[] = [
             'position' => $position,
-            'block' => $block,
+            'block'    => $block,
         ];
     }
 

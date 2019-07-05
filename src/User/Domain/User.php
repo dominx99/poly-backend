@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\User\Domain;
 
@@ -50,10 +50,10 @@ class User
      */
     public function __construct(Uuid $id, Email $email, Password $password = null)
     {
-        $this->id            = $id;
-        $this->email         = $email;
-        $this->password      = $password;
-        $this->providers     = new ArrayCollection();
+        $this->id        = $id;
+        $this->email     = $email;
+        $this->password  = $password;
+        $this->providers = new ArrayCollection();
     }
 
     /**
@@ -70,4 +70,3 @@ class User
         $provider->addUser($this);
     }
 }
-

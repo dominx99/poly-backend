@@ -29,12 +29,12 @@ class MapSizeTest extends BaseTestCase
     /** @test */
     public function that_gets_center_position()
     {
-        $size = new MapSize(7, 7);
+        $size     = new MapSize(7, 7);
         $position = new Position(4, 4);
 
         $this->assertTrue($position->is($size->getCenterPosition()));
 
-        $size = new MapSize(8, 8);
+        $size     = new MapSize(8, 8);
         $position = new Position(4, 4);
 
         $this->assertTrue($position->is($size->getCenterPosition()));

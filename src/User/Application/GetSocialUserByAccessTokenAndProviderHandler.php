@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace App\User\Application;
 
@@ -6,7 +6,6 @@ use Overtrue\Socialite\AccessToken;
 use Overtrue\Socialite\SocialiteManager;
 use Overtrue\Socialite\User;
 use App\User\Application\Exception\NotFoundSocialUserException;
-use App\User\Application\GetSocialUserByAccessTokenAndProvider;
 
 class GetSocialUserByAccessTokenAndProviderHandler
 {

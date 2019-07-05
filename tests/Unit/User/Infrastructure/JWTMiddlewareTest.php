@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit\User\Infrastructure;
 
@@ -123,7 +123,7 @@ class JWTMiddlewareTest extends BaseTestCase
             'uri'    => '/token',
         ]);
 
-        $request = $request->withHeader('Authorization', "");
+        $request = $request->withHeader('Authorization', '');
 
         $response = $this->app->process($request, new Response());
 
