@@ -5,6 +5,7 @@ namespace App\User\Domain;
 use Ramsey\Uuid\Uuid;
 use App\User\Domain\SocialProvider\Name;
 use \Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -36,17 +37,20 @@ class SocialProvider
     private $name;
 
     /**
-     * @param \Ramsey\Uuid\Uuid $id
-     * @param \App\User\Domain\User $user
-     * @param string $name
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @param \App\User\Domain\SocialProvider\Name $name
      */
-    public function __construct(Uuid $id, Name $name)
+    public function __construct(UuidInterface $id, Name $name)
     {
         $this->id   = $id;
         $this->name = $name;
     }
 
-    public function addUser(User $user)
+    /**
+     * @param \App\User\Domain\User $user
+     * @return void
+     */
+    public function addUser(User $user): void
     {
         if ($this->user === $user) {
             return;

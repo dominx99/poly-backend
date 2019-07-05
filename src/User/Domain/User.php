@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 use App\User\Domain\User\Email;
 use App\User\Domain\User\Password;
 use \Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -44,11 +45,11 @@ class User
     private $providers;
 
     /**
-     * @param \Ramsey\Uuid\Uuid                 $id
-     * @param \App\User\Domain\User\Email    $email
-     * @param \App\User\Domain\User\Password|null $password
+     * @param \Ramsey\Uuid\UuidInterface $id
+     * @param \App\User\Domain\User\Email $email
+     * @param \App\User\Domain\User\Password $password
      */
-    public function __construct(Uuid $id, Email $email, Password $password = null)
+    public function __construct(UuidInterface $id, Email $email, Password $password = null)
     {
         $this->id        = $id;
         $this->email     = $email;
@@ -57,7 +58,7 @@ class User
     }
 
     /**
-     * @param SocialProvider $provider
+     * @param \App\User\Domain\SocialProvider $provider
      * @return void
      */
     public function addSocialProvider(SocialProvider $provider): void

@@ -37,7 +37,7 @@ class RegisterController
      */
     public function register(Request $request): Response
     {
-        $validation = $this->validator->validate($request->getParams());
+        $validation = $this->validator->validate($request->getParams() ?? []);
 
         if ($validation->failed()) {
             return (new ValidationFail($validation->getErrors()))->toResponse();

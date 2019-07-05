@@ -33,7 +33,7 @@ class System
 
     /**
      * @param \App\System\Contracts\Command $command
-     * @return mixed
+     * @return \App\System\Contracts\Command
      */
     public function execute(Command $command)
     {

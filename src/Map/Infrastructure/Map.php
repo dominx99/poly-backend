@@ -2,7 +2,7 @@
 
 namespace App\Map\Infrastructure;
 
-use App\Map\Infrastructure\Blocks\Block;
+use App\Map\Contracts\Block;
 
 final class Map
 {

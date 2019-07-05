@@ -6,7 +6,26 @@ use App\Map\Infrastructure\Blocks\EmptyBlock;
 
 final class MapGenerator
 {
-    public function generate(MapSize $size)
+    /**
+     * @var \App\Map\Infrastructure\Position
+     */
+    private $currentPosition;
+
+    /**
+     * @var \App\Map\Infrastructure\Map
+     */
+    private $map;
+
+    /**
+     * @var int
+     */
+    private $moves;
+
+    /**
+     * @param \App\Map\Infrastructure\MapSize $size
+     * @return \App\Map\Infrastructure\Map
+     */
+    public function generate(MapSize $size): Map
     {
         $this->currentPosition = $size->getCenterPosition();
         $this->map             = new Map($size);
@@ -20,6 +39,9 @@ final class MapGenerator
         return $this->map;
     }
 
+    /**
+     * @return void
+     */
     private function putRandomBlock(): void
     {
         $block = new EmptyBlock();
@@ -31,10 +53,11 @@ final class MapGenerator
         }
     }
 
+    /**
+     * @return void
+     */
     private function changePosition(): void
     {
-        $can = false;
-
         do {
             $clone = $this->currentPosition->clone();
             $clone->moveRandom();

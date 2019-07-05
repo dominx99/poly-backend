@@ -70,7 +70,7 @@ class LoginController
      */
     public function loginByProvider(Request $request, string $provider): Response
     {
-        $validation = $this->providerValidator->validate($request->getParams());
+        $validation = $this->providerValidator->validate($request->getParams() ?? []);
 
         if ($validation->failed()) {
             return (new ValidationFail($validation->getErrors()))->toResponse();

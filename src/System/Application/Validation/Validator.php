@@ -62,7 +62,7 @@ abstract class Validator
     }
 
     /**
-     * @return null|array
+     * @return array
      */
     public function getRules()
     {

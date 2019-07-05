@@ -2,7 +2,12 @@
 
 namespace App\Map\Infrastructure\Blocks;
 
-final class EmptyBlock extends Block
+use App\Map\Contracts\Block;
+
+final class EmptyBlock implements Block
 {
-    protected $type = null;
+    public function get(): string
+    {
+        return 'empty';
+    }
 }
