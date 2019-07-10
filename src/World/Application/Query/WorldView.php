@@ -28,7 +28,7 @@ class WorldView
      * @param array $world
      * @return self
      */
-    public function createFromDatabase(array $world): self
+    public static function createFromDatabase(array $world): self
     {
         return new static($world['id'], $world['status']);
     }

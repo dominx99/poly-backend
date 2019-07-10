@@ -79,7 +79,9 @@ class LoginController
             return (new ValidationFail($validation->getErrors()))->toResponse();
         }
 
-        if (!$socialUser = $this->system->execute(new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $provider))) {
+        if (!$socialUser = $this->system->execute(
+            new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $provider)
+        )) {
             return (new LoginFail(StatusMessage::LOGIN_SOCIAL_ERROR))->toResponse();
         }
 

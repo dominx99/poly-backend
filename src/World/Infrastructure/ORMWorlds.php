@@ -83,7 +83,10 @@ class ORMWorlds implements WorldsWriteRepository
 
         foreach ($fields as $field) {
             $field = new Field(
-                (string) Uuid::uuid4(), new X($field['x']), new Y($field['y']), new Type($field['type'])
+                (string) Uuid::uuid4(),
+                new X($field['x']),
+                new Y($field['y']),
+                new Type($field['type'])
             );
 
             $map->addField($field);
