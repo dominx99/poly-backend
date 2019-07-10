@@ -4,8 +4,6 @@ namespace App\User\Application;
 
 use Overtrue\Socialite\AccessToken;
 use Overtrue\Socialite\SocialiteManager;
-use Overtrue\Socialite\User;
-use App\User\Application\Exception\NotFoundSocialUserException;
 
 class GetSocialUserByAccessTokenAndProviderHandler
 {
@@ -24,16 +22,16 @@ class GetSocialUserByAccessTokenAndProviderHandler
 
     /**
      * @param \App\User\Application\GetSocialUserByAccessTokenAndProvider $command
-     * @return \Overtrue\Socialite\User
+     * @return \Overtrue\Socialite\User|null
      */
-    public function execute(GetSocialUserByAccessTokenAndProvider $command): User
+    public function execute(GetSocialUserByAccessTokenAndProvider $command)
     {
         $accessToken = new AccessToken(['access_token' => $command->accessToken()]);
 
         $user = $this->socialite->driver($command->provider())->user($accessToken);
 
-        if (!$user->getEmail()) {
-            throw new NotFoundSocialUserException();
+        if (! $user->getEmail()) {
+            return null;
         }
 
         return $user;

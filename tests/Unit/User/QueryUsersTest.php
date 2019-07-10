@@ -26,7 +26,7 @@ class QueryUsersTest extends BaseTestCase
 
         $this->createUser($id, 'example@test.com', 'test');
 
-        $userView = $this->users->find(new UserFilters(['email' => 'example@test.com']));
+        $userView = $this->users->findBy(new UserFilters(['email' => 'example@test.com']));
 
         $this->assertEquals($id, $userView->id());
     }

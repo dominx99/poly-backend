@@ -3,11 +3,11 @@
 namespace App\User\Domain;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\Uuid;
 use App\User\Domain\User\Email;
 use App\User\Domain\User\Password;
 use \Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use App\World\Domain\World;
 
 /**
  * @ORM\Entity
@@ -45,6 +45,21 @@ class User
     private $providers;
 
     /**
+     * @var \App\World\Domain\World
+     *
+     * @ORM\ManyToOne(targetEntity="\App\World\Domain\World", inversedBy="users")
+     * @ORM\JoinColumn(name="world_id", referencedColumnName="id")
+     */
+    private $world;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|Army[]
+     *
+     * @ORM\OneToMany(targetEntity="Army", mappedBy="owner", cascade={"persist"})
+     */
+    /* private $armies; */
+
+    /**
      * @param \Ramsey\Uuid\UuidInterface $id
      * @param \App\User\Domain\User\Email $email
      * @param \App\User\Domain\User\Password $password
@@ -55,6 +70,7 @@ class User
         $this->email     = $email;
         $this->password  = $password;
         $this->providers = new ArrayCollection();
+        /* $this->armies = new ArrayCollection(); */
     }
 
     /**
@@ -69,5 +85,19 @@ class User
 
         $this->providers->add($provider);
         $provider->addUser($this);
+    }
+
+    /**
+     * @param \App\World\Domain\World $world
+     * @return void
+     */
+    public function addWorld(World $world): void
+    {
+        if ($this->world === $world) {
+            return;
+        }
+
+        $this->world = $world;
+        $world->addUser($this);
     }
 }

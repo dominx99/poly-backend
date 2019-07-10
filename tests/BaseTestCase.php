@@ -14,6 +14,8 @@ use Slim\Http\Response;
 use Slim\Http\Uri;
 use App\App;
 use App\System\System;
+use Ramsey\Uuid\Uuid;
+use App\User\Infrastructure\DbalUsers;
 
 class BaseTestCase extends TestCase
 {
@@ -38,6 +40,7 @@ class BaseTestCase extends TestCase
         $this->createApplication();
         $this->createCli();
         $this->createEntityManager();
+        $this->users = $this->container->get(DbalUsers::class);
 
         $traits = array_flip(class_uses(static::class));
         if (isset($traits[DatabaseTrait::class])) {
@@ -84,6 +87,13 @@ class BaseTestCase extends TestCase
         $this->token = JWT::encode([
             'id' => $id,
         ], getenv('JWT_KEY'));
+    }
+
+    public function auth(): void
+    {
+        $id         = Uuid::uuid4();
+        $this->user = $this->createUser($id, 'example@test.com', 'test123');
+        $this->authById((string) $id);
     }
 
     public function request(array $options, array $params = []): Request

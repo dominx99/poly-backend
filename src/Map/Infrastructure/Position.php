@@ -68,11 +68,11 @@ final class Position
     }
 
     /**
-     * @return self
+     * @return \App\Map\Infrastructure\Position
      */
-    public function clone(): self
+    public function clone(): Position
     {
-        return new self($this->x, $this->y);
+        return new Position($this->x, $this->y);
     }
 
     /**

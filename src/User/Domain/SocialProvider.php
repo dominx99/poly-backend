@@ -2,7 +2,6 @@
 
 namespace App\User\Domain;
 
-use Ramsey\Uuid\Uuid;
 use App\User\Domain\SocialProvider\Name;
 use \Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;

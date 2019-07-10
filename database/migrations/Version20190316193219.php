@@ -16,6 +16,7 @@ class Version20190316193219 extends AbstractMigration
         $table = $schema->createTable('users');
 
         $table->addColumn('id', 'string');
+        $table->addColumn('world_id', 'string')->setNotnull(false);
         $table->addColumn('email', 'string');
         $table->addColumn('password', 'string')->setNotnull(false);
 

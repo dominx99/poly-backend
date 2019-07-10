@@ -8,3 +8,4 @@ tags
 .tags
 .composer
 .phpunit.result.cache
+logs/*

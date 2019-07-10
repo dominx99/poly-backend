@@ -36,8 +36,63 @@ $container->set(
 );
 
 $container->set(
+    \App\World\Application\GetWorlds::class,
+    Di\autowire(\App\World\Application\GetWorldsHandler::class)
+);
+
+$container->set(
+    \App\World\Application\CreateWorld::class,
+    Di\autowire(\App\World\Application\CreateWorldHandler::class)
+);
+
+$container->set(
+    \App\World\Application\UserJoinWorld::class,
+    Di\autowire(\App\World\Application\UserJoinWorldHandler::class)
+);
+
+$container->set(
+    \App\World\Application\IsWorldReady::class,
+    Di\autowire(\App\World\Application\IsWorldReadyHandler::class),
+);
+
+$container->set(
+    \App\World\Application\StartWorld::class,
+    Di\autowire(\App\World\Application\StartWorldHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\MapGenerate::class,
+    Di\autowire(\App\Map\Application\MapGenerateHandler::class)
+);
+
+$container->set(
     \App\User\Application\GetSocialUserByAccessTokenAndProvider::class,
     Di\autowire(\App\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\AssignUserPositions::class,
+    Di\autowire(\App\Map\Application\AssignUserPositionsHandler::class)
+);
+
+$container->set(
+    \App\World\Contracts\WorldsQueryRepository::class,
+    Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
+);
+
+$container->set(
+    \App\World\Contracts\WorldsWriteRepository::class,
+    Di\autowire(\App\World\Infrastructure\ORMWorlds::class)
+);
+
+$container->set(
+    \App\Map\Contracts\MapWriteRepository::class,
+    Di\autowire(\App\Map\Infrastructure\ORMMaps::class)
+);
+
+$container->set(
+    \App\Map\Contracts\MapQueryRepository::class,
+    Di\autowire(\App\Map\Infrastructure\DbalMaps::class)
 );
 
 $container->set(EntityManager::class, function () use ($container) {
@@ -73,3 +128,10 @@ if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {
 $container->set(\Overtrue\Socialite\SocialiteManager::class, new \Overtrue\Socialite\SocialiteManager(
     $container->get('appConfig')['auth']
 ));
+
+$container->set(\Monolog\Logger::class, function () {
+    $log = new \Monolog\Logger('main');
+    $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/main.log'));
+
+    return $log;
+});

@@ -1,11 +1,11 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-class Version<version> extends AbstractMigration
+class Version20190709130516 extends AbstractMigration
 {
     /**
      * @param \Doctrine\DBAL\Schema\Schema $schema
@@ -13,9 +13,10 @@ class Version<version> extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $table = $schema->createTable('table');
+        $table = $schema->createTable('maps');
 
         $table->addColumn('id', 'string');
+        $table->addColumn('world_id', 'string');
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
@@ -34,6 +35,6 @@ class Version<version> extends AbstractMigration
      */
     public function down(Schema $schema): void
     {
-        $schema->dropTable('table');
+        $schema->dropTable('maps');
     }
 }

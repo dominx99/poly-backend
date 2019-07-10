@@ -6,6 +6,7 @@ use App\User\Domain\User;
 use PHPUnit\Framework\Assert;
 use App\User\Domain\User\Email;
 use App\User\Domain\User\Password;
+use App\User\Application\Query\UserView;
 
 trait DatabaseTrait
 {
@@ -19,7 +20,7 @@ trait DatabaseTrait
         $this->executeCommand('migrate first');
     }
 
-    public function createUser($id, $email, $password): void
+    public function createUser($id, $email, $password): UserView
     {
         $user = new User(
             $id,
@@ -29,6 +30,8 @@ trait DatabaseTrait
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return $this->users->find((string) $id);
     }
 
     public function assertDatabase(string $table, array $data): bool

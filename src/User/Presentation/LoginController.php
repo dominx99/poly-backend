@@ -7,7 +7,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use App\System\Responses\ValidationFail;
 use App\System\System;
-use App\User\Application\Exception\NotFoundSocialUserException;
 use App\User\Application\FindUserByEmail;
 use App\User\Application\GetSocialUserByAccessTokenAndProvider;
 use App\User\Application\LoginSocial;
@@ -15,6 +14,8 @@ use App\User\Application\LoginStandard;
 use App\User\Application\RegisterSocial;
 use App\User\Application\Validation\ProviderAuthValidator;
 use App\User\Responses\LoginFail;
+use App\System\Infrastructure\StatusMessage;
+use Monolog\Logger;
 
 class LoginController
 {
@@ -41,11 +42,13 @@ class LoginController
     public function __construct(
         System $system,
         SocialiteManager $socialite,
-        ProviderAuthValidator $providerValidator
+        ProviderAuthValidator $providerValidator,
+        Logger $log
     ) {
         $this->system            = $system;
         $this->socialite         = $socialite;
         $this->providerValidator = $providerValidator;
+        $this->log               = $log;
     }
 
     /**
@@ -76,12 +79,8 @@ class LoginController
             return (new ValidationFail($validation->getErrors()))->toResponse();
         }
 
-        try {
-            $socialUser = $this->system->execute(
-                new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $provider)
-            );
-        } catch (NotFoundSocialUserException $e) {
-            return (new LoginFail($e->getMessage()))->toResponse();
+        if (!$socialUser = $this->system->execute(new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $provider))) {
+            return (new LoginFail(StatusMessage::LOGIN_SOCIAL_ERROR))->toResponse();
         }
 
         $user = $this->system->execute(new FindUserByEmail($socialUser->getEmail()));

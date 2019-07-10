@@ -27,10 +27,28 @@ class DbalUsers
     }
 
     /**
+     * @param string $id
+     * @return null|\App\User\Application\Query\UserView
+     */
+    public function find(string $id)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('users', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id);
+
+        $user = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
+
+        return $user ? UserView::createFromDatabase($user) : null;
+    }
+
+    /**
      * @param \App\User\Infrastructure\UserFilters $filters
      * @return void
      */
-    public function find(UserFilters $filters)
+    public function findBy(UserFilters $filters)
     {
         $this->queryBuilder
             ->select('*')

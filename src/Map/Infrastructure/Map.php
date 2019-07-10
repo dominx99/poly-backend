@@ -38,6 +38,17 @@ final class Map
         return $this->fields;
     }
 
+    public function toArray()
+    {
+        return array_map(function ($field) {
+            return [
+                'x'    => $field['position']->getXPos(),
+                'y'    => $field['position']->getYPos(),
+                'type' => $field['block']->get(),
+            ];
+        }, $this->getFields());
+    }
+
     private function hasFieldAtPosition(Position $position): bool
     {
         $result = false;

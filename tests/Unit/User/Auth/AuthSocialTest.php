@@ -6,7 +6,6 @@ use Overtrue\Socialite\User;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
 use App\System\Infrastructure\StatusMessage;
-use App\User\Application\Exception\NotFoundSocialUserException;
 use App\User\Application\FindUserByEmail;
 use App\User\Application\GetSocialUserByAccessTokenAndProvider;
 use App\User\Application\LoginSocial;
@@ -18,13 +17,12 @@ class AuthSocialTest extends BaseTestCase
 
     /**
      * @test
-     * @throws \App\User\Application\Exception\NotFoundSocialUserException
      */
     public function that_wrong_access_token_throws_exception()
     {
-        $this->expectException(NotFoundSocialUserException::class);
+        $user = $this->system->execute(new GetSocialUserByAccessTokenAndProvider(random_bytes(8), 'google'));
 
-        $this->system->execute(new GetSocialUserByAccessTokenAndProvider(random_bytes(8), 'google'));
+        $this->assertNull($user);
     }
 
     /** @test */
