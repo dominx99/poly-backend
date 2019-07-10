@@ -52,7 +52,7 @@ $container->set(
 
 $container->set(
     \App\World\Application\IsWorldReady::class,
-    Di\autowire(\App\World\Application\IsWorldReadyHandler::class),
+    Di\autowire(\App\World\Application\IsWorldReadyHandler::class)
 );
 
 $container->set(
