@@ -6,13 +6,16 @@ use Ramsey\Uuid\Uuid;
 use App\System\Responses\Success;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\World\Application\GetWorlds;
 use App\System\System;
 use App\World\Application\CreateWorld;
 use App\World\Domain\World\Status;
 use App\World\Application\UserJoinWorld;
 use App\World\Application\IsWorldReady;
 use App\World\Application\StartWorld;
+use App\World\Application\GetWorldPossibleToJoin;
+use App\System\Responses\Fail;
+use App\System\Infrastructure\StatusMessage;
+use App\User\Application\AlreadyInGame;
 
 class WorldJoinController
 {
@@ -35,13 +38,19 @@ class WorldJoinController
      */
     public function store(Request $request): Response
     {
-        $worlds = $this->system->execute(new GetWorlds());
+        if ($this->system->execute(
+            new AlreadyInGame($request->getAttribute('decodedToken')['id']))
+        ) {
+            return (new Fail(['error' => StatusMessage::ALREADY_IN_GAME]))->toResponse();
+        }
 
-        if (! $worlds) {
+        $world = $this->system->execute(new GetWorldPossibleToJoin());
+
+        if (! $world) {
             $id = (string) Uuid::uuid4();
             $this->system->handle(new CreateWorld($id, Status::CREATED));
         } else {
-            $id = $worlds[0]->id();
+            $id = $world->id();
         }
 
         $this->system->handle(new UserJoinWorld($request->getAttribute('decodedToken')['id'], $id));

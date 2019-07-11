@@ -4,6 +4,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
+use \Respect\Validation\Validator as v;
 
 $container = $app->getContainer();
 
@@ -76,6 +77,16 @@ $container->set(
 );
 
 $container->set(
+    \App\World\Application\GetWorldPossibleToJoin::class,
+    Di\autowire(\App\World\Application\GetWorldPossibleToJoinHandler::class)
+);
+
+$container->set(
+    \App\User\Application\AlreadyInGame::class,
+    Di\autowire(\App\User\Application\AlreadyInGameHandler::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -93,6 +104,11 @@ $container->set(
 $container->set(
     \App\Map\Contracts\MapQueryRepository::class,
     Di\autowire(\App\Map\Infrastructure\DbalMaps::class)
+);
+
+$container->set(
+    \App\User\Contracts\UserQueryRepository::class,
+    Di\autowire(\App\User\Infrastructure\DbalUsers::class)
 );
 
 $container->set(EntityManager::class, function () use ($container) {
@@ -135,3 +151,5 @@ $container->set(\Monolog\Logger::class, function () {
 
     return $log;
 });
+
+v::with('App\System\Application\Validation\\Rules\\');

@@ -46,7 +46,7 @@ class AuthSocialTest extends BaseTestCase
             'access_token' => '',
         ]);
 
-        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(422, $response->getStatusCode());
 
         $body = json_decode((string) $response->getBody(), true);
 

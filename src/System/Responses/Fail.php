@@ -23,11 +23,11 @@ class Fail implements Responsable
      * @param array $data
      * @param integer $status
      */
-    public function __construct(array $data = [], int $status = StatusCode::HTTP_BAD_REQUEST)
+    public function __construct(array $data = [], int $status = StatusCode::HTTP_BAD_REQUEST, string $message = StatusMessage::FAIL)
     {
         $this->data   = $data;
         $this->status = $status;
-        $this->setFailMessage();
+        $this->setFailMessage($message);
     }
 
     /**
@@ -41,8 +41,8 @@ class Fail implements Responsable
     /**
      * @return void
      */
-    public function setFailMessage(): void
+    public function setFailMessage(string $message): void
     {
-        $this->data['status'] = StatusMessage::FAIL;
+        $this->data['status'] = $message;
     }
 }

@@ -68,7 +68,7 @@ class WorldJoinControllerTest extends BaseTestCase
     }
 
     /** @test */
-    public function that_on_enought_players_world_generates_map()
+    public function that_on_enough_players_world_generates_map()
     {
         for ($i = 0; $i < 3; $i++) {
             $this->auth();
@@ -78,5 +78,20 @@ class WorldJoinControllerTest extends BaseTestCase
         $this->assertDatabaseHas('worlds', [
             'status' => Status::MAP_GENERATION,
         ]);
+    }
+
+    /** @test */
+    public function that_creates_more_worlds()
+    {
+        for ($i = 0; $i < 4; $i++) {
+            $this->auth();
+            $response = $this->runApp('POST', '/api/worlds');
+
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+
+        $worlds = $this->system->execute(new GetWorlds());
+        $this->assertNotNull($worlds);
+        $this->assertCount(2, $worlds);
     }
 }

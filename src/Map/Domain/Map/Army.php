@@ -58,7 +58,7 @@ class Army extends Field
 
     public function addField(Field $field): void
     {
-        if ($this->fields->contains($field) {
+        if ($this->fields->contains($field)) {
             return;
         }
 

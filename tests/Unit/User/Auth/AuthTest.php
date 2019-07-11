@@ -91,7 +91,7 @@ class AuthTest extends BaseTestCase
             'password' => 'test123',
         ]);
 
-        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(422, $response->getStatusCode());
 
         $this->assertDatabaseMissing('users', [
             'email' => 'example@test',
@@ -100,5 +100,28 @@ class AuthTest extends BaseTestCase
         $body = json_decode((string) $response->getBody(), true);
 
         $this->assertArrayHasKey('email', $body['errors']);
+    }
+
+    /** @test */
+    public function that_register_with_existing_email_is_not_possible()
+    {
+        $response = $this->runApp('POST', '/api/auth/register', [
+            'email'    => 'example@test.com',
+            'password' => 'test123',
+        ]);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = $this->runApp('POST', '/api/auth/register', [
+            'email'    => 'example@test.com',
+            'password' => 'test321',
+        ]);
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertArrayHasKey('email', $body['errors']);
+        $this->assertContains('Email is already taken.', $body['errors']['email']);
     }
 }

@@ -5,6 +5,7 @@ namespace App\World\Infrastructure;
 use Doctrine\ORM\EntityManager;
 use App\World\Contracts\WorldsQueryRepository;
 use App\World\Application\Query\WorldView;
+use App\World\Domain\World\Status;
 
 class DbalWorlds implements WorldsQueryRepository
 {
@@ -97,5 +98,22 @@ class DbalWorlds implements WorldsQueryRepository
         return array_map(function ($world) {
             return WorldView::createFromDatabase($world);
         }, $worlds);
+    }
+
+    /**
+     * @return \App\World\Application\Query\WorldView|null
+     */
+    public function getWorldPossibleToJoin()
+    {
+        $world = $this->connection->createQueryBuilder()
+            ->select('w.*')
+            ->from('worlds', 'w')
+            ->leftJoin('w', 'users', 'u', 'w.id = u.world_id')
+            ->groupBy('w.id')
+            ->having('count(u.id) < 3')
+            ->execute()
+            ->fetch();
+
+        return $world ? WorldView::createFromDatabase($world) : null;
     }
 }

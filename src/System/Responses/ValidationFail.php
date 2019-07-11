@@ -11,6 +11,6 @@ class ValidationFail extends Fail
      */
     public function __construct(array $errors)
     {
-        parent::__construct(['errors' => $errors], StatusCode::HTTP_BAD_REQUEST);
+        parent::__construct(['errors' => $errors], StatusCode::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

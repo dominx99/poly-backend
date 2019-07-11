@@ -4,8 +4,9 @@ namespace App\User\Infrastructure;
 
 use Doctrine\ORM\EntityManager;
 use App\User\Application\Query\UserView;
+use App\User\Contracts\UserQueryRepository;
 
-class DbalUsers
+class DbalUsers implements UserQueryRepository
 {
     /**
      * @var \Doctrine\DBAL\Connection
@@ -80,5 +81,39 @@ class DbalUsers
         $user = $this->connection->fetchAssoc($this->queryBuilder->getSQL(), $this->queryBuilder->getParameters());
 
         return $user ? UserView::createFromDatabase($user) : null;
+    }
+
+    /**
+     * @param string $userId
+     * @return bool
+     */
+    public function isInGame(string $userId): bool
+    {
+        $result = $this->connection->createQueryBuilder()
+            ->select('u.world_id')
+            ->from('users', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $userId)
+            ->execute()
+            ->fetch();
+
+        return $result['world_id'] !== null;
+    }
+
+    /**
+     * @param mixed $userId
+     * @return bool
+     */
+    public function emailExist($email): bool
+    {
+        $result = $this->connection->createQueryBuilder()
+            ->select('count(u.id) as exist')
+            ->from('users', 'u')
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->execute()
+            ->fetch();
+
+        return $result['exist'] >= 1;
     }
 }

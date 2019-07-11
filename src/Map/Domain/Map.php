@@ -29,31 +29,19 @@ class Map
     private $world;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\Field
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\Field[]
      *
      * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\Field", mappedBy="map", cascade={"persist"})
      */
     private $fields;
 
+    /**
+     * @param string $id
+     */
     public function __construct(string $id)
     {
         $this->id     = $id;
-        $this->users  = new ArrayCollection();
         $this->fields = new ArrayCollection();
-    }
-
-    /**
-     * @param \App\User\Domain\User $user
-     * @return void
-     */
-    public function addUser(User $user): void
-    {
-        if ($this->users->contains($user)) {
-            return;
-        }
-
-        $this->users->add($user);
-        $user->addMap($this);
     }
 
     /**

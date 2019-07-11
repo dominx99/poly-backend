@@ -13,4 +13,6 @@ class StatusMessage
     const LOGIN_SOCIAL_ERROR = 'User was not found';
 
     const TOKEN_REQUIRED = 'Token is required';
+
+    const ALREADY_IN_GAME = 'You are already in game';
 }
