@@ -39,8 +39,8 @@ class WorldJoinController
     public function store(Request $request): Response
     {
         if ($this->system->execute(
-            new AlreadyInGame($request->getAttribute('decodedToken')['id']))
-        ) {
+            new AlreadyInGame($request->getAttribute('decodedToken')['id'])
+        )) {
             return (new Fail(['error' => StatusMessage::ALREADY_IN_GAME]))->toResponse();
         }
 
