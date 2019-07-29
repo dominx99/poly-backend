@@ -19,7 +19,7 @@ before_install:
   - docker-compose build
   - docker-compose down
   - docker-compose up -d
-  - docker exec -it poly_backend mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
+  - docker exec -it poly_backend mysql -u root -psecret -h db -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
   - cp .env.travis .env.testing
   - docker exec -it poly_backend composer self-update
   - docker exec -it poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
