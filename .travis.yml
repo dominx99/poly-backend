@@ -6,18 +6,20 @@ php:
 
 services:
   - mysql
+  - docker
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
 
-before_script:
+before_install:
+  - docker build -t dominx99/poly-backend .
   - cp .env.travis .env.testing
-  - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+  - docker exec -it poly_backend composer self-update
+  - docker exec -it poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
 script:
-  - vendor/bin/phpcs --standard=psr2 src/
-  - vendor/bin/phpunit --coverage-clover=coverage.clover
+  - docker exec -it poly_backend vendor/bin/phpcs --standard=psr2 src/
+  - docker exec -it poly_backend vendor/bin/phpunit -- --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
