@@ -9,6 +9,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    mysql-server \
     mysql-client \
     libpng-dev \
     libjpeg62-turbo-dev \
