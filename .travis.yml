@@ -15,7 +15,6 @@ services:
   - docker
 
 before_install:
-  - sudo service stop mysql
   - docker-compose build
   - docker-compose down
   - docker-compose up -d
