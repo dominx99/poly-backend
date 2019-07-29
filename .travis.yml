@@ -1,7 +1,14 @@
+env:
+  - DOCKER_COMPOSE_VERSION=3
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 group: edge
 language: php
 php:
-  - '7.2'
   - '7.3'
 
 services:
@@ -10,9 +17,8 @@ services:
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
-
-before_install:
-  - docker build -t dominx99/poly-backend ./docker/php
+  - docker-compose build
+  - docker-compose up -d
   - cp .env.travis .env.testing
   - docker exec -it poly_backend composer self-update
   - docker exec -it poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
