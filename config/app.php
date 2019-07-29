@@ -24,4 +24,11 @@ return [
             'redirect'      => getenv('GOOGLE_REDIRECT'),
         ],
     ],
+    'sockets' => [
+        'pusher' => [
+            'id'     => getenv('PUSHER_APP_ID'),
+            'key'    => getenv('PUSHER_APP_KEY'),
+            'secret' => getenv('PUSHER_APP_SECRET'),
+        ],
+    ],
 ];

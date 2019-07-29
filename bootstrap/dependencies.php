@@ -87,6 +87,31 @@ $container->set(
 );
 
 $container->set(
+    \App\User\Application\FindUser::class,
+    Di\autowire(\App\User\Application\FindUserHandler::class)
+);
+
+$container->set(
+    \App\World\Application\FindWorld::class,
+    Di\autowire(\App\World\Application\FindWorldHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\AssignUserResources::class,
+    Di\autowire(\App\Map\Application\AssignUserResourcesHandler::class)
+);
+
+$container->set(
+    \App\World\Application\UpdateWorldStatus::class,
+    Di\autowire(\App\World\Application\UpdateWorldStatusHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\FindMap::class,
+    Di\autowire(\App\Map\Application\FindMapHandler::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -150,6 +175,20 @@ $container->set(\Monolog\Logger::class, function () {
     $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/main.log'));
 
     return $log;
+});
+
+$container->set(\App\System\Infrastructure\PusherSocket::class, function () use ($appConfig) {
+    $pusher = new \Pusher\Pusher(
+        $appConfig['sockets']['pusher']['key'],
+        $appConfig['sockets']['pusher']['secret'],
+        $appConfig['sockets']['pusher']['id'],
+        [
+            'cluster' => 'eu',
+            'useTLS'  => true,
+        ]
+    );
+
+    return new \App\System\Infrastructure\PusherSocket($pusher);
 });
 
 v::with('App\System\Application\Validation\\Rules\\');

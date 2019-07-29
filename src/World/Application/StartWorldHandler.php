@@ -8,6 +8,7 @@ use App\Map\Application\MapGenerate;
 use Monolog\Logger;
 use App\Map\Application\AssignUserPositions;
 use Ramsey\Uuid\Uuid;
+use App\Map\Application\AssignUserResources;
 
 class StartWorldHandler
 {
@@ -36,7 +37,7 @@ class StartWorldHandler
 
         $this->system->handle(new MapGenerate($command->id(), $mapId));
         $this->system->handle(new AssignUserPositions($command->id(), $mapId));
-
-        /* $this->worlds->setStatus(Status::STARTED); */
+        $this->system->handle(new AssignUserResources($mapId));
+        $this->system->handle(new UpdateWorldStatus($command->id(), Status::STARTED));
     }
 }

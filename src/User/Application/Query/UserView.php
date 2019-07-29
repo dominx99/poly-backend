@@ -20,15 +20,22 @@ class UserView
     private $password;
 
     /**
+     * @var string
+     */
+    private $worldId;
+
+    /**
      * @param string $id
      * @param string $email
      * @param string|null $password
+     * @param string|null $worldId
      */
-    public function __construct(string $id, string $email, string $password = null)
+    public function __construct(string $id, string $email, string $password = null, string $worldId = null)
     {
         $this->id       = $id;
         $this->email    = $email;
         $this->password = $password;
+        $this->worldId  = $worldId;
     }
 
     /**
@@ -56,6 +63,14 @@ class UserView
     }
 
     /**
+     * @return string|null
+     */
+    public function worldId()
+    {
+        return $this->worldId;
+    }
+
+    /**
      * @param  array $user
      * @return self
      */
@@ -64,7 +79,8 @@ class UserView
         return new static(
             $user['id'],
             $user['email'],
-            $user['password']
+            $user['password'],
+            $user['world_id']
         );
     }
 }

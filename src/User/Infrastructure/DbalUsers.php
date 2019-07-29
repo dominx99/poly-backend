@@ -101,7 +101,7 @@ class DbalUsers implements UserQueryRepository
     }
 
     /**
-     * @param mixed $userId
+     * @param mixed $email
      * @return bool
      */
     public function emailExist($email): bool

@@ -61,6 +61,6 @@ class WorldJoinController
             $this->system->handle(new StartWorld($id));
         }
 
-        return (new Success())->toResponse();
+        return (new Success(['world_id' => $id]))->toResponse();
     }
 }

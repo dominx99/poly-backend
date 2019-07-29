@@ -6,6 +6,7 @@ use \Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\World\Domain\World;
 use App\Map\Domain\Map\Field;
+use App\User\Domain\Resource;
 
 /**
  * @ORM\Entity
@@ -36,12 +37,20 @@ class Map
     private $fields;
 
     /**
+     * @var \App\User\Domain\Resource|null
+     *
+     * @ORM\OneToMany(targetEntity="\App\User\Domain\Resource", mappedBy="map", cascade={"persist"})
+     */
+    private $resources;
+
+    /**
      * @param string $id
      */
     public function __construct(string $id)
     {
-        $this->id     = $id;
-        $this->fields = new ArrayCollection();
+        $this->id        = $id;
+        $this->fields    = new ArrayCollection();
+        $this->resources = new ArrayCollection();
     }
 
     /**
@@ -70,5 +79,19 @@ class Map
 
         $this->fields->add($field);
         $field->addMap($this);
+    }
+
+    /**
+     * @param \App\User\Domain\Resource $resource
+     * @return void
+     */
+    public function addResource(Resource $resource): void
+    {
+        if ($this->fields->contains($resource)) {
+            return;
+        }
+
+        $this->resources->add($resource);
+        $resource->addMap($this);
     }
 }

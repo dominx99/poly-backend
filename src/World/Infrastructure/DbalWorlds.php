@@ -5,7 +5,6 @@ namespace App\World\Infrastructure;
 use Doctrine\ORM\EntityManager;
 use App\World\Contracts\WorldsQueryRepository;
 use App\World\Application\Query\WorldView;
-use App\World\Domain\World\Status;
 
 class DbalWorlds implements WorldsQueryRepository
 {
@@ -32,7 +31,7 @@ class DbalWorlds implements WorldsQueryRepository
      * @param string $id
      * @return null|\App\World\Application\Query\WorldView
      */
-    public function findWithUsers(string $id)
+    public function find(string $id)
     {
         $qb = $this->connection->createQueryBuilder();
         $qb
@@ -43,16 +42,7 @@ class DbalWorlds implements WorldsQueryRepository
 
         $world = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
 
-        $qb = $this->connection->createQueryBuilder();
-        $qb
-            ->select('*')
-            ->from('users', 'u')
-            ->where('u.world_id = :id')
-            ->setParameter('id', $id);
-
-        $users = $this->connection->fetchAll($qb->getSQL(), $qb->getParameters());
-
-        return $world ? WorldView::createFromDatabase($world, ['users' => $users]) : null;
+        return $world ? WorldView::createFromDatabase($world) : null;
     }
 
     /**

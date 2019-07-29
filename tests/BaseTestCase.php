@@ -91,8 +91,9 @@ class BaseTestCase extends TestCase
 
     public function auth(): void
     {
-        $id         = Uuid::uuid4();
-        $this->user = $this->createUser($id, 'example@test.com', 'test123');
+        $id           = Uuid::uuid4();
+        $this->userId = $id;
+        $this->user   = $this->createUser($id, 'example@test.com', 'test123');
         $this->authById((string) $id);
     }
 

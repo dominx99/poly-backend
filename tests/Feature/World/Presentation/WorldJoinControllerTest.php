@@ -70,13 +70,25 @@ class WorldJoinControllerTest extends BaseTestCase
     /** @test */
     public function that_on_enough_players_world_generates_map()
     {
+        $userIds = [];
         for ($i = 0; $i < 3; $i++) {
             $this->auth();
             $this->runApp('POST', '/api/worlds');
+            $userIds[] = $this->userId;
+        }
+
+        foreach ($userIds as $userId) {
+            $this->assertDatabaseHas('resources', [
+                'gold'    => 300,
+                'user_id' => $userId,
+            ]);
+            $this->assertDatabaseHas('fields', [
+                'user_id' => $userId,
+            ]);
         }
 
         $this->assertDatabaseHas('worlds', [
-            'status' => Status::MAP_GENERATION,
+            'status' => Status::STARTED,
         ]);
     }
 

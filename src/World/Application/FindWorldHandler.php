@@ -4,7 +4,7 @@ namespace App\World\Application;
 
 use App\World\Contracts\WorldsQueryRepository;
 
-class GetWorldPossibleToJoinHandler
+class FindWorldHandler
 {
     /**
      * @var \App\World\Contracts\WorldsQueryRepository
@@ -20,10 +20,11 @@ class GetWorldPossibleToJoinHandler
     }
 
     /**
-     * @param \App\World\Application\GetWorldPossibleToJoin $command
+     * @param \App\World\Application\FindWorld $command
+     * @return \App\World\Application\Query\WorldView|null
      */
-    public function execute(GetWorldPossibleToJoin $command)
+    public function execute(FindWorld $command)
     {
-        return $this->worlds->getWorldPossibleToJoin();
+        return $this->worlds->find($command->worldId());
     }
 }

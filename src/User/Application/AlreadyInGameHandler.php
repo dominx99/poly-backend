@@ -2,7 +2,6 @@
 
 namespace App\User\Application;
 
-use App\User\Application\AlreadyInGame;
 use App\User\Contracts\UserQueryRepository;
 
 class AlreadyInGameHandler

@@ -1,11 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace App\System\Application\Validation\Rules;
+namespace App\User\Application;
 
-use Respect\Validation\Rules\AbstractRule;
 use App\User\Contracts\UserQueryRepository;
 
-class EmailAvailable extends AbstractRule
+class FindUserHandler
 {
     /**
      * @var \App\User\Contracts\UserQueryRepository
@@ -21,11 +20,11 @@ class EmailAvailable extends AbstractRule
     }
 
     /**
-     * @param mixed $input
-     * @return bool
+     * @param \App\User\Application\FindUser $command
+     * @return \App\User\Application\Query\UserView|null
      */
-    public function validate($input): bool
+    public function execute(FindUser $command)
     {
-        return !$this->users->emailExist($input);
+        return $this->users->find($command->userId());
     }
 }

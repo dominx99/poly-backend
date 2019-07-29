@@ -5,6 +5,11 @@ namespace App\Map\Infrastructure;
 use App\Map\Contracts\MapWriteRepository;
 use Doctrine\ORM\EntityManager;
 use App\Map\Contracts\MapQueryRepository;
+use Ramsey\Uuid\Uuid;
+use App\User\Domain\User;
+use App\Map\Domain\Map;
+use App\User\Domain\Resource;
+use App\User\Domain\Resource\Gold;
 
 class ORMMaps implements MapWriteRepository
 {
@@ -51,5 +56,27 @@ class ORMMaps implements MapWriteRepository
         $query .= 'end';
 
         $this->connection->executeQuery($query);
+    }
+
+    /**
+     * @param string $mapId
+     * @return void
+     */
+    public function assignResources(string $mapId): void
+    {
+        $userIds = $this->query->getUserIds($mapId);
+
+        $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
+        $map   = $this->entityManager->getRepository(Map::class)->find($mapId);
+
+        foreach ($users as $user) {
+            $resource = new Resource((string) Uuid::uuid4(), new Gold(300));
+            $resource->addUser($user);
+            $resource->addMap($map);
+
+            $this->entityManager->persist($resource);
+        }
+
+        $this->entityManager->flush();
     }
 }

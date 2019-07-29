@@ -6,9 +6,16 @@ use App\Map\Infrastructure\MapGenerator;
 use App\Map\Infrastructure\MapSize;
 use App\World\Contracts\WorldsWriteRepository;
 use App\World\Domain\World\Status;
+use App\World\Application\UpdateWorldStatus;
+use App\System\System;
 
 class MapGenerateHandler
 {
+    /**
+     * @var \App\System\System
+     */
+    private $system;
+
     /**
      * @var \App\Map\Infrastructure\MapGenerator
      */
@@ -22,8 +29,12 @@ class MapGenerateHandler
     /**
      * @param \App\Map\Infrastructure\MapGenerator $generator
      */
-    public function __construct(MapGenerator $generator, WorldsWriteRepository $worlds)
-    {
+    public function __construct(
+        System $system,
+        MapGenerator $generator,
+        WorldsWriteRepository $worlds
+    ) {
+        $this->system    = $system;
         $this->generator = $generator;
         $this->worlds    = $worlds;
     }
@@ -34,7 +45,7 @@ class MapGenerateHandler
      */
     public function handle(MapGenerate $command): void
     {
-        $this->worlds->updateStatus($command->worldId(), Status::MAP_GENERATION);
+        $this->system->handle(new UpdateWorldStatus($command->worldId(), Status::MAP_GENERATION));
 
         $map = $this->generator->generate(new MapSize(16, 16));
 

@@ -4,6 +4,8 @@ namespace App\Map\Infrastructure;
 
 use App\Map\Contracts\MapQueryRepository;
 use Doctrine\ORM\EntityManager;
+use App\Map\Application\Query\MapView;
+use App\Map\Application\Query\FieldView;
 
 class DbalMaps implements MapQueryRepository
 {
@@ -23,6 +25,45 @@ class DbalMaps implements MapQueryRepository
     public function __construct(EntityManager $em)
     {
         $this->connection = $em->getConnection();
+    }
+
+    /**
+     * @param string $worldId
+     * @return \App\Map\Application\Query\MapView|null
+     */
+    public function findByWorld(string $worldId)
+    {
+        $qb = $this->connection->createQueryBuilder()
+            ->select('m.*')
+            ->from('maps', 'm')
+            ->where('m.world_id = :worldId')
+            ->setParameter('worldId', $worldId);
+
+        $map = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
+
+        if (! $map) {
+            return null;
+        }
+
+        $map = MapView::createFromDatabase($map);
+
+        $qb = $this->connection->createQueryBuilder()
+            ->select('f.*')
+            ->from('maps', 'm')
+            ->leftJoin('m', 'worlds', 'w', 'w.id = m.world_id')
+            ->innerJoin('m', 'fields', 'f', 'm.id = f.map_id')
+            ->where('w.id = :worldId')
+            ->setParameter('worldId', $worldId);
+
+        $fields = $this->connection->fetchAll($qb->getSQL(), $qb->getParameters());
+
+        $fields = array_map(function ($field) {
+            return FieldView::createFromDatabase($field);
+        }, $fields);
+
+        $map->setFields($fields);
+
+        return $map;
     }
 
     /**

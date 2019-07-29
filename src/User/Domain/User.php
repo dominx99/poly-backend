@@ -53,6 +53,13 @@ class User
     private $world;
 
     /**
+     * @var \App\User\Domain\Resource|null
+     *
+     * @ORM\OneToOne(targetEntity="\App\User\Domain\Resource", mappedBy="user")
+     */
+    private $resource;
+
+    /**
      * @var \Doctrine\Common\Collections\ArrayCollection|Army[]
      *
      * @ORM\OneToMany(targetEntity="Army", mappedBy="owner", cascade={"persist"})
@@ -70,6 +77,7 @@ class User
         $this->email     = $email;
         $this->password  = $password;
         $this->providers = new ArrayCollection();
+        $this->resource  = null;
         /* $this->armies = new ArrayCollection(); */
     }
 
@@ -99,5 +107,19 @@ class User
 
         $this->world = $world;
         $world->addUser($this);
+    }
+
+    /**
+     * @param \App\User\Domain\Resource $resource
+     * @return void
+     */
+    public function addResource(Resource $resource): void
+    {
+        if ($this->resource === $resource) {
+            return;
+        }
+
+        $this->resource = $resource;
+        $resource->addUser($this);
     }
 }

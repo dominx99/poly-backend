@@ -14,5 +14,6 @@ class StatusMessage
 
     const TOKEN_REQUIRED = 'Token is required';
 
-    const ALREADY_IN_GAME = 'You are already in game';
+    const ALREADY_IN_GAME          = 'You are already in game';
+    const USER_NOT_BELONG_TO_WORLD = 'User does not belong to this world.';
 }
