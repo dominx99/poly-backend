@@ -21,7 +21,7 @@ services:
       - MYSQL_DATABASE=poly_backend
       - MYSQL_HOST=127.0.0.1
     ports:
-      - "3306:3306"
+      - "8083:3306"
     command: --default-authentication-plugin=mysql_native_password
     restart: always
 
