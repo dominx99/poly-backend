@@ -12,7 +12,7 @@ before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
 
 before_install:
-  - docker build -t dominx99/poly-backend/docker/php .
+  - docker build -t dominx99/poly-backend ./docker/php
   - cp .env.travis .env.testing
   - docker exec -it poly_backend composer self-update
   - docker exec -it poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
