@@ -16,6 +16,8 @@ services:
 
 before_install:
   - docker-compose build
+  - sudo service mysqld stop
+  - docker-compose down
   - docker-compose up -d
   - docker exec -it poly_backend mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
   - cp .env.travis .env.testing
