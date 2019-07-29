@@ -5,6 +5,7 @@ namespace App\Map\Application;
 use App\Map\Contracts\MapQueryRepository;
 use App\System\Contracts\Responsable;
 use App\Map\Responses\MapSuccess;
+use App\Map\Application\FindMap;
 
 class FindMapHandler
 {
