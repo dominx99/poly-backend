@@ -38,7 +38,8 @@ RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen && locale-gen
 RUN groupadd -g 1000 domin && \
     useradd -r -u 1000 -g domin -d /application -s /sbin/nologin domin
 RUN mkdir /application && chown -R domin:domin /application
-RUN chmod 777 -R /aplication
+RUN chown -R domin:domin $HOME/.composer
+RUN chmod -R 777 /aplication
 
 USER domin
 
