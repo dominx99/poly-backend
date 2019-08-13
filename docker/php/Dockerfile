@@ -40,7 +40,9 @@ RUN groupadd -g 7777 domin && \
 RUN mkdir /application
 RUN mkdir /application/.composer
 RUN mkdir /application/.composer/cache
-RUN chown -R domin:domin /application && chmod -R 7777 /application
+RUN mkdir /application/.composer/cache/repo
+RUN mkdir /application/.composer/cache/repo/https---repo.packagist.org
+RUN chown -R domin:domin /application && chmod -R 7777 /application && chown -R domin:domin /application/.composer && chmod 7777 -R /application/.composer
 
 USER domin
 
