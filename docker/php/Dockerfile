@@ -37,7 +37,10 @@ RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen && locale-gen
 # Allow container to write on host
 RUN groupadd -g 7777 domin && \
     useradd -r -u 7777 -g domin -d /application -s /sbin/nologin domin
-RUN mkdir /application && chown -R domin:domin /application && chmod -R 7777 /application
+RUN mkdir /application
+RUN mkdir /application/.composer
+RUN mkdir /application/.composer/cache
+RUN chown -R domin:domin /application && chmod -R 7777 /application
 
 USER domin
 RUN chown -R domin:domin $HOME/.composer
