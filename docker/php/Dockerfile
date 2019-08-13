@@ -41,8 +41,8 @@ RUN mkdir /application/.composer
 RUN mkdir /application/.composer/cache
 RUN mkdir /application/.composer/cache/repo
 RUN mkdir /application/.composer/cache/repo/https---repo.packagist.org
-RUN chmod -R 777 /usr/local/bin/composer
 RUN chown -R domin:domin /application && chmod -R 7777 /application && chown -R domin:domin /application/.composer && chmod 7777 -R /application/.composer
+RUN chmod -R 777 /usr/local/bin/composer
 
 USER domin
 
