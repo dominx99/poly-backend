@@ -20,6 +20,7 @@ before_install:
   - sudo docker-compose up -d
   - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
   - cp .env.travis .env.testing
+  - ls -al
   - sudo docker exec -t poly_backend composer self-update
   - sudo docker exec -t poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
