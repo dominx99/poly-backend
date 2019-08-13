@@ -25,8 +25,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Installing extensions
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath opcache
-RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
-RUN docker-php-ext-install gd
+RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ RUN docker-php-ext-install gd
 
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -42,6 +41,7 @@ RUN mkdir /application/.composer
 RUN mkdir /application/.composer/cache
 RUN mkdir /application/.composer/cache/repo
 RUN mkdir /application/.composer/cache/repo/https---repo.packagist.org
+RUN chmod -R 777 /usr/local/bin/composer
 RUN chown -R domin:domin /application && chmod -R 7777 /application && chown -R domin:domin /application/.composer && chmod 7777 -R /application/.composer
 
 USER domin
