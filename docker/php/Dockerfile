@@ -35,17 +35,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen && locale-gen
 
 # Allow container to write on host
-RUN groupadd -g 7777 domin && \
-    useradd -r -u 7777 -g domin -d /application -s /sbin/nologin domin
+# RUN groupadd -g 7777 domin && \
+#     useradd -r -u 7777 -g domin -d /application -s /sbin/nologin domin
 RUN mkdir /application
 RUN mkdir /application/.composer
 RUN mkdir /application/.composer/cache
 RUN mkdir /application/.composer/cache/repo
 RUN mkdir /application/.composer/cache/repo/https---repo.packagist.org
-RUN chown -R domin:domin /application && chmod -R 7777 /application && chown -R domin:domin /application/.composer && chmod 7777 -R /application/.composer
+# RUN chown -R domin:domin /application && chmod -R 7777 /application && chown -R domin:domin /application/.composer && chmod 7777 -R /application/.composer
 RUN chmod -R 777 /usr/local/bin/composer
 
-USER domin
+# USER domin
 
 # Changing Workdir
 WORKDIR /application
