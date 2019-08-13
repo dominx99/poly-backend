@@ -43,7 +43,6 @@ RUN mkdir /application/.composer/cache
 RUN chown -R domin:domin /application && chmod -R 7777 /application
 
 USER domin
-RUN chown -R domin:domin $HOME/.composer
 
 # Changing Workdir
 WORKDIR /application
