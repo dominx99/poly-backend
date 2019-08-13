@@ -39,7 +39,7 @@ RUN groupadd -g 7777 domin && \
     useradd -r -u 7777 -g domin -d /application -s /sbin/nologin domin
 RUN mkdir /application && chown -R domin:domin /application
 RUN chown -R domin:domin $HOME/.composer
-RUN chmod -R 777 /application
+RUN chmod -R 777 /application/.composer
 
 USER domin
 
