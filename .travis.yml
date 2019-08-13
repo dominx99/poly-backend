@@ -15,11 +15,9 @@ services:
   - docker
 
 before_install:
-  - chmod +x docker
-  - chmod +x docker-compose
-  - docker-compose build
-  - docker-compose down
-  - docker-compose up -d
+  - sudo docker-compose build
+  - sudo docker-compose down
+  - sudo docker-compose up -d
   - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
   - cp .env.travis .env.testing
   - sudo docker exec -t poly_backend composer self-update
