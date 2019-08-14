@@ -19,6 +19,10 @@ before_install:
   - sudo docker-compose build
   - sudo docker-compose down
   - sudo docker-compose up -d
+  - while [ "$(docker inspect -f '{{.State.Health.Status}}' travistest_db_1)" != "healthy" ];
+  - do
+  - sleep 1
+  - done
   - sudo docker exec -t poly_backend mysql -u root -psecret -h db -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
   - sudo docker exec -t poly_backend composer self-update
   - mkdir .composer
