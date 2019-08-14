@@ -13,6 +13,11 @@ services:
       - php
 
   db:
+    healthcheck:
+      test: "cat /proc/net/tcp /proc/net/tcp6 | grep ':0CEA'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
     image: mysql
     volumes:
       - poly_backend_db:/var/lib/mysql
