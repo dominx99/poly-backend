@@ -20,7 +20,7 @@ before_install:
   - docker-compose down
   - docker-compose up -d
   - >
-    while [ "$(docker inspect -f '{{.State.Health.Status}}' travistest_db_1)" != "healthy" ];
+    while [ "$(docker inspect -f '{{.State.Health.Status}}' poly_backend_db_1)" != "healthy" ];
     do
         sleep 1
     done
