@@ -9,7 +9,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update && apt-get install -y \
     build-essential \
-    mysql-client \
+    mariadb-client \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
@@ -33,13 +33,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Setting locales
 RUN echo en_US.UTF-8 UTF-8 > /etc/locale.gen && locale-gen
-
-# Allow container to write on host
-RUN groupadd -g 1000 domin && \
-    useradd -r -u 1000 -g domin -d /application -s /sbin/nologin domin
-RUN mkdir /application && chown -R domin:domin /application
-
-USER domin
 
 # Changing Workdir
 WORKDIR /application
