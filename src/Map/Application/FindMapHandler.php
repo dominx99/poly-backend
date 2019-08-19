@@ -5,6 +5,7 @@ namespace App\Map\Application;
 use App\Map\Contracts\MapQueryRepository;
 use App\System\Contracts\Responsable;
 use App\Map\Responses\MapSuccess;
+use App\Map\Application\FindMap;
 
 class FindMapHandler
 {
@@ -22,7 +23,7 @@ class FindMapHandler
     }
 
     /**
-     * @param FindMap $command
+     * @param \App\Map\Application\FindMap $command
      * @return void
      */
     public function execute(FindMap $command): Responsable

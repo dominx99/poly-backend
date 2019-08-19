@@ -1,24 +1,47 @@
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=3
+    - CACHE_IMAGE=chylo/poly-backend
+
+dist: trusty
+
 group: edge
-language: php
-php:
-  - '7.2'
-  - '7.3'
+language: minimal
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
 
 services:
-  - mysql
+  - docker
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
+  - cp .env.travis .env.testing
+  - mkdir .composer
+  - chmod -R 777 .composer
 
 before_script:
-  - cp .env.travis .env.testing
-  - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+  - docker pull $CACHE_IMAGE:latest || true
 
 script:
-  - vendor/bin/phpcs --standard=psr2 src/
-  - vendor/bin/phpunit --coverage-clover=coverage.clover
+  - docker-compose build
+  - docker-compose down
+  - docker-compose up -d
+  - docker exec -t poly_backend composer self-update
+  - docker exec -t poly_backend composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+  - |
+    while [ "$(docker inspect -f '{{.State.Health.Status}}' polybackend_db_1)" != "healthy" ];
+    do
+        sleep 1
+    done
+  - docker exec -t poly_backend mysql -u root -psecret -h db -e 'CREATE DATABASE IF NOT EXISTS poly_backend_test;'
+  - docker exec -it poly_backend vendor/bin/phpcs --standard=psr2 src/
+  - docker exec -it poly_backend vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+after_success:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker push $CACHE_IMAGE:latest

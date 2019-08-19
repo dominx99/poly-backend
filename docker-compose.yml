@@ -1,4 +1,4 @@
-version: "3"
+version: "3.3"
 services:
 
   poly_backend:
@@ -13,6 +13,11 @@ services:
       - php
 
   db:
+    healthcheck:
+      test: "cat /proc/net/tcp /proc/net/tcp6 | grep ':0CEA'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
     image: mysql
     volumes:
       - poly_backend_db:/var/lib/mysql
@@ -21,12 +26,17 @@ services:
       - MYSQL_DATABASE=poly_backend
       - MYSQL_HOST=127.0.0.1
     ports:
-      - "3306:3306"
+      - "8083:3306"
     command: --default-authentication-plugin=mysql_native_password
     restart: always
 
   php:
-    build: docker/php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      cache_from:
+        - chylo/poly-backend:latest
+    image: chylo/poly-backend:latest
     container_name: poly_backend
     working_dir: /application
     volumes:
