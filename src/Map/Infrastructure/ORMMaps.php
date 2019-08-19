@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use App\Map\Contracts\MapQueryRepository;
 use Ramsey\Uuid\Uuid;
 use App\User\Domain\User;
-use App\Map\Domain\Map;
+use App\Map\Domain\Map as DomainMap;
 use App\User\Domain\Resource;
 use App\User\Domain\Resource\Gold;
 
@@ -67,7 +67,9 @@ class ORMMaps implements MapWriteRepository
         $userIds = $this->query->getUserIds($mapId);
 
         $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
-        $map   = $this->entityManager->getRepository(Map::class)->find($mapId);
+        if (! $map = $this->entityManager->getRepository(DomainMap::class)->find($mapId)) {
+            throw new \Exception('Map not found');
+        }
 
         foreach ($users as $user) {
             $resource = new Resource((string) Uuid::uuid4(), new Gold(300));

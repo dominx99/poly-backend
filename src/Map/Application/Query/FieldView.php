@@ -36,7 +36,11 @@ class FieldView
 
     /**
      * @param string $id
-     * @param string $worldId
+     * @param string $mapId
+     * @param string $userId
+     * @param int $x
+     * @param int $y
+     * @param string $type
      */
     public function __construct(string $id, string $mapId, string $userId = null, int $x, int $y, string $type)
     {

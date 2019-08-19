@@ -37,7 +37,7 @@ class Map
     private $fields;
 
     /**
-     * @var \App\User\Domain\Resource|null
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\User\Domain\Resource[]
      *
      * @ORM\OneToMany(targetEntity="\App\User\Domain\Resource", mappedBy="map", cascade={"persist"})
      */
