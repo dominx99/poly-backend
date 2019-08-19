@@ -13,7 +13,7 @@ use App\Map\Domain\Map;
 class Resource
 {
     /**
-     * @var \Ramsey\Uuid\UuidInterface
+     * @var string
      *
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
