@@ -5,12 +5,13 @@ namespace App\User\Infrastructure\Middleware;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\SignatureInvalidException;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use UnexpectedValueException;
 use App\System\Infrastructure\JWT;
 use App\System\Infrastructure\StatusMessage;
 use App\System\Responses\Fail;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class JWTMiddleware
 {
@@ -25,12 +26,11 @@ class JWTMiddleware
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param mixed $next
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, $next)
+    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (empty($request->getHeader('Authorization'))) {
             return (new Fail(['error' => StatusMessage::TOKEN_REQUIRED]))->toResponse();
@@ -44,6 +44,8 @@ class JWTMiddleware
             return (new Fail(['error' => $e->getMessage()]))->toResponse();
         }
 
-        return $next($request, $response);
+        $response = $handler->handle($request);
+
+        return $response;
     }
 }

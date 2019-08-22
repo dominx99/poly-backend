@@ -25,7 +25,6 @@ class AuthTest extends BaseTestCase
         ]);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($response->isOk());
 
         $body = json_decode((string) $response->getBody(), true);
 

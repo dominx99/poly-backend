@@ -162,6 +162,11 @@ $container->set(
     DI\autowire(\App\User\Infrastructure\DbalUsers::class)
 );
 
+$container->set(
+    \App\System\Infrastructure\DecodedJWT::class,
+    Di\autowire(\App\System\Infrastructure\DecodedJWT::class)
+);
+
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {
     \Doctrine\DBAL\Types\Type::addType('uuid', \Ramsey\Uuid\Doctrine\UuidType::class);
 }

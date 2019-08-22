@@ -2,49 +2,61 @@
 
 namespace App;
 
-use DI\Bridge\Slim\App as DIApp;
-use DI\ContainerBuilder;
 use Dotenv\Dotenv;
+use Slim\Factory\AppFactory;
+use Slim\App as SlimApp;
+use DI\Container;
+use App\System\Infrastructure\CallableResolver;
 
-class App extends DIApp
+class App
 {
-    const TESTING_ENV = '.env.testing';
-
+    const TESTING_ENV     = '.env.testing';
     const DEVELOPMENT_ENV = '.env';
 
     /**
-     * @param string $envFilename
+     * @return \Slim\App
      */
-    public function __construct(string $envFilename)
+    public static function create(): SlimApp
+    {
+        static::loadEnv(static::DEVELOPMENT_ENV);
+
+        return self::configuredApp();
+    }
+
+    /**
+     * @return \Slim\App
+     */
+    public static function createForTesting(): SlimApp
+    {
+        static::loadEnv(static::TESTING_ENV);
+
+        return self::configuredApp();
+    }
+
+    /**
+     * @return \Slim\App
+     */
+    private static function configuredApp(): SlimApp
+    {
+        $container = new Container();
+
+        AppFactory::setContainer($container);
+        AppFactory::setCallableResolver(new CallableResolver(new \Invoker\CallableResolver($container)));
+
+        $app = AppFactory::create();
+        $app->addRoutingMiddleware();
+        $app->addErrorMiddleware(true, false, false);
+
+        return $app;
+    }
+
+    /**
+     * @param string $envFilename
+     * @return void
+     */
+    private static function loadEnv(string $envFilename): void
     {
         $dotenv = Dotenv::create(__DIR__ . '/..//', $envFilename);
         $dotenv->load();
-
-        parent::__construct();
-    }
-
-    /**
-     * @return self
-     */
-    public static function create(): self
-    {
-        return new static(static::DEVELOPMENT_ENV);
-    }
-
-    /**
-     * @return self
-     */
-    public static function createForTesting(): self
-    {
-        return new static(static::TESTING_ENV);
-    }
-
-    /**
-     * @param  \DI\ContainerBuilder $builder
-     * @return void
-     */
-    public function configureContainer(ContainerBuilder $builder): void
-    {
-        $builder->addDefinitions(__DIR__ . '/../config/app.php');
     }
 }

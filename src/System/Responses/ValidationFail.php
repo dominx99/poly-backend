@@ -2,7 +2,7 @@
 
 namespace App\System\Responses;
 
-use Slim\Http\StatusCode;
+use App\System\Infrastructure\StatusCode;
 
 class ValidationFail extends Fail
 {

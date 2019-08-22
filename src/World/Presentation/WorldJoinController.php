@@ -4,8 +4,6 @@ namespace App\World\Presentation;
 
 use Ramsey\Uuid\Uuid;
 use App\System\Responses\Success;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\System\System;
 use App\World\Application\CreateWorld;
 use App\World\Domain\World\Status;
@@ -16,6 +14,8 @@ use App\World\Application\GetWorldPossibleToJoin;
 use App\System\Responses\Fail;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Application\AlreadyInGame;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
 
 class WorldJoinController
 {
@@ -33,10 +33,10 @@ class WorldJoinController
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function store(Request $request): Response
+    public function store(RequestInterface $request): ResponseInterface
     {
         if ($this->system->execute(
             new AlreadyInGame($request->getAttribute('decodedToken')['id'])

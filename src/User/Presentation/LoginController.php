@@ -3,8 +3,6 @@
 namespace App\User\Presentation;
 
 use Overtrue\Socialite\SocialiteManager;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\System\Responses\ValidationFail;
 use App\System\System;
 use App\User\Application\FindUserByEmail;
@@ -16,6 +14,8 @@ use App\User\Application\Validation\ProviderAuthValidator;
 use App\User\Responses\LoginFail;
 use App\System\Infrastructure\StatusMessage;
 use Monolog\Logger;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class LoginController
 {
@@ -52,10 +52,10 @@ class LoginController
     }
 
     /**
-     * @param  \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function login(Request $request): Response
+    public function login(RequestInterface $request): ResponseInterface
     {
         $params = $request->getParams();
 
@@ -67,12 +67,15 @@ class LoginController
     }
 
     /**
-     * @param \Slim\Http\Request $request
+     * @param \Psr\Http\Message\RequestInterface $request
      * @param string $provider
-     * @return \Slim\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function loginByProvider(Request $request, string $provider): Response
-    {
+    public function loginByProvider(
+        RequestInterface $request,
+        ResponseInterface $response,
+        array $args
+    ): ResponseInterface {
         $validation = $this->providerValidator->validate($request->getParams() ?? []);
 
         if ($validation->failed()) {
@@ -80,7 +83,7 @@ class LoginController
         }
 
         if (!$socialUser = $this->system->execute(
-            new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $provider)
+            new GetSocialUserByAccessTokenAndProvider($request->getParam('access_token'), $args['provider'])
         )) {
             return (new LoginFail(StatusMessage::LOGIN_SOCIAL_ERROR))->toResponse();
         }

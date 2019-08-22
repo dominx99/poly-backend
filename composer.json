@@ -1,8 +1,6 @@
 {
     "require": {
-        "slim/slim": "^3.12",
-        "php-di/php-di": "^6.0",
-        "php-di/slim-bridge": "^2.0",
+        "slim/slim": "^4.1",
         "vlucas/phpdotenv": "^3.3",
         "doctrine/orm": "^2.6",
         "doctrine/migrations": "^2.0",
@@ -12,7 +10,10 @@
         "overtrue/socialite": "^2.0",
         "respect/validation": "^1.1",
         "monolog/monolog": "^1.24",
-        "pusher/pusher-php-server": "^4.0"
+        "pusher/pusher-php-server": "^4.0",
+        "slim/psr7": "^0.5.0",
+        "slim/http": "^0.7.0",
+        "php-di/php-di": "^6.0"
     },
     "autoload": {
         "psr-4": {

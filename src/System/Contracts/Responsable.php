@@ -2,12 +2,12 @@
 
 namespace App\System\Contracts;
 
-use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 interface Responsable
 {
     /**
-     * @return \Slim\Http\Response
+     * @return ResponseInterfacevoid
      */
-    public function toResponse(): Response;
+    public function toResponse(): ResponseInterface;
 }

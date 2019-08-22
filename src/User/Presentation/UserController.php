@@ -3,10 +3,10 @@
 namespace App\User\Presentation;
 
 use App\System\System;
-use Slim\Http\Request;
 use App\User\Application\FindUser;
 use App\User\Responses\UserSuccess;
-use Slim\Http\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class UserController
 {
@@ -24,10 +24,10 @@ class UserController
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(Request $request): Response
+    public function show(RequestInterface $request): ResponseInterface
     {
         $user = $this->system->execute(new FindUser($request->getAttribute('decodedToken')['id']));
 
