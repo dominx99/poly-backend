@@ -4,11 +4,12 @@ namespace Tests\Unit\User\Infrastructure;
 
 use Firebase\JWT\JWT;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\Response;
 use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Infrastructure\Middleware\JWTMiddleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class JWTMiddlewareTest extends BaseTestCase
 {
@@ -18,8 +19,10 @@ class JWTMiddlewareTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->app->get('/token', function () {
-            return (new Response())->write('authorized');
+        $this->app->get('/token', function (RequestInterface $request, ResponseInterface $response) {
+            $response->getBody()->write('authorized');
+
+            return $response;
         })->add(new JWTMiddleware());
     }
 
@@ -32,13 +35,13 @@ class JWTMiddlewareTest extends BaseTestCase
         $token = JWT::encode(['id' => $id], getenv('JWT_KEY'));
 
         $request = $this->request([
-            'method' => 'get',
+            'method' => 'GET',
             'uri'    => '/token',
         ]);
 
         $request = $request->withHeader('Authorization', "Bearer {$token}");
 
-        $response = $this->app->process($request, new Response());
+        $response = $this->app->handle($request);
 
         $this->assertEquals('authorized', (string) $response->getBody());
     }
@@ -49,13 +52,13 @@ class JWTMiddlewareTest extends BaseTestCase
         $token = JWT::encode(['id' => 'abc'], 'wrong_key');
 
         $request = $this->request([
-            'method' => 'get',
+            'method' => 'GET',
             'uri'    => '/token',
         ]);
 
         $request = $request->withHeader('Authorization', "Bearer {$token}");
 
-        $response = $this->app->process($request, new Response());
+        $response = $this->app->handle($request);
 
         $this->assertEquals(400, $response->getStatusCode());
 
@@ -74,13 +77,13 @@ class JWTMiddlewareTest extends BaseTestCase
         ], getenv('JWT_KEY'));
 
         $request = $this->request([
-            'method' => 'get',
+            'method' => 'GET',
             'uri'    => '/token',
         ]);
 
         $request = $request->withHeader('Authorization', "Bearer {$token}");
 
-        $response = $this->app->process($request, new Response());
+        $response = $this->app->handle($request);
 
         $this->assertEquals(400, $response->getStatusCode());
 
@@ -99,13 +102,13 @@ class JWTMiddlewareTest extends BaseTestCase
         ], getenv('JWT_KEY'));
 
         $request = $this->request([
-            'method' => 'get',
+            'method' => 'GET',
             'uri'    => '/token',
         ]);
 
         $request = $request->withHeader('Authorization', "Bearer {$token}");
 
-        $response = $this->app->process($request, new Response());
+        $response = $this->app->handle($request);
 
         $this->assertEquals(400, $response->getStatusCode());
 
@@ -119,13 +122,13 @@ class JWTMiddlewareTest extends BaseTestCase
     public function that_empty_token_will_return_error()
     {
         $request = $this->request([
-            'method' => 'get',
+            'method' => 'GET',
             'uri'    => '/token',
         ]);
 
         $request = $request->withHeader('Authorization', '');
 
-        $response = $this->app->process($request, new Response());
+        $response = $this->app->handle($request);
 
         $this->assertEquals(400, $response->getStatusCode());
 

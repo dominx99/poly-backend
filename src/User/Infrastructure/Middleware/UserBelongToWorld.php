@@ -4,12 +4,12 @@ namespace App\User\Infrastructure\Middleware;
 
 use App\User\Contracts\UserQueryRepository;
 use App\System\System;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Application\FindUser;
 use App\System\Responses\Fail;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class UserBelongToWorld
 {
@@ -35,13 +35,14 @@ class UserBelongToWorld
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @param mixed $next
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, $next): ResponseInterface
+    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $response = $handler->handle($request);
+
         $userId = $request->getAttribute('decodedToken')['id'];
         $user   = $this->system->execute(new FindUser($userId));
 
@@ -52,6 +53,6 @@ class UserBelongToWorld
             return (new Fail(['error' => StatusMessage::USER_NOT_BELONG_TO_WORLD], 422))->toResponse();
         }
 
-        return $next($request, $response);
+        return $response;
     }
 }

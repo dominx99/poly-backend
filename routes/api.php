@@ -10,23 +10,24 @@ use App\World\Presentation\WorldController;
 use App\System\System;
 use App\User\Contracts\UserQueryRepository;
 use App\User\Infrastructure\Middleware\UserBelongToWorld;
+use Slim\Routing\RouteCollectorProxy;
 
-$app->group('/api', function () use ($app) {
-    $app->post('/auth/login', [LoginController::class, 'login']);
-    $app->post('/auth/register', [RegisterController::class, 'register']);
+$app->group('/api', function (RouteCollectorProxy $group) use ($app) {
+    $group->post('/auth/login', [LoginController::class, 'login']);
+    $group->post('/auth/register', [RegisterController::class, 'register']);
 
-    $app->post('/auth/login/{provider}', [LoginController::class, 'loginByProvider']);
+    $group->post('/auth/login/{provider}', [LoginController::class, 'loginByProvider']);
 
-    $app->get('/map/generate', [MapController::class, 'generate']);
+    $group->get('/map/generate', [MapController::class, 'generate']);
 
-    $app->group('', function () use ($app) {
-        $app->get('/user', [UserController::class, 'show']);
+    $group->group('', function (RouteCollectorProxy $group) use ($app) {
+        $group->get('/user', [UserController::class, 'show']);
 
-        $app->post('/worlds', [WorldJoinController::class, 'store']);
+        $group->post('/worlds', [WorldJoinController::class, 'store']);
 
-        $app->group('', function () use ($app) {
-            $app->get('/world/{worldId}', [WorldController::class, 'show']);
-            $app->get('/map/{worldId}', [MapController::class, 'show']);
+        $group->group('', function (RouteCollectorProxy $group) {
+            $group->get('/world/{worldId}', [WorldController::class, 'show']);
+            $group->get('/map/{worldId}', [MapController::class, 'show']);
         })->add(new UserBelongToWorld($app->getContainer()->get(System::class), $app->getContainer()->get(UserQueryRepository::class)));
     })->add(new JWTMiddleware());
 });

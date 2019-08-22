@@ -2,8 +2,8 @@
 
 namespace App\Map\Presentation;
 
-use Slim\Http\Response;
-use Slim\Http\Request;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use App\System\System;
 use App\Map\Application\FindMap;
 
@@ -23,8 +23,8 @@ final class MapController
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function show(Request $request): Response
     {

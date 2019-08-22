@@ -2,9 +2,9 @@
 
 namespace App\System\Responses;
 
-use Slim\Http\Response;
 use App\System\Contracts\Responsable;
 use App\System\Infrastructure\StatusMessage;
+use Psr\Http\Message\ResponseInterface;
 
 class Success implements Responsable
 {
@@ -26,22 +26,16 @@ class Success implements Responsable
     {
         $this->data   = $data;
         $this->status = $status;
-        $this->setSuccessMessage();
     }
 
     /**
-     * @return \Slim\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function toResponse(): Response
+    public function toResponse(): ResponseInterface
     {
-        return (new Response())->withJson(['data' => $this->data], $this->status);
-    }
-
-    /**
-     * @return void
-     */
-    public function setSuccessMessage(): void
-    {
-        $this->data['status'] = StatusMessage::SUCCESS;
+        return JsonResponse::create([
+            'data'   => $this->data,
+            'status' => StatusMessage::SUCCESS,
+        ], $this->status);
     }
 }
