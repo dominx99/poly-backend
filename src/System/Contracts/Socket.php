@@ -4,5 +4,5 @@ namespace App\System\Contracts;
 
 interface Socket
 {
-    public function trigger(Event $event): void;
+    public function trigger(SocketEvent $event): void;
 }

@@ -4,7 +4,7 @@ namespace App\System\Infrastructure;
 
 use App\System\Contracts\Socket;
 use Pusher\Pusher;
-use App\System\Contracts\Event;
+use App\System\Contracts\SocketEvent;
 
 class PusherSocket implements Socket
 {
@@ -22,10 +22,10 @@ class PusherSocket implements Socket
     }
 
     /**
-     * @param \App\System\Contracts\Event $event
+     * @param \App\System\Contracts\SocketEvent $event
      * @return void
      */
-    public function trigger(Event $event): void
+    public function trigger(SocketEvent $event): void
     {
         $this->pusher->trigger($event->channel(), $event->name(), $event->data());
     }

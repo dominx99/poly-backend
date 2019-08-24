@@ -2,9 +2,9 @@
 
 namespace App\World\Events;
 
-use App\System\Contracts\Event;
+use App\System\Contracts\SocketEvent;
 
-class ChangeWorldStatusEvent implements Event
+class ChangeWorldStatusEvent implements SocketEvent
 {
     /**
      * @var string

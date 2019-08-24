@@ -163,8 +163,8 @@ $container->set(
 );
 
 $container->set(
-    \App\System\Infrastructure\DecodedJWT::class,
-    Di\autowire(\App\System\Infrastructure\DecodedJWT::class)
+    \App\System\Infrastructure\Event\EventDispatcher::class,
+    DI\autowire(\App\System\Infrastructure\Event\EventDispatcher::class)
 );
 
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {
