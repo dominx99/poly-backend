@@ -18,8 +18,6 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
 
     $group->post('/auth/login/{provider}', [LoginController::class, 'loginByProvider']);
 
-    $group->get('/map/generate', [MapController::class, 'generate']);
-
     $group->group('', function (RouteCollectorProxy $group) use ($app) {
         $group->get('/user', [UserController::class, 'show']);
 
