@@ -16,6 +16,7 @@ class StatusMessage
 
     const ALREADY_IN_GAME          = 'You are already in game';
     const USER_NOT_BELONG_TO_WORLD = 'User does not belong to this world.';
+    const USER_NOT_FOUND           = 'User not found.';
 
     const WORLD_NOT_FOUND = 'World not found';
 }

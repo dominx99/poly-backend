@@ -29,7 +29,7 @@ class DbalUsers implements UserQueryRepository
 
     /**
      * @param string $id
-     * @return null|\App\User\Application\Query\UserView
+     * @return \App\User\Application\Query\UserView
      */
     public function find(string $id)
     {
@@ -42,7 +42,11 @@ class DbalUsers implements UserQueryRepository
 
         $user = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
 
-        return $user ? UserView::createFromDatabase($user) : null;
+        if (! $user) {
+            throw new \Exception('User not found.');
+        }
+
+        return UserView::createFromDatabase($user);
     }
 
     /**
