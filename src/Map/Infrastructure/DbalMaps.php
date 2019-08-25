@@ -95,9 +95,9 @@ class DbalMaps implements MapQueryRepository
     {
         $userIds = $this->connection->createQueryBuilder()
             ->select('u.id', 'm.id as map_id')
-            ->from('users', 'u')
-            ->join('u', 'worlds', 'w', 'u.world_id = w.id')
-            ->join('w', 'maps', 'm', 'm.world_id = w.id')
+            ->from('maps', 'm')
+            ->join('m', 'worlds', 'w', 'm.world_id = w.id')
+            ->join('w', 'users', 'u', 'm.world_id = u.world_id')
             ->where('m.id = :id')
             ->setParameter('id', $mapId)
             ->execute()

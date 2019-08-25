@@ -3,9 +3,27 @@
 namespace App\System\Infrastructure\Event;
 
 use Psr\Container\ContainerInterface;
+use App\Map\Application\MapGenerateHandler;
+use App\World\Application\StartWorldHandler;
+use App\User\Application\AssignUserBaseKitHandler;
+use App\World\Application\Events\WorldReady;
+use App\Map\Application\Events\MapGenerated;
 
 class EventDispatcher implements EventDispatcherInterface
 {
+    /**
+     * @var array
+     */
+    private $listeners = [
+        WorldReady::class => [
+            MapGenerateHandler::class,
+            StartWorldHandler::class,
+        ],
+        MapGenerated::class => [
+            AssignUserBaseKitHandler::class,
+        ],
+    ];
+
     /**
      * @param \Psr\Container\ContainerInterface $container
      */
@@ -27,8 +45,10 @@ class EventDispatcher implements EventDispatcherInterface
                 $handler = $this->container->get($object);
                 $handler->handle($event);
             }
+
+            return;
         }
 
-        throw new \Exception('Given event does not have any listeners');
+        throw new \Exception("{$className} event does not have any listeners");
     }
 }

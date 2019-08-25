@@ -57,16 +57,6 @@ $container->set(
 );
 
 $container->set(
-    \App\World\Application\StartWorld::class,
-    Di\autowire(\App\World\Application\StartWorldHandler::class)
-);
-
-$container->set(
-    \App\Map\Application\MapGenerate::class,
-    Di\autowire(\App\Map\Application\MapGenerateHandler::class)
-);
-
-$container->set(
     \App\User\Application\GetSocialUserByAccessTokenAndProvider::class,
     Di\autowire(\App\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
 );
