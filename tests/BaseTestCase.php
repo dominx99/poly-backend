@@ -13,6 +13,7 @@ use App\User\Infrastructure\DbalUsers;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Http\ServerRequest;
 use Slim\Psr7\Factory\UriFactory;
+use App\System\Infrastructure\Event\EventDispatcher;
 
 class BaseTestCase extends TestCase
 {
@@ -77,6 +78,7 @@ class BaseTestCase extends TestCase
         $this->app       = $app;
         $this->container = $container;
         $this->system    = new System($this->container);
+        $this->events    = new EventDispatcher($this->container);
     }
 
     public function authById(string $id): void

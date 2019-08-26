@@ -25,6 +25,6 @@ class AssignUserPositionsHandler
      */
     public function handle(AssignUserPositions $command): void
     {
-        $this->maps->assignPositions($command->mapId());
+        $this->maps->assignPositions($command->mapId(), $command->userIds(), $command->positions());
     }
 }

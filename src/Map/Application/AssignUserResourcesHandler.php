@@ -20,11 +20,11 @@ class AssignUserResourcesHandler
     }
 
     /**
-     * @param AssignUserResources $command
+     * @param \App\Map\Application\AssignUserResources $command
      * @return void
      */
     public function handle(AssignUserResources $command): void
     {
-        $this->maps->assignResources($command->mapId());
+        $this->maps->assignResources($command->mapId(), $command->userIds());
     }
 }

@@ -6,9 +6,9 @@ use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
 use Ramsey\Uuid\Uuid;
 use App\World\Domain\World\Status;
-use App\Map\Application\MapGenerate;
 use App\World\Application\CreateWorld;
 use App\World\Application\UserJoinWorld;
+use App\World\Application\Events\WorldReady;
 
 class MapControllerTest extends BaseTestCase
 {
@@ -21,7 +21,7 @@ class MapControllerTest extends BaseTestCase
         $worldId = (string) Uuid::uuid4();
         $this->system->handle(new CreateWorld($worldId, Status::CREATED));
         $this->system->handle(new UserJoinWorld((string) $this->userId, $worldId));
-        $this->system->handle(new MapGenerate($worldId, (string) Uuid::uuid4()));
+        $this->events->dispatch(new WorldReady($worldId));
 
         $this->assertDatabaseHas('users', [
             'id'       => $this->userId,

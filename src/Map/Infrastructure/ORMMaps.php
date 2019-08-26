@@ -40,13 +40,12 @@ class ORMMaps implements MapWriteRepository
 
     /**
      * @param string $mapId
+     * @param array $userIds
+     * @param array $positions
      * @return void
      */
-    public function assignPositions(string $mapId): void
+    public function assignPositions(string $mapId, array $userIds, array $fieldIds): void
     {
-        $userIds  = $this->query->getUserIds($mapId);
-        $fieldIds = $this->query->getRandomPositions($mapId, count($userIds));
-
         $query = 'update fields f set f.user_id = case ';
 
         foreach (array_combine($fieldIds, $userIds) as $field => $user) {
@@ -60,19 +59,18 @@ class ORMMaps implements MapWriteRepository
 
     /**
      * @param string $mapId
+     * @param array $userIds
      * @return void
      */
-    public function assignResources(string $mapId): void
+    public function assignResources(string $mapId, array $userIds): void
     {
-        $userIds = $this->query->getUserIds($mapId);
-
         $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
         if (! $map = $this->entityManager->getRepository(DomainMap::class)->find($mapId)) {
             throw new \Exception('Map not found');
         }
 
         foreach ($users as $user) {
-            $resource = new Resource((string) Uuid::uuid4(), new Gold(300));
+            $resource = new Resource((string) Uuid::uuid4(), Gold::createDefault());
             $resource->addUser($user);
             $resource->addMap($map);
 

@@ -9,28 +9,28 @@ class AssignUserPositions implements Command
     /**
      * @var string
      */
-    private $worldId;
-
-    /**
-     * @var string
-     */
     private $mapId;
 
     /**
-     * @param string $worldId
+     * @var array
      */
-    public function __construct(string $worldId, string $mapId)
-    {
-        $this->worldId = $worldId;
-        $this->mapId   = $mapId;
-    }
+    private $userIds;
 
     /**
-     * @return string
+     * @var array
      */
-    public function worldId(): string
+    private $positions;
+
+    /**
+     * @param string $mapId
+     * @param array $userIds
+     * @param array $positions
+     */
+    public function __construct(string $mapId, array $userIds, array $positions)
     {
-        return $this->worldId;
+        $this->mapId     = $mapId;
+        $this->userIds   = $userIds;
+        $this->positions = $positions;
     }
 
     /**
@@ -39,5 +39,21 @@ class AssignUserPositions implements Command
     public function mapId(): string
     {
         return $this->mapId;
+    }
+
+    /**
+     * @return array
+     */
+    public function userIds(): array
+    {
+        return $this->userIds;
+    }
+
+    /**
+     * @return array
+     */
+    public function positions(): array
+    {
+        return $this->positions;
     }
 }

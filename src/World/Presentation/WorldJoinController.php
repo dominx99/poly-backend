@@ -9,13 +9,14 @@ use App\World\Application\CreateWorld;
 use App\World\Domain\World\Status;
 use App\World\Application\UserJoinWorld;
 use App\World\Application\IsWorldReady;
-use App\World\Application\StartWorld;
 use App\World\Application\GetWorldPossibleToJoin;
 use App\System\Responses\Fail;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Application\AlreadyInGame;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
+use App\System\Infrastructure\Event\EventDispatcher;
+use App\World\Application\Events\WorldReady;
 
 class WorldJoinController
 {
@@ -25,11 +26,18 @@ class WorldJoinController
     private $system;
 
     /**
-     * @param \App\System\System $system
+     * @var \App\System\Infrastructure\Event\EventDispatcher
      */
-    public function __construct(System $system)
+    private $events;
+
+    /**
+     * @param System $system
+     * @param \App\System\Infrastructure\Event\EventDispatcher $events
+     */
+    public function __construct(System $system, EventDispatcher $events)
     {
         $this->system = $system;
+        $this->events = $events;
     }
 
     /**
@@ -55,10 +63,8 @@ class WorldJoinController
 
         $this->system->handle(new UserJoinWorld($request->getAttribute('decodedToken')['id'], $id));
 
-        $isReady = $this->system->execute(new IsWorldReady($id));
-
-        if ($isReady) {
-            $this->system->handle(new StartWorld($id));
+        if ($this->system->execute(new IsWorldReady($id))) {
+            $this->events->dispatch(new WorldReady($id));
         }
 
         return (new Success(['world_id' => $id]))->toResponse();
