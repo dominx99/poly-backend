@@ -3,6 +3,7 @@
 namespace App\World\Application;
 
 use App\System\Contracts\Command;
+use App\World\Domain\World\Status;
 
 class CreateWorld implements Command
 {
@@ -20,7 +21,7 @@ class CreateWorld implements Command
      * @param string $id
      * @param string $status
      */
-    public function __construct(string $id, string $status)
+    public function __construct(string $id, string $status = Status::CREATED)
     {
         $this->id     = $id;
         $this->status = $status;

@@ -11,6 +11,7 @@ use App\System\System;
 use App\User\Contracts\UserQueryRepository;
 use App\User\Infrastructure\Middleware\UserBelongToWorld;
 use Slim\Routing\RouteCollectorProxy;
+use App\User\Presentation\UserResourcesController;
 
 $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
     $group->post('/auth/login', [LoginController::class, 'login']);
@@ -20,6 +21,7 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
 
     $group->group('', function (RouteCollectorProxy $group) use ($app) {
         $group->get('/user', [UserController::class, 'show']);
+        $group->get('/user/resources', [UserResourcesController::class, 'show']);
 
         $group->post('/worlds', [WorldJoinController::class, 'store']);
 

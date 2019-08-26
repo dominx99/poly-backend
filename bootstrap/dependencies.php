@@ -102,6 +102,11 @@ $container->set(
 );
 
 $container->set(
+    \App\User\Application\GetUserResources::class,
+    Di\autowire(\App\User\Application\GetUserResourcesHandler::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
