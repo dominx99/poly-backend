@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\World\Domain\World;
 use App\Map\Domain\Map\Field;
 use App\User\Domain\Resource;
+use App\Army\Domain\BaseArmy;
 
 /**
  * @ORM\Entity
@@ -44,13 +45,21 @@ class Map
     private $resources;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Army\Domain\BaseArmy[]
+     *
+     * @ORM\OneToMany(targetEntity="\App\Army\Domain\BaseArmy", mappedBy="map", cascade={"persist"})
+     */
+    private $baseArmies;
+
+    /**
      * @param string $id
      */
     public function __construct(string $id)
     {
-        $this->id        = $id;
-        $this->fields    = new ArrayCollection();
-        $this->resources = new ArrayCollection();
+        $this->id         = $id;
+        $this->fields     = new ArrayCollection();
+        $this->resources  = new ArrayCollection();
+        $this->baseArmies = new ArrayCollection();
     }
 
     /**
@@ -93,5 +102,19 @@ class Map
 
         $this->resources->add($resource);
         $resource->addMap($this);
+    }
+
+    /**
+     * @param \App\Army\Domain\BaseArmy $baseArmy
+     * @return void
+     */
+    public function addBaseArmy(BaseArmy $baseArmy): void
+    {
+        if ($this->baseArmies->contains($baseArmy)) {
+            return;
+        }
+
+        $this->baseArmies->add($baseArmy);
+        $baseArmy->addMap($this);
     }
 }

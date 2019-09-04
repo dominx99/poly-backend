@@ -107,6 +107,16 @@ $container->set(
 );
 
 $container->set(
+    \App\Army\Application\Commands\AssignBaseArmies::class,
+    Di\autowire(\App\Army\Application\Handlers\AssignBaseArmiesHandler::class)
+);
+
+$container->set(
+    \App\Army\Application\Commands\GetBaseArmies::class,
+    Di\autowire(\App\Army\Application\Queries\GetBaseArmiesHandler::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -129,6 +139,16 @@ $container->set(
 $container->set(
     \App\User\Contracts\UserQueryRepository::class,
     Di\autowire(\App\User\Infrastructure\DbalUsers::class)
+);
+
+$container->set(
+    \App\Army\Contracts\BaseArmyWriteRepository::class,
+    Di\autowire(\App\Army\Infrastructure\ORMBaseArmies::class)
+);
+
+$container->set(
+    \App\Army\Contracts\BaseArmyQueryRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DbalBaseArmies::class)
 );
 
 $container->set(EntityManager::class, function () use ($container) {

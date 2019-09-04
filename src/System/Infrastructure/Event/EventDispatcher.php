@@ -8,6 +8,7 @@ use App\World\Application\StartWorldHandler;
 use App\User\Application\AssignUserBaseKitHandler;
 use App\World\Application\Events\WorldReady;
 use App\Map\Application\Events\MapGenerated;
+use App\Army\Application\Handlers\AssignDefaultBaseArmiesHandler;
 
 class EventDispatcher implements EventDispatcherInterface
 {
@@ -21,6 +22,7 @@ class EventDispatcher implements EventDispatcherInterface
         ],
         MapGenerated::class => [
             AssignUserBaseKitHandler::class,
+            AssignDefaultBaseArmiesHandler::class,
         ],
     ];
 

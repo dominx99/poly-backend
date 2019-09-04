@@ -15,6 +15,7 @@ class MapSuccess extends Success
     {
         parent::__construct([
             'map' => [
+                'id'       => $map->id(),
                 'world_id' => $map->worldId(),
                 'fields'   => array_map([$this, 'fields'], $map->fields()),
             ],
@@ -28,6 +29,7 @@ class MapSuccess extends Success
     public function fields(FieldView $field): array
     {
         return [
+            'id'      => $field->id(),
             'x'       => $field->x(),
             'y'       => $field->y(),
             'type'    => $field->type(),

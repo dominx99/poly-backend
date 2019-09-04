@@ -12,6 +12,7 @@ use App\User\Contracts\UserQueryRepository;
 use App\User\Infrastructure\Middleware\UserBelongToWorld;
 use Slim\Routing\RouteCollectorProxy;
 use App\User\Presentation\UserResourcesController;
+use App\Army\Http\Controllers\MapBaseArmiesController;
 
 $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
     $group->post('/auth/login', [LoginController::class, 'login']);
@@ -22,6 +23,8 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
     $group->group('', function (RouteCollectorProxy $group) use ($app) {
         $group->get('/user', [UserController::class, 'show']);
         $group->get('/user/resources', [UserResourcesController::class, 'show']);
+
+        $group->get('/map/{mapId}/base-armies', [MapBaseArmiesController::class, 'index']);
 
         $group->post('/worlds', [WorldJoinController::class, 'store']);
 
