@@ -2,13 +2,13 @@
 
 namespace App\User\Presentation;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\System\Responses\ValidationFail;
 use App\System\System;
 use App\User\Application\LoginStandard;
 use App\User\Application\RegisterStandard;
 use App\User\Application\Validation\UserStoreValidator;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class RegisterController
 {
@@ -32,10 +32,10 @@ class RegisterController
     }
 
     /**
-     * @param  \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function register(Request $request): Response
+    public function register(RequestInterface $request): ResponseInterface
     {
         $validation = $this->validator->validate($request->getParams() ?? []);
 

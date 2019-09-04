@@ -12,11 +12,18 @@ class AssignUserResources implements Command
     private $mapId;
 
     /**
-     * @param string $mapId
+     * @var array
      */
-    public function __construct(string $mapId)
+    private $userIds;
+
+    /**
+     * @param string $mapId
+     * @param array $userIds
+     */
+    public function __construct(string $mapId, array $userIds)
     {
-        $this->mapId = $mapId;
+        $this->mapId   = $mapId;
+        $this->userIds = $userIds;
     }
 
     /**
@@ -25,5 +32,13 @@ class AssignUserResources implements Command
     public function mapId(): string
     {
         return $this->mapId;
+    }
+
+    /**
+     * @return array
+     */
+    public function userIds(): array
+    {
+        return $this->userIds;
     }
 }

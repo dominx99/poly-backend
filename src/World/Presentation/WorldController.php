@@ -3,12 +3,13 @@
 namespace App\World\Presentation;
 
 use App\System\Infrastructure\StatusMessage;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\System\System;
 use App\World\Application\FindWorld;
 use App\System\Responses\Fail;
 use App\World\Responses\WorldSuccess;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use App\System\Infrastructure\StatusCode;
 
 class WorldController
 {
@@ -26,17 +27,17 @@ class WorldController
     }
 
     /**
-     * @param \Slim\Http\Request $request
-     * @return \Slim\Http\Response
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(Request $request): Response
+    public function show(RequestInterface $request): ResponseInterface
     {
         $route = $request->getAttribute('route');
 
         $world = $this->system->execute(new FindWorld($route->getArgument('worldId')));
 
         if (! $world) {
-            return (new Fail(['error' => StatusMessage::WORLD_NOT_FOUND], 404))->toResponse();
+            return (new Fail(['error' => StatusMessage::WORLD_NOT_FOUND], StatusCode::HTTP_NOT_FOUND))->toResponse();
         }
 
         return (new WorldSuccess($world))->toResponse();

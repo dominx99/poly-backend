@@ -25,6 +25,14 @@ final class MapSize
     }
 
     /**
+     * @return self
+     */
+    public function createDefault(): self
+    {
+        return new static(16, 16);
+    }
+
+    /**
      * @return int
      */
     public function countFields(): int

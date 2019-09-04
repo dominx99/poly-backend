@@ -23,4 +23,9 @@ class Gold
     {
         $this->gold = $gold;
     }
+
+    public function createDefault(): self
+    {
+        return new static(300);
+    }
 }

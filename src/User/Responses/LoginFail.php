@@ -2,9 +2,9 @@
 
 namespace App\User\Responses;
 
-use Slim\Http\StatusCode;
 use App\System\Infrastructure\StatusMessage;
 use App\System\Responses\Fail;
+use App\System\Infrastructure\StatusCode;
 
 class LoginFail extends Fail
 {

@@ -2,7 +2,7 @@
 
 namespace App\System\Contracts;
 
-interface Event
+interface SocketEvent
 {
     public function channel(): string;
 

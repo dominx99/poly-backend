@@ -6,16 +6,14 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
-use Slim\Http\Environment;
-use Slim\Http\Headers;
-use Slim\Http\Request;
-use Slim\Http\RequestBody;
-use Slim\Http\Response;
-use Slim\Http\Uri;
 use App\App;
 use App\System\System;
 use Ramsey\Uuid\Uuid;
 use App\User\Infrastructure\DbalUsers;
+use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Http\ServerRequest;
+use Slim\Psr7\Factory\UriFactory;
+use App\System\Infrastructure\Event\EventDispatcher;
 
 class BaseTestCase extends TestCase
 {
@@ -80,6 +78,7 @@ class BaseTestCase extends TestCase
         $this->app       = $app;
         $this->container = $container;
         $this->system    = new System($this->container);
+        $this->events    = new EventDispatcher($this->container);
     }
 
     public function authById(string $id): void
@@ -97,8 +96,10 @@ class BaseTestCase extends TestCase
         $this->authById((string) $id);
     }
 
-    public function request(array $options, array $params = []): Request
+    public function request(array $options, array $params = []): ServerRequest
     {
+        $uriFactory = new UriFactory();
+
         $default = [
             'content_type' => 'application/json',
             'method'       => 'get',
@@ -107,17 +108,13 @@ class BaseTestCase extends TestCase
 
         $options = array_merge($default, $options);
 
-        $env          = Environment::mock();
-        $uri          = Uri::createFromString($options['uri']);
-        $headers      = Headers::createFromEnvironment($env);
-        $cookies      = [];
-        $serverParams = $env->all();
-        $body         = new RequestBody();
+        $request = ServerRequestCreatorFactory::create();
+        $request = $request->createServerRequestFromGlobals();
 
-        $request = new Request($options['method'], $uri, $headers, $cookies, $serverParams, $body);
+        $request = $request->withUri($uriFactory->createUri($options['uri']));
+        $request = $request->withMethod($options['method']);
         $request = $request->withParsedBody($params);
         $request = $request->withHeader('Content-Type', $options['content_type']);
-        $request = $request->withMethod($options['method']);
 
         if ($this->token) {
             $request = $request->withHeader('Authorization', "Bearer {$this->token}");
@@ -133,7 +130,7 @@ class BaseTestCase extends TestCase
 
         $request = $this->request($options, $params);
 
-        return $this->app->process($request, new Response());
+        return $this->app->handle($request);
     }
 
     public function createCli(): void

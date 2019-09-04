@@ -87,9 +87,4 @@ class Field
         $this->map = $map;
         $map->addField($this);
     }
-
-    public function x()
-    {
-        return $this->x;
-    }
 }

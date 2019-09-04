@@ -5,6 +5,7 @@ namespace App\User\Infrastructure;
 use Doctrine\ORM\EntityManager;
 use App\User\Application\Query\UserView;
 use App\User\Contracts\UserQueryRepository;
+use App\User\Application\Query\ResourcesView;
 
 class DbalUsers implements UserQueryRepository
 {
@@ -29,7 +30,7 @@ class DbalUsers implements UserQueryRepository
 
     /**
      * @param string $id
-     * @return null|\App\User\Application\Query\UserView
+     * @return \App\User\Application\Query\UserView
      */
     public function find(string $id)
     {
@@ -42,7 +43,11 @@ class DbalUsers implements UserQueryRepository
 
         $user = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
 
-        return $user ? UserView::createFromDatabase($user) : null;
+        if (! $user) {
+            throw new \Exception('User not found.');
+        }
+
+        return UserView::createFromDatabase($user);
     }
 
     /**
@@ -101,7 +106,7 @@ class DbalUsers implements UserQueryRepository
     }
 
     /**
-     * @param mixed $email
+     * @param null|string $email
      * @return bool
      */
     public function emailExist($email): bool
@@ -115,5 +120,27 @@ class DbalUsers implements UserQueryRepository
             ->fetch();
 
         return $result['exist'] >= 1;
+    }
+
+    /**
+     * @param string $userId
+     * @return \App\User\Application\Query\ResourcesView
+     */
+    public function getResources(string $userId): ResourcesView
+    {
+        $qb = $this->connection
+            ->createQueryBuilder()
+            ->select('r.gold')
+            ->from('resources', 'r')
+            ->leftJoin('r', 'users', 'u', 'r.user_id = u.id')
+            ->leftJoin('u', 'maps', 'm', 'm.world_id = u.world_id')
+            ->where('u.id = :id')
+            ->setParameter('id', $userId);
+
+        if (! $resources = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
+            throw new \Exception('Resources not found');
+        }
+
+        return ResourcesView::createFromDatabase($resources);
     }
 }

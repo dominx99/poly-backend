@@ -57,16 +57,6 @@ $container->set(
 );
 
 $container->set(
-    \App\World\Application\StartWorld::class,
-    Di\autowire(\App\World\Application\StartWorldHandler::class)
-);
-
-$container->set(
-    \App\Map\Application\MapGenerate::class,
-    Di\autowire(\App\Map\Application\MapGenerateHandler::class)
-);
-
-$container->set(
     \App\User\Application\GetSocialUserByAccessTokenAndProvider::class,
     Di\autowire(\App\User\Application\GetSocialUserByAccessTokenAndProviderHandler::class)
 );
@@ -112,6 +102,21 @@ $container->set(
 );
 
 $container->set(
+    \App\User\Application\GetUserResources::class,
+    Di\autowire(\App\User\Application\GetUserResourcesHandler::class)
+);
+
+$container->set(
+    \App\Army\Application\Commands\AssignBaseArmies::class,
+    Di\autowire(\App\Army\Application\Handlers\AssignBaseArmiesHandler::class)
+);
+
+$container->set(
+    \App\Army\Application\Commands\GetBaseArmies::class,
+    Di\autowire(\App\Army\Application\Queries\GetBaseArmiesHandler::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -134,6 +139,16 @@ $container->set(
 $container->set(
     \App\User\Contracts\UserQueryRepository::class,
     Di\autowire(\App\User\Infrastructure\DbalUsers::class)
+);
+
+$container->set(
+    \App\Army\Contracts\BaseArmyWriteRepository::class,
+    Di\autowire(\App\Army\Infrastructure\ORMBaseArmies::class)
+);
+
+$container->set(
+    \App\Army\Contracts\BaseArmyQueryRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DbalBaseArmies::class)
 );
 
 $container->set(EntityManager::class, function () use ($container) {
@@ -160,6 +175,11 @@ $container->set(EntityManager::class, function () use ($container) {
 $container->set(
     \App\User\Infrastructure\DbalUsers::class,
     DI\autowire(\App\User\Infrastructure\DbalUsers::class)
+);
+
+$container->set(
+    \App\System\Infrastructure\Event\EventDispatcher::class,
+    DI\autowire(\App\System\Infrastructure\Event\EventDispatcher::class)
 );
 
 if (!\Doctrine\DBAL\Types\Type::hasType('uuid')) {
