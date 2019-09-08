@@ -6,7 +6,6 @@ use \Doctrine\ORM\Mapping as ORM;
 use App\Map\Domain\Map;
 use App\Map\Domain\Map\Field\X;
 use App\Map\Domain\Map\Field\Y;
-use App\Map\Domain\Map\Field\Type;
 
 /**
  * @ORM\Entity
@@ -37,14 +36,6 @@ class Field
     private $y;
 
     /**
-     * @var \App\Map\Domain\Map\Field\Type
-     *
-     * @ORM\Embedded(class="\App\Map\Domain\Map\Field\Type", columnPrefix=false)
-     * @ORM\JoinColumn(name="map_id", referencedColumnName="id")
-     */
-    private $type;
-
-    /**
      * @var \App\Map\Domain\Map
      *
      * @ORM\ManyToOne(targetEntity="\App\Map\Domain\Map", inversedBy="fields")
@@ -64,14 +55,12 @@ class Field
      * @param string $id
      * @param \App\Map\Domain\Map\Field\X $x
      * @param \App\Map\Domain\Map\Field\Y $y
-     * @param \App\Map\Domain\Map\Field\Type $type
      */
-    public function __construct(string $id, X $x, Y $y, Type $type)
+    public function __construct(string $id, X $x, Y $y)
     {
         $this->id   = $id;
         $this->x    = $x;
         $this->y    = $y;
-        $this->type = $type;
     }
 
     /**

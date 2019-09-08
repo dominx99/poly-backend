@@ -25,12 +25,13 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
         $group->get('/user/resources', [UserResourcesController::class, 'show']);
 
         $group->get('/map/{mapId}/base-armies', [MapBaseArmiesController::class, 'index']);
+        $group->post('/field/put-unit', PutObjectOnFieldAction::class);
 
         $group->post('/worlds', [WorldJoinController::class, 'store']);
 
         $group->group('', function (RouteCollectorProxy $group) {
             $group->get('/world/{worldId}', [WorldController::class, 'show']);
-            $group->get('/map/{worldId}', [MapController::class, 'show']);
+            $group->get('/world/{worldId}/map', [MapController::class, 'show']);
         })->add(new UserBelongToWorld($app->getContainer()->get(System::class), $app->getContainer()->get(UserQueryRepository::class)));
     })->add(new JWTMiddleware());
 });

@@ -20,7 +20,6 @@ class Version20190709134111 extends AbstractMigration
         $table->addColumn('user_id', 'string')->setNotnull(false);
         $table->addColumn('x', 'integer');
         $table->addColumn('y', 'integer');
-        $table->addColumn('type', 'string');
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',

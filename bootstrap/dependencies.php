@@ -190,7 +190,7 @@ $container->set(\Overtrue\Socialite\SocialiteManager::class, new \Overtrue\Socia
     $container->get('appConfig')['auth']
 ));
 
-$container->set(\Monolog\Logger::class, function () {
+$container->set(\Psr\Log\LoggerInterface::class, function () {
     $log = new \Monolog\Logger('main');
     $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/main.log'));
 

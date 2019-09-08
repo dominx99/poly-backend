@@ -47,6 +47,18 @@ class DbalMaps implements MapQueryRepository
 
         $map = MapView::createFromDatabase($map);
 
+        $map->setFields($this->getFieldsByWorld($worldId));
+        /* $map->setArmies($this->getArmiesByWorld($worldId)); */
+
+        return $map;
+    }
+
+    /**
+     * @param string $worldId
+     * @return array
+     */
+    private function getFieldsByWorld(string $worldId): array
+    {
         $qb = $this->connection->createQueryBuilder()
             ->select('f.*')
             ->from('maps', 'm')
@@ -55,15 +67,28 @@ class DbalMaps implements MapQueryRepository
             ->where('w.id = :worldId')
             ->setParameter('worldId', $worldId);
 
-        $fields = $this->connection->fetchAll($qb->getSQL(), $qb->getParameters());
-
-        $fields = array_map(function ($field) {
+        return array_map(function ($field) {
             return FieldView::createFromDatabase($field);
-        }, $fields);
+        }, $this->connection->fetchAll($qb->getSQL(), $qb->getParameters()));
+    }
 
-        $map->setFields($fields);
+    /**
+     * @param string $worldId
+     * @return array
+     */
+    private function getArmiesByWorld(string $worldId): array
+    {
+        $qb = $this->connection->createQueryBuilder()
+            ->select('a.*')
+            ->from('maps', 'm')
+            ->leftJoin('m', 'worlds', 'w', 'w.id = m.world_id')
+            ->innerJoin('m', 'armies', 'a', 'm.id = f.map_id')
+            ->where('w.id = :worldId')
+            ->setParameter('worldId', $worldId);
 
-        return $map;
+        return array_map(function ($army) {
+            return ArmyView::createFromDatabase($army);
+        }, $this->connection->fetchAll($qb->getSQL(), $qb->getParameters()));
     }
 
     /**

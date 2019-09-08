@@ -30,26 +30,19 @@ class FieldView
     private $y;
 
     /**
-     * @var string
-     */
-    private $type;
-
-    /**
      * @param string $id
      * @param string $mapId
      * @param string $userId
      * @param int $x
      * @param int $y
-     * @param string $type
      */
-    public function __construct(string $id, string $mapId, string $userId = null, int $x, int $y, string $type)
+    public function __construct(string $id, string $mapId, string $userId = null, int $x, int $y)
     {
         $this->id     = $id;
         $this->mapId  = $mapId;
         $this->userId = $userId;
         $this->x      = $x;
         $this->y      = $y;
-        $this->type   = $type;
     }
 
     /**
@@ -64,7 +57,6 @@ class FieldView
             $field['user_id'],
             (int) $field['x'],
             (int) $field['y'],
-            $field['type']
         );
     }
 
@@ -106,13 +98,5 @@ class FieldView
     public function y(): int
     {
         return $this->y;
-    }
-
-    /**
-     * @return string
-     */
-    public function type(): string
-    {
-        return $this->type;
     }
 }

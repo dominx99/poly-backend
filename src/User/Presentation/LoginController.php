@@ -13,7 +13,6 @@ use App\User\Application\RegisterSocial;
 use App\User\Application\Validation\ProviderAuthValidator;
 use App\User\Responses\LoginFail;
 use App\System\Infrastructure\StatusMessage;
-use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -42,13 +41,11 @@ class LoginController
     public function __construct(
         System $system,
         SocialiteManager $socialite,
-        ProviderAuthValidator $providerValidator,
-        Logger $log
+        ProviderAuthValidator $providerValidator
     ) {
         $this->system            = $system;
         $this->socialite         = $socialite;
         $this->providerValidator = $providerValidator;
-        $this->log               = $log;
     }
 
     /**

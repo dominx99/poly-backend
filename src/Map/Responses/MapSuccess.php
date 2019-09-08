@@ -15,9 +15,12 @@ class MapSuccess extends Success
     {
         parent::__construct([
             'map' => [
-                'id'       => $map->id(),
-                'world_id' => $map->worldId(),
-                'fields'   => array_map([$this, 'fields'], $map->fields()),
+                'id'         => $map->id(),
+                'world_id'   => $map->worldId(),
+                'fields'     => array_map([$this, 'field'], $map->fields()),
+                /* 'armies'     => array_map([$this, 'army'], $map->armies()), */
+                /* 'factories'  => array_map([$this, 'factory'], $map->factories()), */
+                /* 'structures' => array_map([$this, 'structure'], $map->structures()), */
             ],
         ]);
     }
@@ -26,13 +29,12 @@ class MapSuccess extends Success
      * @param \App\Map\Application\Query\FieldView $field
      * @return array
      */
-    public function fields(FieldView $field): array
+    public function field(FieldView $field): array
     {
         return [
             'id'      => $field->id(),
             'x'       => $field->x(),
             'y'       => $field->y(),
-            'type'    => $field->type(),
             'user_id' => $field->userId(),
         ];
     }
