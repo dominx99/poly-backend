@@ -23,7 +23,7 @@ services:
       - poly_backend_db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=poly_backend
+      - MYSQL_DATABASE=poly
       - MYSQL_HOST=127.0.0.1
     ports:
       - "8083:3306"

@@ -33,6 +33,7 @@ final class DbalBaseArmies implements BaseArmyQueryRepository
             ->from('base_armies', 'a')
             ->join('a', 'maps', 'm', 'm.id = a.map_id')
             ->where('a.map_id = :mapId')
+            ->orderBy('a.cost')
             ->setParameter('mapId', $mapId);
 
         $armies = $this->connection->fetchAll($query->getSQL(), $query->getParameters());
