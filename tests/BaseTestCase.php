@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 use App\App;
@@ -34,6 +34,8 @@ class BaseTestCase extends TestCase
 
     protected $token;
 
+    protected $userId;
+
     public function setUp(): void
     {
         $this->createApplication();
@@ -59,7 +61,7 @@ class BaseTestCase extends TestCase
 
     public function createEntityManager(): void
     {
-        $this->entityManager = $this->container->get(EntityManager::class);
+        $this->entityManager = $this->container->get(EntityManagerInterface::class);
         $this->dbConnection  = $this->entityManager->getConnection();
     }
 

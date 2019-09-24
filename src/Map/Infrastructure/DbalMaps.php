@@ -3,7 +3,7 @@
 namespace App\Map\Infrastructure;
 
 use App\Map\Contracts\MapQueryRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Application\Query\MapView;
 use App\Map\Application\Query\FieldView;
 
@@ -20,9 +20,9 @@ class DbalMaps implements MapQueryRepository
     protected $queryBuilder;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param \Doctrine\ORM\EntityManagerInterface $em
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->connection = $em->getConnection();
     }

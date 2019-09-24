@@ -7,12 +7,14 @@ use App\Map\Domain\Map;
 use App\Army\Domain\BaseArmy\Name;
 use App\Army\Domain\BaseArmy\DisplayName;
 use App\Army\Domain\BaseArmy\Cost;
+use App\Map\Domain\Map\Army;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="base_armies")
  */
-class BaseArmy
+class BaseArmy extends Unit
 {
     /**
      * @var array
@@ -77,6 +79,13 @@ class BaseArmy
     private $cost;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\Army[]
+     *
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\Army", mappedBy="baseArmy", cascade={"persist"})
+     */
+    private $armies;
+
+    /**
      * @param string $id
      * @param \App\Army\Domain\BaseArmy\Name $name
      * @param \App\Army\Domain\BaseArmy\DisplayName $displayName
@@ -88,6 +97,7 @@ class BaseArmy
         $this->name        = $name;
         $this->displayName = $displayName;
         $this->cost        = $cost;
+        $this->armies      = new ArrayCollection();
     }
 
     /**
@@ -102,5 +112,19 @@ class BaseArmy
 
         $this->map = $map;
         $map->addBaseArmy($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\Army $army
+     * @return void
+     */
+    public function addArmy(Army $army): void
+    {
+        if ($this->armies->contains($army)) {
+            return;
+        }
+
+        $this->armies->add($army);
+        $army->setBaseArmy($this);
     }
 }

@@ -8,6 +8,7 @@ use App\World\Domain\World;
 use App\Map\Domain\Map\Field;
 use App\User\Domain\Resource;
 use App\Army\Domain\BaseArmy;
+use App\Map\Domain\Map\MapObject;
 
 /**
  * @ORM\Entity
@@ -52,6 +53,13 @@ class Map
     private $baseArmies;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
+     *
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="map", cascade={"persist"})
+     */
+    private $mapObjects;
+
+    /**
      * @param string $id
      */
     public function __construct(string $id)
@@ -60,6 +68,7 @@ class Map
         $this->fields     = new ArrayCollection();
         $this->resources  = new ArrayCollection();
         $this->baseArmies = new ArrayCollection();
+        $this->mapObjects = new ArrayCollection();
     }
 
     /**
@@ -116,5 +125,19 @@ class Map
 
         $this->baseArmies->add($baseArmy);
         $baseArmy->addMap($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\MapObject $mapObject
+     * @return void
+     */
+    public function addMapObjects(MapObject $mapObject): void
+    {
+        if ($this->mapObjects->contains($mapObject)) {
+            return;
+        }
+
+        $this->mapObjects->add($mapObject);
+        $mapObject->setMap($this);
     }
 }

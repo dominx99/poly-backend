@@ -8,6 +8,7 @@ use App\User\Domain\User\Password;
 use \Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use App\World\Domain\World;
+use App\Map\Domain\Map\MapObject;
 
 /**
  * @ORM\Entity
@@ -60,11 +61,11 @@ class User
     private $resource;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|Army[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
      *
-     * @ORM\OneToMany(targetEntity="Army", mappedBy="owner", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="user", cascade={"persist"})
      */
-    /* private $armies; */
+    private $mapObjects;
 
     /**
      * @param \Ramsey\Uuid\UuidInterface $id
@@ -73,12 +74,12 @@ class User
      */
     public function __construct(UuidInterface $id, Email $email, Password $password = null)
     {
-        $this->id        = $id;
-        $this->email     = $email;
-        $this->password  = $password;
-        $this->providers = new ArrayCollection();
-        $this->resource  = null;
-        /* $this->armies = new ArrayCollection(); */
+        $this->id         = $id;
+        $this->email      = $email;
+        $this->password   = $password;
+        $this->providers  = new ArrayCollection();
+        $this->resource   = null;
+        $this->mapObjects = new ArrayCollection();
     }
 
     /**
@@ -121,5 +122,19 @@ class User
 
         $this->resource = $resource;
         $resource->addUser($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\MapObject $mapObject
+     * @return void
+     */
+    public function addMapObject(MapObject $mapObject): void
+    {
+        if ($this->mapObjects->contains($mapObject)) {
+            return;
+        }
+
+        $this->mapObjects->add($mapObject);
+        $mapObject->setUser($this);
     }
 }

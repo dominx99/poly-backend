@@ -99,4 +99,16 @@ class FieldView
     {
         return $this->y;
     }
+
+    /**
+     * @param \App\Map\Application\Query\FieldView $field
+     * @param int $range
+     */
+    public function inRange(FieldView $field, int $range): bool
+    {
+        // TODO: need to be more specific, already you can put map object diagonally
+        return
+            abs($this->x - $field->X) <= $range &&
+            abs($this->y - $field->y) <= $range;
+    }
 }

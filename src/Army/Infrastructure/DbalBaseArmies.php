@@ -2,7 +2,7 @@
 
 namespace App\Army\Infrastructure;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Army\Contracts\BaseArmyQueryRepository;
 use App\Army\Application\Views\BaseArmyView;
 
@@ -14,9 +14,9 @@ final class DbalBaseArmies implements BaseArmyQueryRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->connection = $entityManager->getConnection();
     }

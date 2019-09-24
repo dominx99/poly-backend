@@ -8,13 +8,13 @@ use App\Army\Domain\BaseArmy\Name;
 use App\Army\Domain\BaseArmy\Cost;
 use App\Army\Domain\BaseArmy\DisplayName;
 use App\Map\Domain\Map;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
 final class ORMBaseArmies implements BaseArmyWriteRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -24,9 +24,9 @@ final class ORMBaseArmies implements BaseArmyWriteRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->connection    = $entityManager->getConnection();

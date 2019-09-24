@@ -2,67 +2,34 @@
 
 namespace App\Map\Domain\Map;
 
+use App\Army\Domain\BaseArmy;
 use \Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Map\Domain\Map\MapObject;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="armies")
  */
-class Army extends Field
+class Army extends MapObject
 {
     /**
-     * @var string
+     * @var \App\Army\Domain\BaseArmy
      *
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\ManyToOne(targetEntity="\App\Army\Domain\BaseArmy", inversedBy="armies")
+     * @ORM\JoinColumn(name="placable_id", referencedColumnName="id")
      */
-    private $id;
+    private $baseArmy;
 
     /**
-     * @var \App\World\Domain\World
-     *
-     * @ORM\OneToOne(targetEntity="\App\World\Domain\World")
-     */
-    private $world;
-
-    /**
-         shit
-     * @var \Doctrine\Common\Collections\ArrayCollection|Field
-     *
-     * @ORM\OneToMany(targetEntity="Field", mappedBy="map", cascade={"persist"})
-     */
-    private $fields;
-
-    public function __construct(string $id, Status $status)
-    {
-        $this->id     = $id;
-        $this->status = $status;
-        $this->users  = new ArrayCollection();
-        $this->fields = new ArrayCollection();
-    }
-
-    /**
-     * @param \App\User\Domain\User $user
+     * @param \App\Army\Domain\BaseArmy $baseArmy
      * @return void
      */
-    public function addUser(User $user): void
+    public function setBaseArmy(BaseArmy $baseArmy): void
     {
-        if ($this->users->contains($user)) {
+        if ($this->baseArmy === $baseArmy) {
             return;
         }
 
-        $this->users->add($user);
-        $user->addMap($this);
-    }
-
-    public function addField(Field $field): void
-    {
-        if ($this->fields->contains($field)) {
-            return;
-        }
-
-        $this->fields->add($field);
-        $field->addMap($this);
+        $this->baseArmy = $baseArmy;
+        $baseArmy->addArmy($this);
     }
 }

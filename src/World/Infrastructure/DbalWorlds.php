@@ -2,7 +2,7 @@
 
 namespace App\World\Infrastructure;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\World\Contracts\WorldsQueryRepository;
 use App\World\Application\Query\WorldView;
 
@@ -19,9 +19,9 @@ class DbalWorlds implements WorldsQueryRepository
     protected $queryBuilder;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param \Doctrine\ORM\EntityManagerInterface $em
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->connection   = $em->getConnection();
         $this->queryBuilder = $this->connection->createQueryBuilder();

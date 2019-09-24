@@ -2,6 +2,7 @@
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 use \Respect\Validation\Validator as v;
@@ -117,6 +118,11 @@ $container->set(
 );
 
 $container->set(
+    \App\Army\Application\Commands\CanPutMapObject::class,
+    Di\autowire(\App\Army\Application\Queries\CanPutMapObjectQuery::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -151,7 +157,12 @@ $container->set(
     Di\autowire(\App\Army\Infrastructure\DbalBaseArmies::class)
 );
 
-$container->set(EntityManager::class, function () use ($container) {
+$container->set(
+    \App\Map\Contracts\FieldQueryRepository::class,
+    Di\autowire(\App\Map\Infrastructure\Repositories\DbalFields::class)
+);
+
+$container->set(EntityManagerInterface::class, function () use ($container) {
     $appConfig = $container->get('appConfig');
 
     $config = Setup::createAnnotationMetadataConfiguration(
