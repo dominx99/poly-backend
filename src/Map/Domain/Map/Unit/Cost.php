@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace App\Army\Domain\BaseArmy;
+namespace App\Map\Domain\Map\Unit;
 
 use \Doctrine\ORM\Mapping as ORM;
 

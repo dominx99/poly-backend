@@ -43,9 +43,18 @@ class World
      */
     private $map;
 
-    public function __construct(string $id, Status $status)
+    /**
+     * @param string $id
+     * @param \App\World\Domain\World\Status|null $status
+     */
+    public function __construct(string $id, Status $status = null)
     {
-        $this->id     = $id;
+        $this->id = $id;
+
+        if (! $status) {
+            $status = new Status(Status::CREATED);
+        }
+
         $this->status = $status;
         $this->users  = new ArrayCollection();
     }
@@ -69,6 +78,22 @@ class World
      * @return void
      */
     public function addMap(Map $map): void
+    {
+        // TODO: this function has to be removed
+
+        if ($this->map === $map) {
+            return;
+        }
+
+        $this->map = $map;
+        $map->addWorld($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map $map
+     * @return void
+     */
+    public function setMap(Map $map): void
     {
         if ($this->map === $map) {
             return;

@@ -4,11 +4,11 @@ namespace Tests\Feature\Army;
 
 use App\World\Application\GetWorlds;
 use Tests\BaseTestCase;
-use App\Army\Domain\BaseArmy;
+use App\Army\Domain\ArmyUnit;
 use Tests\DatabaseTrait;
 use App\Map\Contracts\MapQueryRepository;
 
-final class MapBaseArmiesControllerTest extends BaseTestCase
+final class MapArmyUnitsControllerTest extends BaseTestCase
 {
     use DatabaseTrait;
 
@@ -29,10 +29,11 @@ final class MapBaseArmiesControllerTest extends BaseTestCase
         $world = $this->system->execute(new GetWorlds())[0];
         $map   = $this->maps->findByWorld($world->id());
 
-        $response = $this->runApp('GET', 'api/map/' . $map->id() . '/base-armies');
+        $response = $this->runApp('GET', 'api/map/' . $map->id() . '/army-units');
+
         $response = json_decode((string) $response->getBody(), true);
 
         $this->assertArrayHasKey('data', $response);
-        $this->assertCount(count(BaseArmy::DEFAULT_ARMIES), $response['data']);
+        $this->assertCount(count(ArmyUnit::DEFAULT_ARMIES), $response['data']);
     }
 }

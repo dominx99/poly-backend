@@ -3,7 +3,7 @@
 namespace App\World\Infrastructure;
 
 use App\World\Contracts\WorldsWriteRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\World\Domain\World;
 use App\World\Domain\World\Status;
 use App\User\Domain\User;
@@ -16,7 +16,7 @@ use App\Map\Domain\Map\Field\Y;
 class ORMWorlds implements WorldsWriteRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -26,9 +26,9 @@ class ORMWorlds implements WorldsWriteRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->connection    = $entityManager->getConnection();

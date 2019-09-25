@@ -3,7 +3,7 @@
 namespace App\Map\Infrastructure;
 
 use App\Map\Contracts\MapWriteRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Contracts\MapQueryRepository;
 use Ramsey\Uuid\Uuid;
 use App\User\Domain\User;
@@ -14,7 +14,7 @@ use App\User\Domain\Resource\Gold;
 class ORMMaps implements MapWriteRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -29,9 +29,9 @@ class ORMMaps implements MapWriteRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager, MapQueryRepository $query)
+    public function __construct(EntityManagerInterface $entityManager, MapQueryRepository $query)
     {
         $this->entityManager = $entityManager;
         $this->query         = $query;

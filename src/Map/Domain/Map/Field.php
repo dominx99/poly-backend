@@ -52,15 +52,22 @@ class Field
     private $user;
 
     /**
+     * @var \App\Map\Domain\Map\MapObject
+     *
+     * @ORM\OneToOne(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="field")
+     */
+    private $mapObject;
+
+    /**
      * @param string $id
      * @param \App\Map\Domain\Map\Field\X $x
      * @param \App\Map\Domain\Map\Field\Y $y
      */
     public function __construct(string $id, X $x, Y $y)
     {
-        $this->id   = $id;
-        $this->x    = $x;
-        $this->y    = $y;
+        $this->id = $id;
+        $this->x  = $x;
+        $this->y  = $y;
     }
 
     /**
@@ -75,5 +82,33 @@ class Field
 
         $this->map = $map;
         $map->addField($this);
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function setUser(User $user): void
+    {
+        if ($this->user === $user) {
+            return;
+        }
+
+        $this->user = $user;
+        $user->addField($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\MapObject $mapObject
+     * @return void
+     */
+    public function setMapObject(MapObject $mapObject): void
+    {
+        if ($this->mapObject === $mapObject) {
+            return;
+        }
+
+        $this->mapObject = $mapObject;
+        $mapObject->setField($this);
     }
 }

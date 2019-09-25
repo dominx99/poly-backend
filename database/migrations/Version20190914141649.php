@@ -5,7 +5,7 @@ namespace Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-class Version20190903204308 extends AbstractMigration
+class Version20190914141649 extends AbstractMigration
 {
     /**
      * @param \Doctrine\DBAL\Schema\Schema $schema
@@ -13,16 +13,14 @@ class Version20190903204308 extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $table = $schema->createTable('units');
+        $table = $schema->createTable('map_objects');
 
         $table->addColumn('id', 'string');
+        $table->addColumn('user_id', 'string');
         $table->addColumn('map_id', 'string');
-        $table->addColumn('name', 'string');
-        $table->addColumn('display_name', 'string');
-        $table->addColumn('cost', 'integer');
-        $table->addColumn('power', 'integer')->setDefault(0);
-        $table->addColumn('defense', 'integer')->setDefault(0);
-        $table->addColumn('type', 'string');
+        $table->addColumn('field_id', 'string');
+        $table->addColumn('unit_id', 'string');
+        $table->addColumn('unit_type', 'string');
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
@@ -41,6 +39,6 @@ class Version20190903204308 extends AbstractMigration
      */
     public function down(Schema $schema): void
     {
-        $schema->dropTable('units');
+        $schema->dropTable('map_objects');
     }
 }
