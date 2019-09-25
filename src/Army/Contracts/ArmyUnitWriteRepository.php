@@ -2,7 +2,7 @@
 
 namespace App\Army\Contracts;
 
-interface BaseArmyWriteRepository
+interface ArmyUnitWriteRepository
 {
     public function addMany(string $mapId, array $armies): void;
 }

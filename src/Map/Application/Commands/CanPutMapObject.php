@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Army\Application\Commands;
+namespace App\Map\Application\Commands;
 
 use App\System\Contracts\Command;
 
@@ -22,13 +22,19 @@ final class CanPutMapObject implements Command
     private $userId;
 
     /**
+     * @var string
+     */
+    private $unitId;
+
+    /**
      * @param array $request
      */
     public function __construct(array $request)
     {
-        $this->mapId = $request['map_id'];
+        $this->mapId   = $request['map_id'];
         $this->fieldId = $request['field_id'];
-        $this->userId = $request['user_id'];
+        $this->userId  = $request['user_id'];
+        $this->unitId  = $request['unit_id'];
     }
 
     /**
@@ -53,5 +59,13 @@ final class CanPutMapObject implements Command
     public function userId(): string
     {
         return $this->userId;
+    }
+
+    /**
+     * @return string
+     */
+    public function unitId(): string
+    {
+        return $this->unitId;
     }
 }

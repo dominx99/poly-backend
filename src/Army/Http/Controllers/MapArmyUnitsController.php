@@ -6,9 +6,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 use Slim\Routing\RouteContext;
 use App\System\System;
-use App\Army\Application\Commands\GetBaseArmies;
+use App\Army\Application\Commands\GetArmyUnits;
 
-final class MapBaseArmiesController
+final class MapArmyUnitsController
 {
     /**
      * @var \App\System\System
@@ -34,7 +34,7 @@ final class MapBaseArmiesController
 
         $mapId = $route->getArgument('mapId');
 
-        $armies = $this->system->execute(new GetBaseArmies($mapId));
+        $armies = $this->system->execute(new GetArmyUnits($mapId));
 
         return $armies->toResponse();
     }

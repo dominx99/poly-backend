@@ -2,33 +2,33 @@
 
 namespace App\Army\Application\Queries;
 
-use App\Army\Application\Commands\GetBaseArmies;
+use App\Army\Application\Commands\GetArmyUnits;
 use App\System\Responses\Success;
 use App\System\Contracts\Responsable;
-use App\Army\Contracts\BaseArmyQueryRepository;
+use App\Army\Contracts\ArmyUnitQueryRepository;
 
-final class GetBaseArmiesHandler
+final class GetArmyUnitsHandler
 {
     /**
-     * @var \App\Army\Contracts\BaseArmyQueryRepository
+     * @var \App\Army\Contracts\ArmyUnitQueryRepository
      */
     private $armies;
 
     /**
-     * @param \App\Army\Contracts\BaseArmyQueryRepository $armies
+     * @param \App\Army\Contracts\ArmyUnitQueryRepository $armies
      */
-    public function __construct(BaseArmyQueryRepository $armies)
+    public function __construct(ArmyUnitQueryRepository $armies)
     {
         $this->armies = $armies;
     }
 
     /**
-     * @param \App\Army\Application\Commands\GetBaseArmies $command
+     * @param \App\Army\Application\Commands\GetArmyUnits $command
      * @return \App\System\Contracts\Responsable
      */
-    public function execute(GetBaseArmies $command): Responsable
+    public function execute(GetArmyUnits $command): Responsable
     {
-        $armies = $this->armies->getBaseArmiesFromMap($command->mapId());
+        $armies = $this->armies->getArmyUnitsFromMap($command->mapId());
 
         $data = array_map(function ($army) {
             return [

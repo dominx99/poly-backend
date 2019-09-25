@@ -6,7 +6,6 @@ use \Doctrine\ORM\Mapping as ORM;
 use App\Map\Domain\Map;
 use App\Map\Domain\Map\Field\X;
 use App\Map\Domain\Map\Field\Y;
-use App\Map\Domain\Map\MapObject;
 
 /**
  * @ORM\Entity

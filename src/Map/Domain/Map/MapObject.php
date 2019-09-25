@@ -4,14 +4,13 @@ namespace App\Map\Domain\Map;
 
 use App\Map\Domain\Map;
 use \Doctrine\ORM\Mapping as ORM;
-use App\Map\Domain\Map\Field;
 use App\User\Domain\User;
 
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\Table(name="map_objects")
- * @ORM\DiscriminatorColumn(name="placable_type", type="string")
+ * @ORM\DiscriminatorColumn(name="unit_type", type="string")
  * @ORM\DiscriminatorMap({"army" = "Army"})
  */
 abstract class MapObject
@@ -51,9 +50,9 @@ abstract class MapObject
     private $map;
 
     /**
-     * @var Unit
+     * @var \App\Map\Domain\Map\Unit
      *
-     * @ORM\ManyToOne(targetEntity="Unit", inversedBy="mapObjects")
+     * @ORM\ManyToOne(targetEntity="\App\Map\Domain\Map\Unit", inversedBy="mapObjects")
      * @ORM\JoinColumn(name="unit_id", referencedColumnName="id")
      */
     private $unit;
@@ -95,7 +94,7 @@ abstract class MapObject
     }
 
     /**
-     * @param Map $map
+     * @param \App\Map\Domain\Map $map
      * @return void
      */
     public function setMap(Map $map): void
@@ -109,7 +108,7 @@ abstract class MapObject
     }
 
     /**
-     * @param Unit $unit
+     * @param \App\Map\Domain\Map\Unit $unit
      * @return void
      */
     public function setUnit(Unit $unit): void
@@ -119,6 +118,6 @@ abstract class MapObject
         }
 
         $this->unit = $unit;
-        $unit->addArmy($this);
+        $unit->addMapObject($this);
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Army\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
-use App\Army\Contracts\BaseArmyQueryRepository;
-use App\Army\Application\Views\BaseArmyView;
+use App\Army\Contracts\ArmyUnitQueryRepository;
+use App\Army\Application\Views\ArmyUnitView;
 
-final class DbalBaseArmies implements BaseArmyQueryRepository
+final class DbalArmyUnits implements ArmyUnitQueryRepository
 {
     /**
      * @var \Doctrine\DBAL\Connection
@@ -25,21 +25,22 @@ final class DbalBaseArmies implements BaseArmyQueryRepository
      * @param string $mapId
      * @return array
      */
-    public function getBaseArmiesFromMap(string $mapId): array
+    public function getArmyUnitsFromMap(string $mapId): array
     {
         $query = $this->connection
             ->createQueryBuilder()
-            ->select('a.*')
-            ->from('base_armies', 'a')
-            ->join('a', 'maps', 'm', 'm.id = a.map_id')
-            ->where('a.map_id = :mapId')
-            ->orderBy('a.cost')
+            ->select('u.*')
+            ->from('units', 'u')
+            ->join('u', 'maps', 'm', 'm.id = u.map_id')
+            ->where('u.map_id = :mapId')
+            ->where('type = "army"')
+            ->orderBy('u.cost')
             ->setParameter('mapId', $mapId);
 
         $armies = $this->connection->fetchAll($query->getSQL(), $query->getParameters());
 
         return array_map(function ($army) {
-            return BaseArmyView::createFromDatabase($army);
+            return ArmyUnitView::createFromDatabase($army);
         }, $armies);
     }
 }

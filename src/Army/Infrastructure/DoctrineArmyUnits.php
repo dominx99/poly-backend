@@ -2,16 +2,18 @@
 
 namespace App\Army\Infrastructure;
 
-use App\Army\Contracts\BaseArmyWriteRepository;
-use App\Army\Domain\BaseArmy;
-use App\Army\Domain\BaseArmy\Name;
-use App\Army\Domain\BaseArmy\Cost;
-use App\Army\Domain\BaseArmy\DisplayName;
+use App\Army\Contracts\ArmyUnitWriteRepository;
+use App\Army\Domain\ArmyUnit;
+use App\Map\Domain\Map\Unit\Name;
+use App\Map\Domain\Map\Unit\DisplayName;
+use App\Map\Domain\Map\Unit\Cost;
 use App\Map\Domain\Map;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
+use App\Map\Domain\Map\Unit\Power;
+use App\Map\Domain\Map\Unit\Defense;
 
-final class ORMBaseArmies implements BaseArmyWriteRepository
+final class DoctrineArmyUnits implements ArmyUnitWriteRepository
 {
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
@@ -42,15 +44,17 @@ final class ORMBaseArmies implements BaseArmyWriteRepository
         $map = $this->entityManager->getRepository(Map::class)->find($mapId);
 
         foreach ($armies as $army) {
-            $baseArmy = new BaseArmy(
+            $armyUnit = new ArmyUnit(
                 (string) Uuid::uuid4(),
                 new Name($army['name']),
                 new DisplayName($army['display_name']),
-                new Cost($army['cost'])
+                new Cost($army['cost']),
+                new Power($army['power']),
+                new Defense($army['defense']),
             );
 
-            $baseArmy->addMap($map);
-            $this->entityManager->persist($baseArmy);
+            $armyUnit->addMap($map);
+            $this->entityManager->persist($armyUnit);
         }
 
         $this->entityManager->flush();

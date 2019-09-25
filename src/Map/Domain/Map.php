@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\World\Domain\World;
 use App\Map\Domain\Map\Field;
 use App\User\Domain\Resource;
-use App\Army\Domain\BaseArmy;
+use App\Army\Domain\ArmyUnit;
 use App\Map\Domain\Map\MapObject;
 
 /**
@@ -46,11 +46,11 @@ class Map
     private $resources;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Army\Domain\BaseArmy[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Army\Domain\ArmyUnit[]
      *
-     * @ORM\OneToMany(targetEntity="\App\Army\Domain\BaseArmy", mappedBy="map", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\App\Army\Domain\ArmyUnit", mappedBy="map", cascade={"persist"})
      */
-    private $baseArmies;
+    private $armyUnits;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
@@ -67,7 +67,7 @@ class Map
         $this->id         = $id;
         $this->fields     = new ArrayCollection();
         $this->resources  = new ArrayCollection();
-        $this->baseArmies = new ArrayCollection();
+        $this->armyUnits  = new ArrayCollection();
         $this->mapObjects = new ArrayCollection();
     }
 
@@ -114,17 +114,17 @@ class Map
     }
 
     /**
-     * @param \App\Army\Domain\BaseArmy $baseArmy
+     * @param \App\Army\Domain\ArmyUnit $armyUnit
      * @return void
      */
-    public function addBaseArmy(BaseArmy $baseArmy): void
+    public function addArmyUnit(ArmyUnit $armyUnit): void
     {
-        if ($this->baseArmies->contains($baseArmy)) {
+        if ($this->armyUnits->contains($armyUnit)) {
             return;
         }
 
-        $this->baseArmies->add($baseArmy);
-        $baseArmy->addMap($this);
+        $this->armyUnits->add($armyUnit);
+        $armyUnit->addMap($this);
     }
 
     /**

@@ -108,18 +108,23 @@ $container->set(
 );
 
 $container->set(
-    \App\Army\Application\Commands\AssignBaseArmies::class,
-    Di\autowire(\App\Army\Application\Handlers\AssignBaseArmiesHandler::class)
+    \App\Army\Application\Commands\AssignArmyUnits::class,
+    Di\autowire(\App\Army\Application\Handlers\AssignArmyUnitsHandler::class)
 );
 
 $container->set(
-    \App\Army\Application\Commands\GetBaseArmies::class,
-    Di\autowire(\App\Army\Application\Queries\GetBaseArmiesHandler::class)
+    \App\Army\Application\Commands\GetArmyUnits::class,
+    Di\autowire(\App\Army\Application\Queries\GetArmyUnitsHandler::class)
 );
 
 $container->set(
-    \App\Army\Application\Commands\CanPutMapObject::class,
-    Di\autowire(\App\Army\Application\Queries\CanPutMapObjectQuery::class)
+    \App\Map\Application\Commands\PutMapObject::class,
+    Di\autowire(\App\Map\Application\Handlers\PutMapObjectHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\Commands\CanPutMapObject::class,
+    Di\autowire(\App\Map\Application\Queries\CanPutMapObjectQuery::class)
 );
 
 $container->set(
@@ -148,13 +153,13 @@ $container->set(
 );
 
 $container->set(
-    \App\Army\Contracts\BaseArmyWriteRepository::class,
-    Di\autowire(\App\Army\Infrastructure\ORMBaseArmies::class)
+    \App\Army\Contracts\ArmyUnitWriteRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DoctrineArmyUnits::class)
 );
 
 $container->set(
-    \App\Army\Contracts\BaseArmyQueryRepository::class,
-    Di\autowire(\App\Army\Infrastructure\DbalBaseArmies::class)
+    \App\Army\Contracts\ArmyUnitQueryRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DbalArmyUnits::class)
 );
 
 $container->set(

@@ -2,7 +2,7 @@
 
 namespace App\Army\Application\Views;
 
-class BaseArmyView
+class ArmyUnitView
 {
     /**
      * @var string
@@ -71,16 +71,16 @@ class BaseArmyView
     }
 
     /**
-     * @param  array $baseArmy
+     * @param  array $armyUnit
      * @return self
      */
-    public static function createFromDatabase(array $baseArmy): self
+    public static function createFromDatabase(array $armyUnit): self
     {
         return new static(
-            $baseArmy['id'],
-            $baseArmy['name'],
-            $baseArmy['display_name'],
-            (int) $baseArmy['cost']
+            $armyUnit['id'],
+            $armyUnit['name'],
+            $armyUnit['display_name'],
+            (int) $armyUnit['cost']
         );
     }
 }

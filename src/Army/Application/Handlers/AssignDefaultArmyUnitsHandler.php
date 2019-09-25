@@ -3,11 +3,11 @@
 namespace App\Army\Application\Handlers;
 
 use App\Map\Application\Events\MapGenerated;
-use App\Army\Domain\BaseArmy;
+use App\Army\Domain\ArmyUnit;
 use App\System\System;
-use App\Army\Application\Commands\AssignBaseArmies;
+use App\Army\Application\Commands\AssignArmyUnits;
 
-final class AssignDefaultBaseArmiesHandler
+final class AssignDefaultArmyUnitsHandler
 {
     /**
      * @var \App\System\System
@@ -28,6 +28,6 @@ final class AssignDefaultBaseArmiesHandler
      */
     public function handle(MapGenerated $event): void
     {
-        $this->system->handle(new AssignBaseArmies($event->mapId(), BaseArmy::DEFAULT_ARMIES));
+        $this->system->handle(new AssignArmyUnits($event->mapId(), ArmyUnit::DEFAULT_ARMIES));
     }
 }

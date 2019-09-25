@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\Army\Application\Queries;
+namespace App\Map\Application\Queries;
 
-use App\Army\Application\Commands\CanPutMapObject;
+use App\Map\Application\Commands\CanPutMapObject;
 use App\Map\Contracts\FieldQueryRepository;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CanPutMapObjectQuery
@@ -28,7 +29,7 @@ final class CanPutMapObjectQuery
         FieldQueryRepository $fields
     ) {
         $this->connection = $em->getConnection();
-        $this->fields = $fields;
+        $this->fields     = $fields;
     }
 
     /**
@@ -47,7 +48,7 @@ final class CanPutMapObjectQuery
             throw new \Exception('You already have map object there.');
         }
 
-        if (! $this->hasEnoughPower($command->power())) {
+        if (! $this->hasEnoughPower()) {
             throw new \Exception("You don't have enough power.");
         }
 
@@ -61,8 +62,8 @@ final class CanPutMapObjectQuery
     private function isInRange(int $range): bool
     {
         $selectedField = $this->fields->find($this->command->fieldId());
-        $fields = $this->fields->findByMap($this->command->mapId());
-        $result = false;
+        $fields        = $this->fields->findByMap($this->command->mapId());
+        $result        = false;
 
         array_walk($fields, function ($field) use ($range, $selectedField, &$result) {
             if ($selectedField->inRange($field, $range)) {
@@ -98,30 +99,44 @@ final class CanPutMapObjectQuery
         return true;
     }
 
+    /**
+     * @return bool
+     */
     private function hasEnoughPower(): bool
     {
-        $power = $this->connection
+        return $this->getUnitPower() > $this->getFieldDefense();
+    }
+
+    /**
+     * @return int
+     */
+    private function getUnitPower(): int
+    {
+        $qb = $this->connection
             ->createQueryBuilder()
             ->select('u.power')
             ->from('units', 'u')
-            ->where('unitable_id = :unitableId')
-            ->setParameter('unitableId', $this->command->unitId());
+            ->where('id = :unitId')
+            ->setParameter('unitId', $this->command->unitId())
+            ->execute();
 
+        return (int) $qb->fetch(FetchMode::COLUMN) ?? 0;
+    }
+
+    /**
+     * @return int
+     */
+    private function getFieldDefense(): int
+    {
         $qb = $this->connection
             ->createQueryBuilder()
-            ->select('mo.defense')
-            ->from('map_objects', 'mo')
+            ->select('u.defense')
+            ->from('units', 'u')
+            ->innerJoin('u', 'map_objects', 'mo', 'mo.unit_id = u.id')
             ->where('mo.field_id = :fieldId')
-            ->where('mo.map_id = :mapId')
-            ->setParameters([
-                'fieldId' => $this->command->fieldId(),
-                'mapId'   => $this->command->mapId(),
-            ]);
+            ->setParameter('fieldId', $this->command->fieldId())
+            ->execute();
 
-        if ($defense = $this->connection->executeQuery($qb->getSQL(), $qb->getParameters())) {
-            return $this->command->power() > $defense;
-        }
-
-        return true;
+        return (int) $qb->fetch(FetchMode::COLUMN) ?? 0;
     }
 }

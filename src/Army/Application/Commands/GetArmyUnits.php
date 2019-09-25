@@ -4,7 +4,7 @@ namespace App\Army\Application\Commands;
 
 use App\System\Contracts\Command;
 
-final class GetBaseArmies implements Command
+final class GetArmyUnits implements Command
 {
     /**
      * @var string

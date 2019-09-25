@@ -7,13 +7,13 @@ use Tests\DatabaseTrait;
 use App\Map\Domain\Map;
 use App\Map\Application\Events\MapGenerated;
 use Ramsey\Uuid\Uuid;
-use App\Army\Domain\BaseArmy;
+use App\Army\Domain\ArmyUnit;
 use App\World\Domain\World\Status;
 use App\World\Domain\World;
-use App\Army\Application\Handlers\AssignDefaultBaseArmiesHandler;
+use App\Army\Application\Handlers\AssignDefaultArmyUnitsHandler;
 use App\System\System;
 
-class AssignDefaultBaseArmiesHandlerTest extends BaseTestCase
+class AssignDefaultArmyUnitsHandlerTest extends BaseTestCase
 {
     use DatabaseTrait;
 
@@ -29,11 +29,11 @@ class AssignDefaultBaseArmiesHandlerTest extends BaseTestCase
         $this->entityManager->persist($map);
         $this->entityManager->flush();
 
-        $assignArmiesHandler = new AssignDefaultBaseArmiesHandler($this->container->get(System::class));
+        $assignArmiesHandler = new AssignDefaultArmyUnitsHandler($this->container->get(System::class));
         $assignArmiesHandler->handle(new MapGenerated($mapId));
 
-        foreach (BaseArmy::DEFAULT_ARMIES as $army) {
-            $this->assertDatabaseHas('base_armies', [
+        foreach (ArmyUnit::DEFAULT_ARMIES as $army) {
+            $this->assertDatabaseHas('units', [
                 'map_id'       => $mapId,
                 'name'         => $army['name'],
                 'display_name' => $army['display_name'],

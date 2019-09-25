@@ -1,4 +1,4 @@
-<?php declare (strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Migrations;
 
@@ -19,8 +19,8 @@ class Version20190914141649 extends AbstractMigration
         $table->addColumn('user_id', 'string');
         $table->addColumn('map_id', 'string');
         $table->addColumn('field_id', 'string');
-        $table->addColumn('placable_id', 'string');
-        $table->addColumn('placable_type', 'string');
+        $table->addColumn('unit_id', 'string');
+        $table->addColumn('unit_type', 'string');
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
