@@ -39,6 +39,7 @@ class System
             $handler->handle($command);
         } catch (\Throwable $t) {
             $this->log->error($t->getMessage());
+
             throw $t;
         }
     }
@@ -55,6 +56,7 @@ class System
             return $handler->execute($command);
         } catch (\Throwable $t) {
             $this->log->error($t->getMessage());
+
             throw $t;
         }
     }

@@ -45,10 +45,8 @@ final class PutMapObjectHandler
             $this->entityManager->getRepository(Map::class)->find($command->mapId())
         );
 
-        $unit = $this->entityManager->getRepository(Unit::class)->find($command->unitId());
-
         $mapObject->setUnit(
-            $unit
+            $this->entityManager->getRepository(Unit::class)->find($command->unitId())
         );
 
         $this->entityManager->persist($mapObject);

@@ -30,9 +30,9 @@ final class MapObjectView
      */
     public function __construct(string $id, string $fieldId, string $userId, string $unitName)
     {
-        $this->id = $id;
-        $this->fieldId = $fieldId;
-        $this->userId = $userId;
+        $this->id       = $id;
+        $this->fieldId  = $fieldId;
+        $this->userId   = $userId;
         $this->unitName = $unitName;
     }
 
