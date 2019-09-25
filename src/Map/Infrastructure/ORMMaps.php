@@ -8,6 +8,7 @@ use App\Map\Contracts\MapQueryRepository;
 use Ramsey\Uuid\Uuid;
 use App\User\Domain\User;
 use App\Map\Domain\Map as DomainMap;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use App\User\Domain\Resource;
 use App\User\Domain\Resource\Gold;
 
@@ -66,7 +67,7 @@ class ORMMaps implements MapWriteRepository
     {
         $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
         if (! $map = $this->entityManager->getRepository(DomainMap::class)->find($mapId)) {
-            throw new \Exception('Map not found');
+            throw new UnexpectedException('Map not found');
         }
 
         foreach ($users as $user) {

@@ -6,6 +6,8 @@ use App\User\Application\Query\UserView;
 use App\User\Contracts\UserQueryRepository;
 use App\User\Application\Query\ResourcesView;
 use Doctrine\ORM\EntityManagerInterface;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
+use App\System\Infrastructure\Exceptions\UserNotFoundException;
 
 class DbalUsers implements UserQueryRepository
 {
@@ -44,7 +46,7 @@ class DbalUsers implements UserQueryRepository
         $user = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
 
         if (! $user) {
-            throw new \Exception('User not found.');
+            throw new UserNotFoundException();
         }
 
         return UserView::createFromDatabase($user);
@@ -138,7 +140,7 @@ class DbalUsers implements UserQueryRepository
             ->setParameter('id', $userId);
 
         if (! $resources = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
-            throw new \Exception('Resources not found');
+            throw new UnexpectedException('Resources not found');
         }
 
         return ResourcesView::createFromDatabase($resources);

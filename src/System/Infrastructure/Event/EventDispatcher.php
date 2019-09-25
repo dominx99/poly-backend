@@ -9,6 +9,7 @@ use App\User\Application\AssignUserBaseKitHandler;
 use App\World\Application\Events\WorldReady;
 use App\Map\Application\Events\MapGenerated;
 use App\Army\Application\Handlers\AssignDefaultArmyUnitsHandler;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Psr\Log\LoggerInterface;
 
 class EventDispatcher implements EventDispatcherInterface
@@ -69,6 +70,6 @@ class EventDispatcher implements EventDispatcherInterface
             return;
         }
 
-        throw new \Exception("{$className} event does not have any listeners");
+        throw new UnexpectedException("{$className} event does not have any listeners");
     }
 }

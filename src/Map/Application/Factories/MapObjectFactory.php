@@ -4,6 +4,7 @@ namespace App\Map\Application\Factories;
 
 use App\Map\Domain\Map\MapObject;
 use App\Map\Domain\Map\Army;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Ramsey\Uuid\Uuid;
 
 final class MapObjectFactory
@@ -17,7 +18,7 @@ final class MapObjectFactory
         $type = 'create' . ucfirst($type);
 
         if (! method_exists(self::class, $type)) {
-            throw new \Exception(sprintf('Method %s does not exists.', $type));
+            throw new UnexpectedException(sprintf('Method %s does not exists.', $type));
         }
 
         return self::$type();

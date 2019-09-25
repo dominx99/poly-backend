@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use App\System\Responses\Fail;
 use App\System\Infrastructure\StatusMessage;
 use App\System\Infrastructure\StatusCode;
+use App\System\Infrastructure\Exceptions\UserNotFoundException;
 
 class UserController
 {
@@ -32,7 +33,9 @@ class UserController
      */
     public function show(RequestInterface $request): ResponseInterface
     {
-        if (! $user = $this->system->execute(new FindUser($request->getAttribute('decodedToken')['id']))) {
+        try {
+            $user = $this->system->execute(new FindUser($request->getAttribute('decodedToken')['id']));
+        } catch (UserNotFoundException $e) {
             return (new Fail(['error' => StatusMessage::USER_NOT_FOUND], StatusCode::HTTP_NOT_FOUND))->toResponse();
         }
 

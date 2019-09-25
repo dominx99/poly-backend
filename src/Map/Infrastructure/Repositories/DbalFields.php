@@ -4,6 +4,7 @@ namespace App\Map\Infrastructure\Repositories;
 
 use App\Map\Application\Query\FieldView;
 use App\Map\Contracts\FieldQueryRepository;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class DbalFields implements FieldQueryRepository
@@ -36,7 +37,7 @@ final class DbalFields implements FieldQueryRepository
             ->setParameter('id', $id);
 
         if (! $field = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
-            throw new \Exception('Field not found.');
+            throw new UnexpectedException('Field not found.');
         }
 
         return $field ? FieldView::createFromDatabase($field) : null;
