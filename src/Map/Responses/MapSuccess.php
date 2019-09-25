@@ -5,6 +5,7 @@ namespace App\Map\Responses;
 use App\System\Responses\Success;
 use App\Map\Application\Query\FieldView;
 use App\Map\Application\Query\MapView;
+use App\Map\Application\Query\MapObjectView;
 
 class MapSuccess extends Success
 {
@@ -15,12 +16,10 @@ class MapSuccess extends Success
     {
         parent::__construct([
             'map' => [
-                'id'         => $map->id(),
-                'world_id'   => $map->worldId(),
-                'fields'     => array_map([$this, 'field'], $map->fields()),
-                /* 'armies'     => array_map([$this, 'army'], $map->armies()), */
-                /* 'factories'  => array_map([$this, 'factory'], $map->factories()), */
-                /* 'structures' => array_map([$this, 'structure'], $map->structures()), */
+                'id'          => $map->id(),
+                'world_id'    => $map->worldId(),
+                'fields'      => array_map([$this, 'field'], $map->fields()),
+                'map_objects' => array_map([$this, 'mapObject'], $map->mapObjects()),
             ],
         ]);
     }
@@ -36,6 +35,20 @@ class MapSuccess extends Success
             'x'       => $field->x(),
             'y'       => $field->y(),
             'user_id' => $field->userId(),
+        ];
+    }
+
+    /**
+     * @param \App\Map\Application\Query\MapObjectView $mapObject
+     * @return array
+     */
+    public function mapObject(MapObjectView $mapObject): array
+    {
+        return [
+            'id'        => $mapObject->id(),
+            'field_id'  => $mapObject->fieldId(),
+            'user_id'   => $mapObject->userId(),
+            'unit_name' => $mapObject->unitName(),
         ];
     }
 }

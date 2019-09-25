@@ -26,12 +26,13 @@ abstract class Unit
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
-    public $id;
+    protected $id;
 
     /**
      * @var \App\Map\Domain\Map
      *
-     * @ORM\OneToOne(targetEntity="\App\Map\Domain\Map", inversedBy="armies")
+     * @ORM\ManyToOne(targetEntity="\App\Map\Domain\Map", inversedBy="units")
+     * @ORM\JoinColumn(name="map_id", referencedColumnName="id")
      */
     protected $map;
 
@@ -113,7 +114,7 @@ abstract class Unit
         }
 
         $this->map = $map;
-        $map->addArmyUnit($this);
+        $map->addUnit($this);
     }
 
     /**

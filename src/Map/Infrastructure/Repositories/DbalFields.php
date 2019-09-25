@@ -46,14 +46,16 @@ final class DbalFields implements FieldQueryRepository
      * @param string $mapId
      * @return array|\App\Map\Application\Query\FieldView[]
      */
-    public function findByMap(string $mapId): array
+    public function findByMap(string $mapId, string $userId): array
     {
         $qb = $this->connection
             ->createQueryBuilder()
             ->select('f.*')
             ->from('fields', 'f')
             ->where('f.map_id = :mapId')
-            ->setParameter('mapId', $mapId);
+            ->andWhere('f.user_id = :userId')
+            ->setParameter('mapId', $mapId)
+            ->setParameter('userId', $userId);
 
         return array_map(function ($field) {
             return FieldView::createFromDatabase($field);

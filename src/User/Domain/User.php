@@ -9,6 +9,7 @@ use \Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use App\World\Domain\World;
 use App\Map\Domain\Map\MapObject;
+use App\Map\Domain\Map\Field;
 
 /**
  * @ORM\Entity
@@ -61,6 +62,13 @@ class User
     private $resource;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\Field[]
+     *
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\Field", mappedBy="user", cascade={"persist"})
+     */
+    private $fields;
+
+    /**
      * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
      *
      * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="user", cascade={"persist"})
@@ -79,6 +87,7 @@ class User
         $this->password   = $password;
         $this->providers  = new ArrayCollection();
         $this->resource   = null;
+        $this->fields     = new ArrayCollection();
         $this->mapObjects = new ArrayCollection();
     }
 
@@ -136,5 +145,19 @@ class User
 
         $this->mapObjects->add($mapObject);
         $mapObject->setUser($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\Field
+     * @return void
+     */
+    public function addField(Field $field): void
+    {
+        if ($this->fields->contains($field)) {
+            return;
+        }
+
+        $this->fields->add($field);
+        $field->setUser($this);
     }
 }

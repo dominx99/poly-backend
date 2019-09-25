@@ -37,8 +37,9 @@ class System
             $handler = $this->resolveHandler($command);
 
             $handler->handle($command);
-        } catch (\Exception $e) {
-            $this->log->error($e->getMessage());
+        } catch (\Throwable $t) {
+            $this->log->error($t->getMessage());
+            throw $t;
         }
     }
 
@@ -52,8 +53,9 @@ class System
             $handler = $this->resolveHandler($command);
 
             return $handler->execute($command);
-        } catch (\Exception $e) {
-            $this->log->error($e->getMessage());
+        } catch (\Throwable $t) {
+            $this->log->error($t->getMessage());
+            throw $t;
         }
     }
 
