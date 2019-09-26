@@ -14,4 +14,4 @@ doctrine:
 	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php doctrine.php $(CMD)"
 
 fix:
-	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php-cs-fixer $(CMD)"
+	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php-cs-fixer fix $(CMD)"

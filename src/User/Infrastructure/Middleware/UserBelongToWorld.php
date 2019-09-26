@@ -26,7 +26,6 @@ class UserBelongToWorld
     /**
      * @param \App\System\System $system
      * @param \App\User\Contracts\UserQueryRepository $users
-     * @return void
      */
     public function __construct(System $system, UserQueryRepository $users)
     {

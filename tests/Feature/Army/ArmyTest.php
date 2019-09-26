@@ -25,7 +25,6 @@ final class ArmyTest extends BaseTestCase
 {
     use DatabaseTrait;
 
-    // TODO: Possible that should be removed
     /** @test */
     public function that_is_possible_to_create_army()
     {

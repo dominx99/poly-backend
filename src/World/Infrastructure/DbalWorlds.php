@@ -79,10 +79,11 @@ class DbalWorlds implements WorldsQueryRepository
                 ->setParameter($column, $value);
         }
 
-        $worlds = $this->connection->fetchAll($this->queryBuilder->getSQL(), $this->queryBuilder->getParameters());
-
-        if (! $worlds) {
-            return null;
+        if (! $worlds = $this->connection->fetchAll(
+            $this->queryBuilder->getSQL(),
+            $this->queryBuilder->getParameters()
+        )) {
+            return [];
         }
 
         return array_map(function ($world) {

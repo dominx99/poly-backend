@@ -49,7 +49,7 @@ class FieldView
      * @param array $field
      * @return \App\Map\Application\Query\FieldView
      */
-    public function createFromDatabase(array $field): FieldView
+    public static function createFromDatabase(array $field): FieldView
     {
         return new static(
             $field['id'],

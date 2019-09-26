@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class SuccessResponse extends JsonResponse
 {
-    public function respond(): ResponseInterface
+    public static function respond(): ResponseInterface
     {
         return JsonResponse::create(['status' => 'success']);
     }

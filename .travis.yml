@@ -39,8 +39,8 @@ script:
   - docker exec -it poly_backend vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - docker exec -it poly_backend wget https://scrutinizer-ci.com/ocular.phar
+  - docker exec -it poly_backend php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 after_success:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD

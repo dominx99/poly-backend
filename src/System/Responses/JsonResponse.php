@@ -10,7 +10,7 @@ class JsonResponse extends Response
      * @param array $data
      * @param int $status
      */
-    private function __construct($data = [], $status = 200)
+    public function __construct($data = [], $status = 200)
     {
         parent::__construct($status);
 
@@ -22,7 +22,7 @@ class JsonResponse extends Response
      * @param int $status
      * @return self
      */
-    public function create($data = [], $status = 200): self
+    public static function create($data = [], $status = 200): self
     {
         $response = new static($data, $status);
         $response = $response->withHeader('Content-Type', 'application/json');

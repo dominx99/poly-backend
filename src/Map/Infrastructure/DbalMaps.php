@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Application\Query\MapView;
 use App\Map\Application\Query\FieldView;
 use App\Map\Application\Query\MapObjectView;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 
 class DbalMaps implements MapQueryRepository
 {
@@ -40,10 +41,8 @@ class DbalMaps implements MapQueryRepository
             ->where('m.world_id = :worldId')
             ->setParameter('worldId', $worldId);
 
-        $map = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters());
-
-        if (! $map) {
-            return null;
+        if (! $map = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
+            throw new UnexpectedException('Map not found.');
         }
 
         $map = MapView::createFromDatabase($map);

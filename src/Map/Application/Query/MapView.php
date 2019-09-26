@@ -34,7 +34,7 @@ class MapView
      * @param array $map
      * @return \App\Map\Application\Query\MapView
      */
-    public function createFromDatabase(array $map): MapView
+    public static function createFromDatabase(array $map): MapView
     {
         return new static(
             $map['id'],

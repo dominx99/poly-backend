@@ -40,7 +40,7 @@ final class MapObjectView
      * @param array $mapObject
      * @return \App\Map\Application\Query\MapObjectView
      */
-    public function createFromDatabase(array $mapObject): MapObjectView
+    public static function createFromDatabase(array $mapObject): MapObjectView
     {
         return new static(
             $mapObject['id'],
