@@ -2,6 +2,7 @@
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 use \Respect\Validation\Validator as v;
@@ -107,13 +108,38 @@ $container->set(
 );
 
 $container->set(
-    \App\Army\Application\Commands\AssignBaseArmies::class,
-    Di\autowire(\App\Army\Application\Handlers\AssignBaseArmiesHandler::class)
+    \App\Army\Application\Commands\AssignArmyUnits::class,
+    Di\autowire(\App\Army\Application\Handlers\AssignArmyUnitsHandler::class)
 );
 
 $container->set(
-    \App\Army\Application\Commands\GetBaseArmies::class,
-    Di\autowire(\App\Army\Application\Queries\GetBaseArmiesHandler::class)
+    \App\Army\Application\Commands\GetArmyUnits::class,
+    Di\autowire(\App\Army\Application\Queries\GetArmyUnitsHandler::class)
+);
+
+$container->set(
+    \App\Map\Application\Commands\PutMapObject::class,
+    Di\autowire(\App\Map\Application\Handlers\PutMapObjectHandler::class)
+);
+
+$container->set(
+    \App\User\Application\Commands\ReduceUserGoldForUnit::class,
+    Di\autowire(\App\User\Application\Handlers\ReduceUserGoldForUnitHandler::class)
+);
+
+$container->set(
+    \App\User\Application\Commands\UserGainField::class,
+    Di\autowire(\App\User\Application\Handlers\UserGainFieldHandler::class)
+);
+
+$container->Set(
+    \App\User\Application\Commands\CanUserAffordUnit::class,
+    Di\autowire(\App\User\Application\Queries\CanUserAffordUnitQuery::class)
+);
+
+$container->set(
+    \App\Map\Application\Commands\CanPutMapObject::class,
+    Di\autowire(\App\Map\Application\Queries\CanPutMapObjectQuery::class)
 );
 
 $container->set(
@@ -142,16 +168,21 @@ $container->set(
 );
 
 $container->set(
-    \App\Army\Contracts\BaseArmyWriteRepository::class,
-    Di\autowire(\App\Army\Infrastructure\ORMBaseArmies::class)
+    \App\Army\Contracts\ArmyUnitWriteRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DoctrineArmyUnits::class)
 );
 
 $container->set(
-    \App\Army\Contracts\BaseArmyQueryRepository::class,
-    Di\autowire(\App\Army\Infrastructure\DbalBaseArmies::class)
+    \App\Army\Contracts\ArmyUnitQueryRepository::class,
+    Di\autowire(\App\Army\Infrastructure\DbalArmyUnits::class)
 );
 
-$container->set(EntityManager::class, function () use ($container) {
+$container->set(
+    \App\Map\Contracts\FieldQueryRepository::class,
+    Di\autowire(\App\Map\Infrastructure\Repositories\DbalFields::class)
+);
+
+$container->set(EntityManagerInterface::class, function () use ($container) {
     $appConfig = $container->get('appConfig');
 
     $config = Setup::createAnnotationMetadataConfiguration(
@@ -190,7 +221,7 @@ $container->set(\Overtrue\Socialite\SocialiteManager::class, new \Overtrue\Socia
     $container->get('appConfig')['auth']
 ));
 
-$container->set(\Monolog\Logger::class, function () {
+$container->set(\Psr\Log\LoggerInterface::class, function () {
     $log = new \Monolog\Logger('main');
     $log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/../logs/main.log'));
 

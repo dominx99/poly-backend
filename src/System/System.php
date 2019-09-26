@@ -4,7 +4,7 @@ namespace App\System;
 
 use DI\Container;
 use App\System\Contracts\Command;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class System
 {
@@ -14,7 +14,7 @@ class System
     private $container;
 
     /**
-     * @var \Monolog\Logger
+     * @var \Psr\Log\LoggerInterface
      */
     private $log;
 
@@ -24,7 +24,7 @@ class System
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->log       = $container->get(Logger::class);
+        $this->log       = $container->get(LoggerInterface::class);
     }
 
     /**
@@ -37,8 +37,10 @@ class System
             $handler = $this->resolveHandler($command);
 
             $handler->handle($command);
-        } catch (\Exception $e) {
-            $this->log->error($e->getMessage());
+        } catch (\Throwable $t) {
+            $this->log->error($t->getMessage());
+
+            throw $t;
         }
     }
 
@@ -52,8 +54,10 @@ class System
             $handler = $this->resolveHandler($command);
 
             return $handler->execute($command);
-        } catch (\Exception $e) {
-            $this->log->error($e->getMessage());
+        } catch (\Throwable $t) {
+            $this->log->error($t->getMessage());
+
+            throw $t;
         }
     }
 

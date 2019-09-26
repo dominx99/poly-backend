@@ -3,22 +3,20 @@
 namespace App\World\Infrastructure;
 
 use App\World\Contracts\WorldsWriteRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\World\Domain\World;
 use App\World\Domain\World\Status;
 use App\User\Domain\User;
 use Ramsey\Uuid\Uuid;
 use App\Map\Domain\Map;
-use Monolog\Logger;
 use App\Map\Domain\Map\Field;
 use App\Map\Domain\Map\Field\X;
 use App\Map\Domain\Map\Field\Y;
-use App\Map\Domain\Map\Field\Type;
 
 class ORMWorlds implements WorldsWriteRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -28,12 +26,11 @@ class ORMWorlds implements WorldsWriteRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager, Logger $log)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->log           = $log;
         $this->connection    = $entityManager->getConnection();
     }
 
@@ -85,8 +82,7 @@ class ORMWorlds implements WorldsWriteRepository
             $field = new Field(
                 (string) Uuid::uuid4(),
                 new X($field['x']),
-                new Y($field['y']),
-                new Type($field['type'])
+                new Y($field['y'])
             );
 
             $map->addField($field);

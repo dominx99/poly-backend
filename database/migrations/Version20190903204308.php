@@ -13,13 +13,16 @@ class Version20190903204308 extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $table = $schema->createTable('base_armies');
+        $table = $schema->createTable('units');
 
         $table->addColumn('id', 'string');
         $table->addColumn('map_id', 'string');
         $table->addColumn('name', 'string');
         $table->addColumn('display_name', 'string');
         $table->addColumn('cost', 'integer');
+        $table->addColumn('power', 'integer')->setDefault(0);
+        $table->addColumn('defense', 'integer')->setDefault(0);
+        $table->addColumn('type', 'string');
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
@@ -38,6 +41,6 @@ class Version20190903204308 extends AbstractMigration
      */
     public function down(Schema $schema): void
     {
-        $schema->dropTable('base_armies');
+        $schema->dropTable('units');
     }
 }

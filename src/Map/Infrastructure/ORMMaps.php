@@ -3,18 +3,17 @@
 namespace App\Map\Infrastructure;
 
 use App\Map\Contracts\MapWriteRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Contracts\MapQueryRepository;
-use Ramsey\Uuid\Uuid;
 use App\User\Domain\User;
 use App\Map\Domain\Map as DomainMap;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use App\User\Domain\Resource;
-use App\User\Domain\Resource\Gold;
 
 class ORMMaps implements MapWriteRepository
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
 
@@ -29,9 +28,9 @@ class ORMMaps implements MapWriteRepository
     private $connection;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $entityManager
+     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager, MapQueryRepository $query)
+    public function __construct(EntityManagerInterface $entityManager, MapQueryRepository $query)
     {
         $this->entityManager = $entityManager;
         $this->query         = $query;
@@ -66,13 +65,13 @@ class ORMMaps implements MapWriteRepository
     {
         $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
         if (! $map = $this->entityManager->getRepository(DomainMap::class)->find($mapId)) {
-            throw new \Exception('Map not found');
+            throw new UnexpectedException('Map not found');
         }
 
         foreach ($users as $user) {
-            $resource = new Resource((string) Uuid::uuid4(), Gold::createDefault());
+            $resource = Resource::createDefault();
             $resource->addUser($user);
-            $resource->addMap($map);
+            $resource->setMap($map);
 
             $this->entityManager->persist($resource);
         }

@@ -30,26 +30,19 @@ class FieldView
     private $y;
 
     /**
-     * @var string
-     */
-    private $type;
-
-    /**
      * @param string $id
      * @param string $mapId
      * @param string $userId
      * @param int $x
      * @param int $y
-     * @param string $type
      */
-    public function __construct(string $id, string $mapId, string $userId = null, int $x, int $y, string $type)
+    public function __construct(string $id, string $mapId, string $userId = null, int $x, int $y)
     {
         $this->id     = $id;
         $this->mapId  = $mapId;
         $this->userId = $userId;
         $this->x      = $x;
         $this->y      = $y;
-        $this->type   = $type;
     }
 
     /**
@@ -64,7 +57,6 @@ class FieldView
             $field['user_id'],
             (int) $field['x'],
             (int) $field['y'],
-            $field['type']
         );
     }
 
@@ -109,10 +101,15 @@ class FieldView
     }
 
     /**
-     * @return string
+     * @param \App\Map\Application\Query\FieldView $field
+     * @param int $range
      */
-    public function type(): string
+    public function inRange(FieldView $field, int $range): bool
     {
-        return $this->type;
+        // TODO: need to be more specific, already you can put map object diagonally
+
+        return
+            abs($this->x - $field->X()) <= $range &&
+            abs($this->y - $field->y()) <= $range;
     }
 }

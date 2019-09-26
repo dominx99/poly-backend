@@ -8,10 +8,22 @@ use App\World\Application\StartWorldHandler;
 use App\User\Application\AssignUserBaseKitHandler;
 use App\World\Application\Events\WorldReady;
 use App\Map\Application\Events\MapGenerated;
-use App\Army\Application\Handlers\AssignDefaultBaseArmiesHandler;
+use App\Army\Application\Handlers\AssignDefaultArmyUnitsHandler;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
+use Psr\Log\LoggerInterface;
 
 class EventDispatcher implements EventDispatcherInterface
 {
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $log;
+
     /**
      * @var array
      */
@@ -22,16 +34,18 @@ class EventDispatcher implements EventDispatcherInterface
         ],
         MapGenerated::class => [
             AssignUserBaseKitHandler::class,
-            AssignDefaultBaseArmiesHandler::class,
+            AssignDefaultArmyUnitsHandler::class,
         ],
     ];
 
     /**
      * @param \Psr\Container\ContainerInterface $container
+     * @param \Psr\Log\LoggerInterface $log
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, LoggerInterface $log)
     {
         $this->container = $container;
+        $this->log       = $log;
     }
 
     /**
@@ -45,12 +59,17 @@ class EventDispatcher implements EventDispatcherInterface
         if (array_key_exists($className, $this->listeners)) {
             foreach ($this->listeners[$className] as $object) {
                 $handler = $this->container->get($object);
-                $handler->handle($event);
+
+                try {
+                    $handler->handle($event);
+                } catch (\Throwable $t) {
+                    $this->log->error($t->getMessage());
+                }
             }
 
             return;
         }
 
-        throw new \Exception("{$className} event does not have any listeners");
+        throw new UnexpectedException("{$className} event does not have any listeners");
     }
 }

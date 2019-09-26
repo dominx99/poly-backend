@@ -3,9 +3,10 @@
 namespace App\Map\Infrastructure;
 
 use App\Map\Contracts\MapQueryRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Application\Query\MapView;
 use App\Map\Application\Query\FieldView;
+use App\Map\Application\Query\MapObjectView;
 
 class DbalMaps implements MapQueryRepository
 {
@@ -20,9 +21,9 @@ class DbalMaps implements MapQueryRepository
     protected $queryBuilder;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param \Doctrine\ORM\EntityManagerInterface $em
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->connection = $em->getConnection();
     }
@@ -47,6 +48,18 @@ class DbalMaps implements MapQueryRepository
 
         $map = MapView::createFromDatabase($map);
 
+        $map->setFields($this->getFieldsByWorld($worldId) ?? []);
+        $map->setMapObjects($this->getMapObjectsByWorld($worldId) ?? []);
+
+        return $map;
+    }
+
+    /**
+     * @param string $worldId
+     * @return array
+     */
+    private function getFieldsByWorld(string $worldId): array
+    {
         $qb = $this->connection->createQueryBuilder()
             ->select('f.*')
             ->from('maps', 'm')
@@ -55,15 +68,29 @@ class DbalMaps implements MapQueryRepository
             ->where('w.id = :worldId')
             ->setParameter('worldId', $worldId);
 
-        $fields = $this->connection->fetchAll($qb->getSQL(), $qb->getParameters());
-
-        $fields = array_map(function ($field) {
+        return array_map(function ($field) {
             return FieldView::createFromDatabase($field);
-        }, $fields);
+        }, $this->connection->fetchAll($qb->getSQL(), $qb->getParameters()));
+    }
 
-        $map->setFields($fields);
+    /**
+     * @param string $worldId
+     * @return array
+     */
+    private function getMapObjectsByWorld(string $worldId): array
+    {
+        $qb = $this->connection->createQueryBuilder()
+            ->select('mo.*, u.name')
+            ->from('maps', 'm')
+            ->leftJoin('m', 'worlds', 'w', 'w.id = m.world_id')
+            ->innerJoin('m', 'map_objects', 'mo', 'mo.map_id = m.id')
+            ->innerJoin('mo', 'units', 'u', 'mo.unit_id = u.id')
+            ->where('w.id = :worldId')
+            ->setParameter('worldId', $worldId);
 
-        return $map;
+        return array_map(function ($mapObject) {
+            return MapObjectView::createFromDatabase($mapObject);
+        }, $this->connection->fetchAll($qb->getSQL(), $qb->getParameters()));
     }
 
     /**

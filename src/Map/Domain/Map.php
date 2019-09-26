@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\World\Domain\World;
 use App\Map\Domain\Map\Field;
 use App\User\Domain\Resource;
-use App\Army\Domain\BaseArmy;
+use App\Map\Domain\Map\MapObject;
+use App\Map\Domain\Map\Unit;
 
 /**
  * @ORM\Entity
@@ -45,11 +46,18 @@ class Map
     private $resources;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Army\Domain\BaseArmy[]
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\Unit[]
      *
-     * @ORM\OneToMany(targetEntity="\App\Army\Domain\BaseArmy", mappedBy="map", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\Unit", mappedBy="map", cascade={"persist"})
      */
-    private $baseArmies;
+    private $units;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
+     *
+     * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="map", cascade={"persist"})
+     */
+    private $mapObjects;
 
     /**
      * @param string $id
@@ -59,7 +67,8 @@ class Map
         $this->id         = $id;
         $this->fields     = new ArrayCollection();
         $this->resources  = new ArrayCollection();
-        $this->baseArmies = new ArrayCollection();
+        $this->units      = new ArrayCollection();
+        $this->mapObjects = new ArrayCollection();
     }
 
     /**
@@ -101,20 +110,34 @@ class Map
         }
 
         $this->resources->add($resource);
-        $resource->addMap($this);
+        $resource->setMap($this);
     }
 
     /**
-     * @param \App\Army\Domain\BaseArmy $baseArmy
+     * @param \App\Map\Domain\Map\Unit $unit
      * @return void
      */
-    public function addBaseArmy(BaseArmy $baseArmy): void
+    public function addUnit(Unit $unit): void
     {
-        if ($this->baseArmies->contains($baseArmy)) {
+        if ($this->units->contains($unit)) {
             return;
         }
 
-        $this->baseArmies->add($baseArmy);
-        $baseArmy->addMap($this);
+        $this->units->add($unit);
+        $unit->addMap($this);
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\MapObject $mapObject
+     * @return void
+     */
+    public function addMapObjects(MapObject $mapObject): void
+    {
+        if ($this->mapObjects->contains($mapObject)) {
+            return;
+        }
+
+        $this->mapObjects->add($mapObject);
+        $mapObject->setMap($this);
     }
 }

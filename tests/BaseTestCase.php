@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 use App\App;
@@ -14,6 +14,7 @@ use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Http\ServerRequest;
 use Slim\Psr7\Factory\UriFactory;
 use App\System\Infrastructure\Event\EventDispatcher;
+use Psr\Log\LoggerInterface;
 
 class BaseTestCase extends TestCase
 {
@@ -33,6 +34,13 @@ class BaseTestCase extends TestCase
 
     protected $token;
 
+    protected $userId;
+
+    /**
+     * @var \App\User\Domain\User
+     */
+    protected $user;
+
     public function setUp(): void
     {
         $this->createApplication();
@@ -42,6 +50,7 @@ class BaseTestCase extends TestCase
 
         $traits = array_flip(class_uses(static::class));
         if (isset($traits[DatabaseTrait::class])) {
+            $this->rollback();
             $this->migrate();
         }
     }
@@ -58,7 +67,7 @@ class BaseTestCase extends TestCase
 
     public function createEntityManager(): void
     {
-        $this->entityManager = $this->container->get(EntityManager::class);
+        $this->entityManager = $this->container->get(EntityManagerInterface::class);
         $this->dbConnection  = $this->entityManager->getConnection();
     }
 
@@ -78,7 +87,7 @@ class BaseTestCase extends TestCase
         $this->app       = $app;
         $this->container = $container;
         $this->system    = new System($this->container);
-        $this->events    = new EventDispatcher($this->container);
+        $this->events    = new EventDispatcher($this->container, $this->container->get(LoggerInterface::class));
     }
 
     public function authById(string $id): void

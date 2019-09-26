@@ -36,7 +36,7 @@ class MapControllerTest extends BaseTestCase
             'id' => $worldId,
         ]);
 
-        $response = $this->runApp('GET', "api/map/{$worldId}");
+        $response = $this->runApp('GET', "api/world/{$worldId}/map");
 
         $data = json_decode((string) $response->getBody(), true)['data'];
 

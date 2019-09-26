@@ -52,6 +52,15 @@ class MapView
     }
 
     /**
+     * @param array $mapObjects
+     * @return array
+     */
+    public function setMapObjects(array $mapObjects): void
+    {
+        $this->mapObjects = $mapObjects;
+    }
+
+    /**
      * @return string
      */
     public function id(): string
@@ -73,5 +82,13 @@ class MapView
     public function fields(): array
     {
         return $this->fields;
+    }
+
+    /**
+     * @return array
+     */
+    public function mapObjects(): array
+    {
+        return $this->mapObjects;
     }
 }
