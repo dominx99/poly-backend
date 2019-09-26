@@ -4,4 +4,5 @@ namespace App\System\Infrastructure\Exceptions;
 
 class UnexpectedException extends \Exception
 {
+    protected $message = 'Unexpected exception.';
 }

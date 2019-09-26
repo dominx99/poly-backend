@@ -10,6 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 use App\World\Domain\World;
 use App\Map\Domain\Map\MapObject;
 use App\Map\Domain\Map\Field;
+use App\System\Contracts\Buyable;
 
 /**
  * @ORM\Entity
@@ -123,7 +124,7 @@ class User
      * @param \App\User\Domain\Resource $resource
      * @return void
      */
-    public function addResource(Resource $resource): void
+    public function setResource(Resource $resource): void
     {
         if ($this->resource === $resource) {
             return;
@@ -159,5 +160,23 @@ class User
 
         $this->fields->add($field);
         $field->setUser($this);
+    }
+
+    /**
+     * @param \App\System\Contracts\Buyable $unit
+     * @return void
+     */
+    public function buy(Buyable $unit): void
+    {
+        $this->resource->reduceGold($unit->getCost());
+    }
+
+    /**
+     * @param \App\Map\Domain\Map\Field $field
+     * @return void
+     */
+    public function gainField(Field $field): void
+    {
+        $this->addField($field);
     }
 }

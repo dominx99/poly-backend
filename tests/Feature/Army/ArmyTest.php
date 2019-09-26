@@ -18,6 +18,7 @@ use Ramsey\Uuid\Uuid;
 use App\Map\Domain\Map\Unit\Power;
 use App\Map\Domain\Map\Unit\Defense;
 use App\System\Infrastructure\StatusCode;
+use App\User\Domain\Resource;
 use App\User\Domain\User;
 
 final class ArmyTest extends BaseTestCase
@@ -43,12 +44,16 @@ final class ArmyTest extends BaseTestCase
             $unitId,
             new Name('pikinier'),
             new DisplayName('pikinier'),
-            new Cost(300),
+            new Cost(175),
             new Power(3),
             new Defense(3)
         );
 
-        $fieldToGet->setUser(
+        $resource = Resource::createDefault();
+        $resource->setMap($map);
+        $this->user->setResource($resource);
+
+        $field->setUser(
             $this->entityManager->getRepository(User::class)->find($this->userId)
         );
 
@@ -57,6 +62,8 @@ final class ArmyTest extends BaseTestCase
         $map->addUnit($armyUnit);
         $world->setMap($map);
 
+        $this->entityManager->persist($resource);
+        $this->entityManager->persist($this->user);
         $this->entityManager->persist($map);
         $this->entityManager->persist($world);
         $this->entityManager->flush();
@@ -80,6 +87,16 @@ final class ArmyTest extends BaseTestCase
             'map_id'    => $mapId,
             'unit_id'   => $unitId,
             'unit_type' => MapObject::ARMY_TYPE,
+        ]);
+
+        $this->assertDatabaseHas('resources', [
+            'user_id' => $this->userId,
+            'gold'    => 125,
+        ]);
+
+        $this->assertDatabaseHas('fields', [
+            'id'      => $fieldId,
+            'user_id' => $this->userId,
         ]);
     }
 }

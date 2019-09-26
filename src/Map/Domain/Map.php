@@ -110,7 +110,7 @@ class Map
         }
 
         $this->resources->add($resource);
-        $resource->addMap($this);
+        $resource->setMap($this);
     }
 
     /**

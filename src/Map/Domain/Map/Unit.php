@@ -10,6 +10,7 @@ use App\Map\Domain\Map\Unit\Cost;
 use App\Map\Domain\Map\Unit\Power;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Map\Domain\Map\Unit\Defense;
+use App\System\Contracts\Buyable;
 
 /**
  * @ORM\Entity
@@ -18,7 +19,7 @@ use App\Map\Domain\Map\Unit\Defense;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"army" = "\App\Army\Domain\ArmyUnit"})
  */
-abstract class Unit
+abstract class Unit implements Buyable
 {
     /**
      * @var string
@@ -129,5 +130,13 @@ abstract class Unit
 
         $this->mapObjects->add($mapObject);
         $mapObject->setUnit($this);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost->getCost();
     }
 }

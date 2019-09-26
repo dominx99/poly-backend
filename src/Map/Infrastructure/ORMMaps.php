@@ -5,12 +5,10 @@ namespace App\Map\Infrastructure;
 use App\Map\Contracts\MapWriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Contracts\MapQueryRepository;
-use Ramsey\Uuid\Uuid;
 use App\User\Domain\User;
 use App\Map\Domain\Map as DomainMap;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
 use App\User\Domain\Resource;
-use App\User\Domain\Resource\Gold;
 
 class ORMMaps implements MapWriteRepository
 {
@@ -71,9 +69,9 @@ class ORMMaps implements MapWriteRepository
         }
 
         foreach ($users as $user) {
-            $resource = new Resource((string) Uuid::uuid4(), Gold::createDefault());
+            $resource = Resource::createDefault();
             $resource->addUser($user);
-            $resource->addMap($map);
+            $resource->setMap($map);
 
             $this->entityManager->persist($resource);
         }
