@@ -123,6 +123,21 @@ $container->set(
 );
 
 $container->set(
+    \App\User\Application\Commands\ReduceUserGoldForUnit::class,
+    Di\autowire(\App\User\Application\Handlers\ReduceUserGoldForUnitHandler::class)
+);
+
+$container->set(
+    \App\User\Application\Commands\UserGainField::class,
+    Di\autowire(\App\User\Application\Handlers\UserGainFieldHandler::class)
+);
+
+$container->Set(
+    \App\User\Application\Commands\CanUserAffordUnit::class,
+    Di\autowire(\App\User\Application\Queries\CanUserAffordUnitQuery::class)
+);
+
+$container->set(
     \App\Map\Application\Commands\CanPutMapObject::class,
     Di\autowire(\App\Map\Application\Queries\CanPutMapObjectQuery::class)
 );

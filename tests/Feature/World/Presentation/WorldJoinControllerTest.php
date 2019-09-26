@@ -48,7 +48,7 @@ class WorldJoinControllerTest extends BaseTestCase
         $this->assertCount(1, $worlds);
 
         $this->assertDatabaseHas('users', [
-            'id'       => $this->user->id(),
+            'id'       => $this->userId,
             'world_id' => $worlds[0]->id(),
         ]);
 
@@ -62,7 +62,7 @@ class WorldJoinControllerTest extends BaseTestCase
         $this->assertCount(1, $worlds);
 
         $this->assertDatabaseHas('users', [
-            'id'       => $this->user->id(),
+            'id'       => $this->userId,
             'world_id' => $worlds[0]->id(),
         ]);
     }

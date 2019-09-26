@@ -7,8 +7,9 @@ use Slim\Factory\AppFactory;
 use Slim\App as SlimApp;
 use DI\Container;
 use App\System\Infrastructure\CallableResolver;
+use App\System\Infrastructure\Middleware\ExceptionMiddleware;
 
-class App
+final class App
 {
     const TESTING_ENV     = '.env.testing';
     const DEVELOPMENT_ENV = '.env';
@@ -18,7 +19,7 @@ class App
      */
     public static function create(): SlimApp
     {
-        static::loadEnv(static::DEVELOPMENT_ENV);
+        self::loadEnv(static::DEVELOPMENT_ENV);
 
         return self::configuredApp();
     }
@@ -28,7 +29,7 @@ class App
      */
     public static function createForTesting(): SlimApp
     {
-        static::loadEnv(static::TESTING_ENV);
+        self::loadEnv(static::TESTING_ENV);
 
         return self::configuredApp();
     }
@@ -45,6 +46,7 @@ class App
 
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
+        $app->add(new ExceptionMiddleware());
         $app->addErrorMiddleware(true, false, false);
 
         return $app;

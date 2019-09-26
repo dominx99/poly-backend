@@ -4,6 +4,7 @@ namespace App\Map\Application\Queries;
 
 use App\Map\Application\Commands\CanPutMapObject;
 use App\Map\Contracts\FieldQueryRepository;
+use App\System\Infrastructure\Exceptions\BusinessException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -41,15 +42,15 @@ final class CanPutMapObjectQuery
         $this->command = $command;
 
         if (! $this->isInRange(self::DEFAULT_RANGE)) {
-            throw new \Exception('Field is not in your range.');
+            throw new BusinessException('Field is not in your range.');
         }
 
         if ($this->userHasMapObject()) {
-            throw new \Exception('You already have map object there.');
+            throw new BusinessException('You already have map object there.');
         }
 
         if (! $this->hasEnoughPower()) {
-            throw new \Exception("You don't have enough power.");
+            throw new BusinessException("You don't have enough power.");
         }
 
         return true;
@@ -62,7 +63,7 @@ final class CanPutMapObjectQuery
     private function isInRange(int $range): bool
     {
         $selectedField = $this->fields->find($this->command->fieldId());
-        $fields        = $this->fields->findByMap($this->command->mapId());
+        $fields        = $this->fields->findByMap($this->command->mapId(), $this->command->userId());
         $result        = false;
 
         array_walk($fields, function ($field) use ($range, $selectedField, &$result) {
@@ -84,8 +85,8 @@ final class CanPutMapObjectQuery
             ->select('*')
             ->from('map_objects', 'mo')
             ->where('mo.field_id = :fieldId')
-            ->where('mo.user_id = :userId')
-            ->where('mo.map_id = :mapId')
+            ->andWhere('mo.user_id = :userId')
+            ->andWhere('mo.map_id = :mapId')
             ->setParameters([
                 'fieldId' => $this->command->fieldId(),
                 'userId'  => $this->command->userId(),

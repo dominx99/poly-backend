@@ -5,6 +5,7 @@ namespace App\User\Domain;
 use \Doctrine\ORM\Mapping as ORM;
 use App\User\Domain\Resource\Gold;
 use App\Map\Domain\Map;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity
@@ -54,6 +55,14 @@ class Resource
     }
 
     /**
+     * @return self
+     */
+    public static function createDefault(): self
+    {
+        return new self((string) Uuid::uuid4(), Gold::createDefault());
+    }
+
+    /**
      * @param \App\User\Domain\User $user
      * @return void
      */
@@ -64,14 +73,14 @@ class Resource
         }
 
         $this->user = $user;
-        $user->addResource($this);
+        $user->setResource($this);
     }
 
     /**
      * @param \App\Map\Domain\Map $map
      * @return void
      */
-    public function addMap(Map $map): void
+    public function setMap(Map $map): void
     {
         if ($this->map === $map) {
             return;
@@ -79,5 +88,14 @@ class Resource
 
         $this->map = $map;
         $map->addResource($this);
+    }
+
+    /**
+     * @param int $cost
+     * @return void
+     */
+    public function reduceGold(int $cost): void
+    {
+        $this->gold->reduce($cost);
     }
 }

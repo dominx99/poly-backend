@@ -2,6 +2,7 @@
 
 namespace App\User\Domain\Resource;
 
+use App\System\Infrastructure\Exceptions\BusinessException;
 use \Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,11 +22,31 @@ class Gold
      */
     public function __construct(int $gold)
     {
+        if ($gold < 0) {
+            throw new \Exception('Gold can not be less than 0.');
+        }
+
         $this->gold = $gold;
     }
 
-    public function createDefault(): self
+    /**
+     * @return self
+     */
+    public static function createDefault(): self
     {
         return new static(300);
+    }
+
+    /**
+     * @param int $cost
+     * @return void
+     */
+    public function reduce(int $cost): void
+    {
+        if (($this->gold - $cost) < 0) {
+            throw new BusinessException('You do not afford to buy this.');
+        }
+
+        $this->gold -= $cost;
     }
 }

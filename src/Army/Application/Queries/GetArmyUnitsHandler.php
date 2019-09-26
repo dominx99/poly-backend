@@ -32,6 +32,7 @@ final class GetArmyUnitsHandler
 
         $data = array_map(function ($army) {
             return [
+                'id'           => $army->id(),
                 'name'         => $army->name(),
                 'display_name' => $army->displayName(),
                 'cost'         => $army->cost(),

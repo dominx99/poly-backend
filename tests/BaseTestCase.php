@@ -36,6 +36,11 @@ class BaseTestCase extends TestCase
 
     protected $userId;
 
+    /**
+     * @var \App\User\Domain\User
+     */
+    protected $user;
+
     public function setUp(): void
     {
         $this->createApplication();
@@ -45,6 +50,7 @@ class BaseTestCase extends TestCase
 
         $traits = array_flip(class_uses(static::class));
         if (isset($traits[DatabaseTrait::class])) {
+            $this->rollback();
             $this->migrate();
         }
     }

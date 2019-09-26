@@ -21,6 +21,18 @@ class Cost
      */
     public function __construct(int $cost)
     {
+        if ($cost < 0) {
+            throw new \Exception('Cost can not be less than 0.');
+        }
+
         $this->cost = $cost;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCost(): int
+    {
+        return $this->cost;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Map\Infrastructure\Repositories;
 
 use App\Map\Application\Query\FieldView;
 use App\Map\Contracts\FieldQueryRepository;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class DbalFields implements FieldQueryRepository
@@ -36,7 +37,7 @@ final class DbalFields implements FieldQueryRepository
             ->setParameter('id', $id);
 
         if (! $field = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
-            throw new \Exception('Field not found.');
+            throw new UnexpectedException('Field not found.');
         }
 
         return $field ? FieldView::createFromDatabase($field) : null;
@@ -46,14 +47,16 @@ final class DbalFields implements FieldQueryRepository
      * @param string $mapId
      * @return array|\App\Map\Application\Query\FieldView[]
      */
-    public function findByMap(string $mapId): array
+    public function findByMap(string $mapId, string $userId): array
     {
         $qb = $this->connection
             ->createQueryBuilder()
             ->select('f.*')
             ->from('fields', 'f')
             ->where('f.map_id = :mapId')
-            ->setParameter('mapId', $mapId);
+            ->andWhere('f.user_id = :userId')
+            ->setParameter('mapId', $mapId)
+            ->setParameter('userId', $userId);
 
         return array_map(function ($field) {
             return FieldView::createFromDatabase($field);
