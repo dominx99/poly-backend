@@ -42,6 +42,8 @@ class DbalMaps implements MapQueryRepository
             ->setParameter('worldId', $worldId);
 
         if (! $map = $this->connection->fetchAssoc($qb->getSQL(), $qb->getParameters())) {
+            die();
+
             throw new UnexpectedException('Map not found.');
         }
 

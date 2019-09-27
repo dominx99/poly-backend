@@ -9,7 +9,7 @@ use App\World\Domain\World\Status;
 use App\World\Application\UpdateWorldStatus;
 use App\System\System;
 use App\Map\Application\Events\MapGenerated;
-use App\System\Infrastructure\Event\EventDispatcher;
+use App\System\Infrastructure\Event\EventDispatcherInterface;
 use App\World\Application\Events\WorldReady;
 use Ramsey\Uuid\Uuid;
 
@@ -20,9 +20,7 @@ class MapGenerateHandler
      */
     private $system;
 
-    /**
-     * @var \App\System\Infrastructure\Event\EventDispatcher
-     */
+    /** @var \App\System\Infrastructure\Event\EventDispatcherInterface */
     private $events;
 
     /**
@@ -37,13 +35,13 @@ class MapGenerateHandler
 
     /**
      * @param \App\System\System $system
-     * @param \App\System\Infrastructure\Event\EventDispatcher $events
+     * @param \App\System\Infrastructure\Event\EventDispatcherInterface $events
      * @param \App\Map\Infrastructure\MapGenerator $generator
      * @param \App\World\Contracts\WorldsWriteRepository $worlds
      */
     public function __construct(
         System $system,
-        EventDispatcher $events,
+        EventDispatcherInterface $events,
         MapGenerator $generator,
         WorldsWriteRepository $worlds
     ) {

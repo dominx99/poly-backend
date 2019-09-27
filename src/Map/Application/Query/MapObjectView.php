@@ -19,6 +19,9 @@ final class MapObjectView
      */
     private $userId;
 
+    /** @var string */
+    private $mapId;
+
     /**
      * @var string
      */
@@ -26,13 +29,17 @@ final class MapObjectView
 
     /**
      * @param string $id
-     * @param string $worldId
+     * @param string $fieldId
+     * @param string $userId
+     * @param string $mapId
+     * @param string $unitName
      */
-    public function __construct(string $id, string $fieldId, string $userId, string $unitName)
+    public function __construct(string $id, string $fieldId, string $userId, string $mapId, string $unitName)
     {
         $this->id       = $id;
         $this->fieldId  = $fieldId;
         $this->userId   = $userId;
+        $this->mapId    = $mapId;
         $this->unitName = $unitName;
     }
 
@@ -46,8 +53,22 @@ final class MapObjectView
             $mapObject['id'],
             $mapObject['field_id'],
             $mapObject['user_id'],
+            $mapObject['map_id'],
             $mapObject['name'],
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id'        => $this->id(),
+            'field_id'  => $this->fieldId(),
+            'user_id'   => $this->userId(),
+            'unit_name' => $this->unitName(),
+        ];
     }
 
     /**
@@ -80,5 +101,13 @@ final class MapObjectView
     public function unitName(): string
     {
         return $this->unitName;
+    }
+
+    /**
+     * @return string
+     */
+    public function mapId(): string
+    {
+        return $this->mapId;
     }
 }

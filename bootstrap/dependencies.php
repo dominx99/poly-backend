@@ -143,6 +143,11 @@ $container->set(
 );
 
 $container->set(
+    \App\Map\Application\Commands\FindMapObject::class,
+    Di\autowire(\App\Map\Application\Queries\FindMapObjectQuery::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );
@@ -209,7 +214,7 @@ $container->set(
 );
 
 $container->set(
-    \App\System\Infrastructure\Event\EventDispatcher::class,
+    \App\System\Infrastructure\Event\EventDispatcherInterface::class,
     DI\autowire(\App\System\Infrastructure\Event\EventDispatcher::class)
 );
 
@@ -228,7 +233,7 @@ $container->set(\Psr\Log\LoggerInterface::class, function () {
     return $log;
 });
 
-$container->set(\App\System\Infrastructure\PusherSocket::class, function () use ($appConfig) {
+$container->set(\App\System\Contracts\Socket::class, function () use ($appConfig) {
     $pusher = new \Pusher\Pusher(
         $appConfig['sockets']['pusher']['key'],
         $appConfig['sockets']['pusher']['secret'],

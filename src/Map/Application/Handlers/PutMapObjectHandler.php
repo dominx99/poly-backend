@@ -9,6 +9,9 @@ use App\User\Domain\User;
 use App\Map\Domain\Map\Unit;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Application\Factories\MapObjectFactory;
+use App\System\Infrastructure\Event\EventDispatcherInterface;
+use App\Map\Application\Events\PlacedMapObject;
+use Ramsey\Uuid\Uuid;
 
 final class PutMapObjectHandler
 {
@@ -17,12 +20,17 @@ final class PutMapObjectHandler
      */
     private $entityManager;
 
+    /** @var \App\System\Infrastructure\Event\EventDispatcherInterface */
+    private $events;
+
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @param \App\System\Infrastructure\Event\EventDispatcherInterface $events
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, EventDispatcherInterface $events)
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
+        $this->events          = $events;
     }
 
     /**
@@ -31,7 +39,8 @@ final class PutMapObjectHandler
      */
     public function handle(PutMapObject $command): void
     {
-        $mapObject = MapObjectFactory::create($command->type());
+        $mapObjectId = (string) Uuid::uuid4();
+        $mapObject   = MapObjectFactory::create($mapObjectId, $command->type());
 
         $mapObject->setField(
             $this->entityManager->getRepository(Field::class)->find($command->fieldId())
@@ -51,5 +60,7 @@ final class PutMapObjectHandler
 
         $this->entityManager->persist($mapObject);
         $this->entityManager->flush();
+
+        $this->events->dispatch(new PlacedMapObject($mapObjectId));
     }
 }

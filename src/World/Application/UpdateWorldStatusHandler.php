@@ -2,8 +2,8 @@
 
 namespace App\World\Application;
 
+use App\System\Contracts\Socket;
 use App\World\Contracts\WorldsWriteRepository;
-use App\System\Infrastructure\PusherSocket;
 use App\World\Events\ChangeWorldStatusEvent;
 
 class UpdateWorldStatusHandler
@@ -13,16 +13,14 @@ class UpdateWorldStatusHandler
      */
     private $worlds;
 
-    /**
-     * @var \App\System\Infrastructure\PusherSocket
-     */
+    /** @var \App\System\Contracts\Socket */
     private $socket;
 
     /**
      * @param \App\World\Contracts\WorldsWriteRepository $worlds
-     * @param \App\System\Infrastructure\PusherSocket $socket
+     * @param \App\System\Contracts\Socket $socket
      */
-    public function __construct(WorldsWriteRepository $worlds, PusherSocket $socket)
+    public function __construct(WorldsWriteRepository $worlds, Socket $socket)
     {
         $this->worlds = $worlds;
         $this->socket = $socket;
