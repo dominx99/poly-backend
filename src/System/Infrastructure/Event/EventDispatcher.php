@@ -9,8 +9,10 @@ use App\User\Application\AssignUserBaseKitHandler;
 use App\World\Application\Events\WorldReady;
 use App\Map\Application\Events\MapGenerated;
 use App\Army\Application\Handlers\AssignDefaultArmyUnitsHandler;
+use App\Map\Application\Events\PushPlacedMapObjectNotificationHandler;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Psr\Log\LoggerInterface;
+use App\Map\Application\Events\PlacedMapObject;
 
 class EventDispatcher implements EventDispatcherInterface
 {
@@ -35,6 +37,9 @@ class EventDispatcher implements EventDispatcherInterface
         MapGenerated::class => [
             AssignUserBaseKitHandler::class,
             AssignDefaultArmyUnitsHandler::class,
+        ],
+        PlacedMapObject::class => [
+            PushPlacedMapObjectNotificationHandler::class,
         ],
     ];
 

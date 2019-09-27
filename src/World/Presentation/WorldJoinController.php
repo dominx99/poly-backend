@@ -15,7 +15,7 @@ use App\System\Infrastructure\StatusMessage;
 use App\User\Application\AlreadyInGame;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
-use App\System\Infrastructure\Event\EventDispatcher;
+use App\System\Infrastructure\Event\EventDispatcherInterface;
 use App\World\Application\Events\WorldReady;
 
 class WorldJoinController
@@ -25,16 +25,14 @@ class WorldJoinController
      */
     private $system;
 
-    /**
-     * @var \App\System\Infrastructure\Event\EventDispatcher
-     */
+    /** @var \App\System\Infrastructure\Event\EventDispatcherInterface */
     private $events;
 
     /**
-     * @param System $system
-     * @param \App\System\Infrastructure\Event\EventDispatcher $events
+     * @param \App\System\System $system
+     * @param \App\System\Infrastructure\Event\EventDispatcherInterface $events
      */
-    public function __construct(System $system, EventDispatcher $events)
+    public function __construct(System $system, EventDispatcherInterface $events)
     {
         $this->system = $system;
         $this->events = $events;
