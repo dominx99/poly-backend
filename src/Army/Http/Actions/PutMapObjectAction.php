@@ -13,6 +13,7 @@ use App\User\Application\Commands\CanUserAffordUnit;
 use Psr\Log\LoggerInterface;
 use App\User\Application\Commands\ReduceUserGoldForUnit;
 use App\User\Application\Commands\UserGainField;
+use App\Map\Application\Commands\RemoveCurrentMapObject;
 
 final class PutMapObjectAction
 {
@@ -43,6 +44,8 @@ final class PutMapObjectAction
      */
     public function __invoke(RequestInterface $request): ResponseInterface
     {
+        // TODO: Add validation
+
         $userId = $request->getAttribute('decodedToken')['id'];
         $params = array_merge($request->getParams(), ['user_id' => $userId]);
 
@@ -50,6 +53,7 @@ final class PutMapObjectAction
             try {
                 $this->system->handle(new ReduceUserGoldForUnit($userId, $request->getParam('unit_id')));
                 $this->system->handle(new UserGainField($userId, $request->getParam('field_id')));
+                $this->system->handle(new RemoveCurrentMapObject($params['field_id']));
                 $this->system->handle(new PutMapObject($params));
             } catch (\Throwable $t) {
                 $this->log->error($t->getMessage());

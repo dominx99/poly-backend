@@ -4,28 +4,26 @@ namespace App\Map\Application\Query;
 
 final class MapObjectView
 {
-    /**
-     * @var string
-     */
+	/** @var string */
     private $id;
 
-    /**
-     * @var string
-     */
+	/** @var string */
     private $fieldId;
 
-    /**
-     * @var string
-     */
+	/** @var string */
     private $userId;
 
     /** @var string */
     private $mapId;
 
-    /**
-     * @var string
-     */
+	/** @var string */
     private $unitName;
+
+	/** @var int */
+	private $power;
+
+	/** @var int */
+	private $defense;
 
     /**
      * @param string $id
@@ -34,13 +32,22 @@ final class MapObjectView
      * @param string $mapId
      * @param string $unitName
      */
-    public function __construct(string $id, string $fieldId, string $userId, string $mapId, string $unitName)
-    {
+    public function __construct(
+        string $id,
+        string $fieldId,
+        string $userId,
+        string $mapId,
+        string $unitName,
+        int $power,
+        int $defense
+    ) {
         $this->id       = $id;
         $this->fieldId  = $fieldId;
         $this->userId   = $userId;
         $this->mapId    = $mapId;
         $this->unitName = $unitName;
+		$this->power = $power;
+		$this->defense = $defense;
     }
 
     /**
@@ -55,6 +62,8 @@ final class MapObjectView
             $mapObject['user_id'],
             $mapObject['map_id'],
             $mapObject['name'],
+            (int) $mapObject['power'],
+            (int) $mapObject['defense']
         );
     }
 
@@ -67,7 +76,10 @@ final class MapObjectView
             'id'        => $this->id(),
             'field_id'  => $this->fieldId(),
             'user_id'   => $this->userId(),
+            'map_id'    => $this->mapId(),
             'unit_name' => $this->unitName(),
+            'power'     => $this->power(),
+            'defense'   => $this->defense(),
         ];
     }
 
@@ -110,4 +122,20 @@ final class MapObjectView
     {
         return $this->mapId;
     }
+
+	/**
+	 * @return int
+	 */
+	public function power(): int
+	{
+		return $this->power;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function defense(): int
+	{
+		return $this->defense;
+	}
 }

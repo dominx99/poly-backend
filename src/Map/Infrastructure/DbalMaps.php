@@ -79,7 +79,7 @@ class DbalMaps implements MapQueryRepository
     private function getMapObjectsByWorld(string $worldId): array
     {
         $qb = $this->connection->createQueryBuilder()
-            ->select('mo.*, u.name')
+            ->select('mo.*, u.name, u.power, u.defense')
             ->from('maps', 'm')
             ->leftJoin('m', 'worlds', 'w', 'w.id = m.world_id')
             ->innerJoin('m', 'map_objects', 'mo', 'mo.map_id = m.id')

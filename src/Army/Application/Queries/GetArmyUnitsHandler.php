@@ -31,12 +31,7 @@ final class GetArmyUnitsHandler
         $armies = $this->armies->getArmyUnitsFromMap($command->mapId());
 
         $data = array_map(function ($army) {
-            return [
-                'id'           => $army->id(),
-                'name'         => $army->name(),
-                'display_name' => $army->displayName(),
-                'cost'         => $army->cost(),
-            ];
+            return $army->toArray();
         }, $armies);
 
         return new Success($data);

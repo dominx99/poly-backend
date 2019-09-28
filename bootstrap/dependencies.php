@@ -132,6 +132,11 @@ $container->set(
     Di\autowire(\App\User\Application\Handlers\UserGainFieldHandler::class)
 );
 
+$container->set(
+    \App\Map\Application\Commands\RemoveCurrentMapObject::class,
+    Di\autowire(\App\Map\Application\Handlers\RemoveCurrentMapObjectHandler::class)
+);
+
 $container->Set(
     \App\User\Application\Commands\CanUserAffordUnit::class,
     Di\autowire(\App\User\Application\Queries\CanUserAffordUnitQuery::class)
