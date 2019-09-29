@@ -2,6 +2,7 @@
 
 namespace App\System\Infrastructure\Middleware;
 
+use App\System\Application\Exceptions\ValidationException;
 use App\System\Infrastructure\StatusCode;
 use App\System\Responses\JsonResponse;
 use Psr\Http\Message\RequestInterface;
@@ -25,6 +26,10 @@ final class ExceptionMiddleware
             return JsonResponse::create([
                 'error' => $e->getMessage(),
             ], StatusCode::HTTP_BAD_REQUEST);
+        } catch (ValidationException $e) {
+            return JsonResponse::create([
+                'errors' => $e->messages(),
+            ], StatusCode::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return $response;

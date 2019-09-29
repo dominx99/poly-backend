@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\User\Validation;
 
+use App\System\Application\Exceptions\ValidationException;
 use Tests\BaseTestCase;
 use App\User\Application\Validation\ProviderAuthValidator;
 
@@ -21,16 +22,7 @@ class ProviderAuthValidatorTest extends BaseTestCase
 
         $params = ['access_token' => null];
 
+        $this->expectException(ValidationException::class);
         $providerValidator->validate($params);
-
-        $this->assertTrue($providerValidator->failed());
-        $this->assertFalse($providerValidator->passed());
-
-        $params = [];
-
-        $providerValidator->validate($params);
-
-        $this->assertTrue($providerValidator->failed());
-        $this->assertFalse($providerValidator->passed());
     }
 }

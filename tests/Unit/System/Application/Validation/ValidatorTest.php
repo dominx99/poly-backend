@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\System\Application\Validation;
 
+use App\System\Application\Exceptions\ValidationException;
 use Tests\BaseTestCase;
 use App\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
 
@@ -55,18 +56,7 @@ class ValidatorTest extends BaseTestCase
 
         $params = ['fake_rule' => ''];
 
+        $this->expectException(ValidationException::class);
         $fakeValidator->validate($params);
-
-        $this->assertTrue($fakeValidator->failed());
-        $this->assertFalse($fakeValidator->passed());
-        $this->assertCount(1, $fakeValidator->getErrors());
-
-        $params = [];
-
-        $fakeValidator->validate($params);
-
-        $this->assertTrue($fakeValidator->failed());
-        $this->assertFalse($fakeValidator->passed());
-        $this->assertCount(1, $fakeValidator->getErrors());
     }
 }

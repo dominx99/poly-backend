@@ -14,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use App\User\Application\Commands\ReduceUserGoldForUnit;
 use App\User\Application\Commands\UserGainField;
 use App\Map\Application\Commands\RemoveCurrentMapObject;
+use App\Map\Application\Validation\PutMapObjectValidator;
 
 final class PutMapObjectAction
 {
@@ -27,14 +28,19 @@ final class PutMapObjectAction
      */
     private $log;
 
+    /** @var \App\Map\Application\Validation\PutMapObjectValidator */
+    private $validator;
+
     /**
      * @param \App\System\System $system
      * @param \Psr\Log\LoggerInterface $log
+     * @param \App\Map\Application\Validation\PutMapObjectValidator $validator
      */
-    public function __construct(System $system, LoggerInterface $log)
+    public function __construct(System $system, LoggerInterface $log, PutMapObjectValidator $validator)
     {
-        $this->system = $system;
-        $this->log    = $log;
+        $this->system    = $system;
+        $this->log       = $log;
+        $this->validator = $validator;
     }
 
     /**
@@ -45,6 +51,7 @@ final class PutMapObjectAction
     public function __invoke(RequestInterface $request): ResponseInterface
     {
         // TODO: Add validation
+        $this->validator->validate($request->getParams());
 
         $userId = $request->getAttribute('decodedToken')['id'];
         $params = array_merge($request->getParams(), ['user_id' => $userId]);
