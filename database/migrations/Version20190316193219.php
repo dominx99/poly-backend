@@ -19,6 +19,7 @@ class Version20190316193219 extends AbstractMigration
         $table->addColumn('world_id', 'string')->setNotnull(false);
         $table->addColumn('email', 'string');
         $table->addColumn('password', 'string')->setNotnull(false);
+        $table->addColumn('color', 'string')->setNotnull(false);
 
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',

@@ -7,6 +7,7 @@ use App\Map\Contracts\MapQueryRepository;
 use App\Map\Application\AssignUserPositions;
 use App\Map\Application\AssignUserResources;
 use App\Map\Application\Events\MapGenerated;
+use App\User\Application\Commands\AssignUserColors;
 
 class AssignUserBaseKitHandler
 {
@@ -41,5 +42,6 @@ class AssignUserBaseKitHandler
 
         $this->system->handle(new AssignUserPositions($event->mapId(), $userIds, $positions));
         $this->system->handle(new AssignUserResources($event->mapId(), $userIds));
+        $this->system->handle(new AssignUserColors($userIds));
     }
 }

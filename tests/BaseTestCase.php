@@ -17,6 +17,7 @@ use App\System\Infrastructure\Event\EventDispatcherInterface;
 
 class BaseTestCase extends TestCase
 {
+    /** @var \Slim\App */
     protected $app;
 
     protected $cli;
@@ -112,6 +113,7 @@ class BaseTestCase extends TestCase
             'content_type' => 'application/json',
             'method'       => 'get',
             'uri'          => '/',
+            'attributes'   => [],
         ];
 
         $options = array_merge($default, $options);
@@ -123,6 +125,10 @@ class BaseTestCase extends TestCase
         $request = $request->withMethod($options['method']);
         $request = $request->withParsedBody($params);
         $request = $request->withHeader('Content-Type', $options['content_type']);
+
+        foreach ($options['attributes'] as $key => $attribute) {
+            $request = $request->withAttribute($key, $attribute);
+        }
 
         if ($this->token) {
             $request = $request->withHeader('Authorization', "Bearer {$this->token}");

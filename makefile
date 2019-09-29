@@ -15,3 +15,7 @@ doctrine:
 
 fix:
 	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php-cs-fixer fix $(CMD)"
+
+freshdb:
+	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php doctrine.php migrate first"
+	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php doctrine.php migrate"

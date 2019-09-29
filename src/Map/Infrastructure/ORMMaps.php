@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Map\Contracts\MapQueryRepository;
 use App\User\Domain\User;
 use App\Map\Domain\Map as DomainMap;
+use App\Map\Domain\Map\Field;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
 use App\User\Domain\Resource;
 
@@ -40,20 +41,22 @@ class ORMMaps implements MapWriteRepository
     /**
      * @param string $mapId
      * @param array $userIds
-     * @param array $positions
+     * @param array $fieldIds
      * @return void
      */
     public function assignPositions(string $mapId, array $userIds, array $fieldIds): void
     {
-        $query = 'update fields f set f.user_id = case ';
+        $users = $this->entityManager->getRepository(User::class)->findBy(['id' => $userIds]);
+        $index = 0;
 
-        foreach (array_combine($fieldIds, $userIds) as $field => $user) {
-            $query .= "when f.id='{$field}' then '{$user}' ";
+        foreach ($users as $user) {
+            $user->addField(
+                $this->entityManager->getRepository(Field::class)->find($fieldIds[$index++])
+            );
+            $this->entityManager->persist($user);
         }
 
-        $query .= 'end';
-
-        $this->connection->executeQuery($query);
+        $this->entityManager->flush();
     }
 
     /**

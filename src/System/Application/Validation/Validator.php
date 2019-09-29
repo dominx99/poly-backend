@@ -5,6 +5,7 @@ namespace App\System\Application\Validation;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator as v;
 use App\System\Application\Exceptions\ValidationRuleAlreadyExistsException;
+use App\System\Application\Exceptions\ValidationException;
 
 abstract class Validator
 {
@@ -24,14 +25,20 @@ abstract class Validator
      */
     public function validate(array $params): self
     {
+        $this->clearErrors();
+
         foreach ($this->getRules() as $field => $rule) {
             try {
                 $param = $params[$field] ?? null;
 
                 $rule->setName(ucfirst($field))->assert($param);
             } catch (NestedValidationException $e) {
-                $this->errors[$field] = $e->getMessages();
+                $this->addError($field, $e->getMessages());
             }
+        }
+
+        if ($this->failed()) {
+            throw ValidationException::withMessages($this->getErrors());
         }
 
         return $this;
@@ -92,5 +99,23 @@ abstract class Validator
         foreach ($rules as $field => $rule) {
             $this->extendRule($field, $rule);
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function clearErrors(): void
+    {
+        $this->errors = [];
+    }
+
+    /**
+     * @param string $field
+     * @param array $messages
+     * @return void
+     */
+    private function addError(string $field, array $messages): void
+    {
+        $this->errors[$field] = $messages;
     }
 }

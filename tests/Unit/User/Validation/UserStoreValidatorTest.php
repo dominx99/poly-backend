@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\User\Validation;
 
+use App\System\Application\Exceptions\ValidationException;
 use Tests\BaseTestCase;
 use App\User\Application\Validation\UserStoreValidator;
 use App\User\Contracts\UserQueryRepository;
@@ -19,21 +20,30 @@ class UserStoreValidatorTest extends BaseTestCase
         $params = ['email' => 'example@test.com', 'password' => 'abcdef'];
         $validator->validate($params);
         $this->assertTrue($validator->passed());
+    }
 
-        $params = ['email' => 'example@test', 'abcdef'];
-        $validator->validate($params);
-        $this->assertTrue($validator->failed());
+    /**
+     * @test
+     * @dataProvider wrongValues
+     */
+    public function that_validates_not_valid_values($params)
+    {
+        $validator = new UserStoreValidator($this->container->get(UserQueryRepository::class));
 
-        $params = ['email' => '', 'password' => 'abcdef'];
+        $this->expectException(ValidationException::class);
         $validator->validate($params);
-        $this->assertTrue($validator->failed());
+    }
 
-        $params = ['email' => 'example@test.com', 'password' => 'abcd'];
-        $validator->validate($params);
-        $this->assertTrue($validator->failed());
-
-        $params = [];
-        $validator->validate($params);
-        $this->assertTrue($validator->failed());
+    /**
+     * @return array
+     */
+    public function wrongValues(): array
+    {
+        return [
+            [['email' => 'example@test', 'abcdef']],
+            [['email' => '', 'password' => 'abcdef']],
+            [['email' => 'example@test.com', 'password' => 'abcd']],
+            [[]],
+        ];
     }
 }
