@@ -4,38 +4,55 @@ namespace App\User\Application\Query;
 
 class UserView
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $email;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $password;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $worldId;
+
+    /** @var ?string */
+    private $color;
 
     /**
      * @param string $id
      * @param string $email
      * @param string|null $password
      * @param string|null $worldId
+     * @param ?string|null $color
      */
-    public function __construct(string $id, string $email, string $password = null, string $worldId = null)
-    {
+    public function __construct(
+        string $id,
+        string $email,
+        string $password = null,
+        string $worldId = null,
+        ?string $color = null
+    ) {
         $this->id       = $id;
         $this->email    = $email;
         $this->password = $password;
         $this->worldId  = $worldId;
+        $this->color    = $color;
+    }
+
+    /**
+     * @param  array $user
+     * @return self
+     */
+    public static function createFromDatabase(array $user): self
+    {
+        return new static(
+            $user['id'],
+            $user['email'],
+            $user['password'],
+            $user['world_id'],
+            $user['color']
+        );
     }
 
     /**
@@ -71,16 +88,10 @@ class UserView
     }
 
     /**
-     * @param  array $user
-     * @return self
+     * @return ?string
      */
-    public static function createFromDatabase(array $user): self
+    public function color(): ?string
     {
-        return new static(
-            $user['id'],
-            $user['email'],
-            $user['password'],
-            $user['world_id']
-        );
+        return $this->color;
     }
 }

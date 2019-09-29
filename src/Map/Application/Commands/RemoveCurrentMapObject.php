@@ -6,22 +6,22 @@ use App\System\Contracts\Command;
 
 final class RemoveCurrentMapObject implements Command
 {
-	/** @var string */
-	private $fieldId;
+    /** @var string */
+    private $fieldId;
 
-	/**
-	 * @param string $fieldId
-	 */
+    /**
+     * @param string $fieldId
+     */
     public function __construct(string $fieldId)
     {
-		$this->fieldId = $fieldId;
+        $this->fieldId = $fieldId;
     }
 
-	/**
-	 * @return string
-	 */
-	public function fieldId(): string
-	{
-		return $this->fieldId;
-	}
+    /**
+     * @return string
+     */
+    public function fieldId(): string
+    {
+        return $this->fieldId;
+    }
 }

@@ -4,26 +4,26 @@ namespace App\Map\Application\Query;
 
 final class MapObjectView
 {
-	/** @var string */
+    /** @var string */
     private $id;
 
-	/** @var string */
+    /** @var string */
     private $fieldId;
 
-	/** @var string */
+    /** @var string */
     private $userId;
 
     /** @var string */
     private $mapId;
 
-	/** @var string */
+    /** @var string */
     private $unitName;
 
-	/** @var int */
-	private $power;
+    /** @var int */
+    private $power;
 
-	/** @var int */
-	private $defense;
+    /** @var int */
+    private $defense;
 
     /**
      * @param string $id
@@ -46,8 +46,8 @@ final class MapObjectView
         $this->userId   = $userId;
         $this->mapId    = $mapId;
         $this->unitName = $unitName;
-		$this->power = $power;
-		$this->defense = $defense;
+        $this->power    = $power;
+        $this->defense  = $defense;
     }
 
     /**
@@ -123,19 +123,19 @@ final class MapObjectView
         return $this->mapId;
     }
 
-	/**
-	 * @return int
-	 */
-	public function power(): int
-	{
-		return $this->power;
-	}
+    /**
+     * @return int
+     */
+    public function power(): int
+    {
+        return $this->power;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function defense(): int
-	{
-		return $this->defense;
-	}
+    /**
+     * @return int
+     */
+    public function defense(): int
+    {
+        return $this->defense;
+    }
 }

@@ -11,6 +11,7 @@ use App\World\Domain\World;
 use App\Map\Domain\Map\MapObject;
 use App\Map\Domain\Map\Field;
 use App\System\Contracts\Buyable;
+use App\User\Domain\User\Color;
 
 /**
  * @ORM\Entity
@@ -39,6 +40,13 @@ class User
      * @ORM\Embedded(class="\App\User\Domain\User\Password", columnPrefix=false)
      */
     private $password;
+
+    /**
+     * @var \App\User\Domain\User\Color
+     *
+     * @ORM\Embedded(class="\App\User\Domain\User\Color", columnPrefix=false)
+     */
+    private $color;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection|\App\User\Domain\SocialProvider[]
@@ -178,5 +186,14 @@ class User
     public function gainField(Field $field): void
     {
         $this->addField($field);
+    }
+
+    /**
+     * @param string $color
+     * @return void
+     */
+    public function setColor(string $color): void
+    {
+        $this->color = new Color($color);
     }
 }

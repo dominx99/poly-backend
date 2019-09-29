@@ -68,7 +68,9 @@ class EventDispatcher implements EventDispatcherInterface
                 try {
                     $handler->handle($event);
                 } catch (\Throwable $t) {
-                    $this->log->error($t->getMessage());
+                    $this->log->error($t->getFile() . ' ' . $t->getLine() . ' ' . $t->getMessage());
+
+                    throw $t;
                 }
             }
 

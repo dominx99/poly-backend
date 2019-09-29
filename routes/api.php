@@ -8,12 +8,12 @@ use App\User\Infrastructure\Middleware\JWTMiddleware;
 use App\User\Presentation\UserController;
 use App\World\Presentation\WorldController;
 use App\System\System;
-use App\User\Contracts\UserQueryRepository;
 use App\User\Infrastructure\Middleware\UserBelongToWorld;
 use Slim\Routing\RouteCollectorProxy;
 use App\User\Presentation\UserResourcesController;
 use App\Army\Http\Controllers\MapArmyUnitsController;
 use App\Army\Http\Actions\PutMapObjectAction;
+use App\User\Http\Controllers\PlayersController;
 
 $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
     $group->post('/auth/login', [LoginController::class, 'login']);
@@ -31,8 +31,10 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
         $group->post('/worlds', [WorldJoinController::class, 'store']);
 
         $group->group('', function (RouteCollectorProxy $group) {
+            $group->get('/world/players', [PlayersController::class, 'index']);
+
             $group->get('/world/{worldId}', [WorldController::class, 'show']);
             $group->get('/world/{worldId}/map', [MapController::class, 'show']);
-        })->add(new UserBelongToWorld($app->getContainer()->get(System::class), $app->getContainer()->get(UserQueryRepository::class)));
+        })->add(new UserBelongToWorld($app->getContainer()->get(System::class)));
     })->add(new JWTMiddleware());
 });

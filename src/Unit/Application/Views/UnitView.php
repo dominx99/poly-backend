@@ -24,28 +24,28 @@ class UnitView
      */
     private $cost;
 
-	/** @var int */
-	private $power;
+    /** @var int */
+    private $power;
 
-	/** @var int */
-	private $defense;
+    /** @var int */
+    private $defense;
 
-	/**
-	 * @param string $id
-	 * @param string $name
-	 * @param string $displayName
-	 * @param int $cost
-	 * @param int $power
-	 * @param int $defense
-	 */
+    /**
+     * @param string $id
+     * @param string $name
+     * @param string $displayName
+     * @param int $cost
+     * @param int $power
+     * @param int $defense
+     */
     public function __construct(string $id, string $name, string $displayName, int $cost, int $power, int $defense)
     {
         $this->id          = $id;
         $this->name        = $name;
         $this->displayName = $displayName;
         $this->cost        = $cost;
-		$this->power = $power;
-		$this->defense = $defense;
+        $this->power       = $power;
+        $this->defense     = $defense;
     }
 
     /**
@@ -64,9 +64,9 @@ class UnitView
         );
     }
 
-	/**
-	 * @return array
-	 */
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -111,19 +111,19 @@ class UnitView
         return $this->cost;
     }
 
-	/**
-	 * @return int
-	 */
-	public function power(): int
-	{
-		return $this->power;
-	}
+    /**
+     * @return int
+     */
+    public function power(): int
+    {
+        return $this->power;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function defense(): int
-	{
-		return $this->defense;
-	}
+    /**
+     * @return int
+     */
+    public function defense(): int
+    {
+        return $this->defense;
+    }
 }

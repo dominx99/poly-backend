@@ -2,16 +2,16 @@
 
 namespace App\User\Infrastructure\Middleware;
 
-use App\User\Contracts\UserQueryRepository;
 use App\System\System;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Application\FindUser;
 use App\System\Responses\Fail;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class UserBelongToWorld
+class UserBelongToWorld implements MiddlewareInterface
 {
     /**
      * @var \App\System\System
@@ -19,39 +19,33 @@ class UserBelongToWorld
     private $system;
 
     /**
-     * @var \App\User\Contracts\UserQueryRepository
-     */
-    private $users;
-
-    /**
      * @param \App\System\System $system
      * @param \App\User\Contracts\UserQueryRepository $users
      */
-    public function __construct(System $system, UserQueryRepository $users)
+    public function __construct(System $system)
     {
         $this->system = $system;
-        $this->users  = $users;
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $response = $handler->handle($request);
-
         $userId = $request->getAttribute('decodedToken')['id'];
         $user   = $this->system->execute(new FindUser($userId));
 
         $route   = $request->getAttribute('route');
-        $worldId = $route->getArgument('worldId');
+        if (! $worldId = $route->getArgument('worldId')) {
+            $worldId = $request->getParam('world_id');
+        }
 
         if ($user->worldId() === null || $user->worldId() !== $worldId) {
             return (new Fail(['error' => StatusMessage::USER_NOT_BELONG_TO_WORLD], 422))->toResponse();
         }
 
-        return $response;
+        return $handler->handle($request);
     }
 }

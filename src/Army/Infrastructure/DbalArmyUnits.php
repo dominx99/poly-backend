@@ -33,7 +33,7 @@ final class DbalArmyUnits implements ArmyUnitQueryRepository
             ->from('units', 'u')
             ->join('u', 'maps', 'm', 'm.id = u.map_id')
             ->where('u.map_id = :mapId')
-            ->where('type = "army"')
+            ->andWhere('type = "army"')
             ->orderBy('u.cost')
             ->setParameter('mapId', $mapId);
 
