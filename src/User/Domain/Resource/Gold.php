@@ -3,6 +3,7 @@
 namespace App\User\Domain\Resource;
 
 use App\System\Infrastructure\Exceptions\BusinessException;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use \Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,11 +20,12 @@ class Gold
 
     /**
      * @param int $gold
+     * @throws \App\System\Infrastructure\Exceptions\UnexpectedException
      */
     public function __construct(int $gold)
     {
         if ($gold < 0) {
-            throw new \Exception('Gold can not be less than 0.');
+            throw new UnexpectedException('Gold can not be less than 0.');
         }
 
         $this->gold = $gold;
@@ -38,7 +40,7 @@ class Gold
     }
 
     /**
-     * @param int $cost
+     * @param int $amount
      * @return void
      */
     public function reduce(int $amount): void
@@ -47,8 +49,9 @@ class Gold
     }
 
     /**
-     * @param int $cost
+     * @param int $amount
      * @return void
+     * @throws \App\System\Infrastructure\Exceptions\BusinessException
      */
     public function increase(int $amount): void
     {

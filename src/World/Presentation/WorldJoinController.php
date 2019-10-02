@@ -14,7 +14,7 @@ use App\System\Responses\Fail;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Application\AlreadyInGame;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use App\System\Infrastructure\Event\EventDispatcherInterface;
 use App\World\Application\Events\WorldReady;
 
@@ -39,10 +39,10 @@ class WorldJoinController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function store(RequestInterface $request): ResponseInterface
+    public function store(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->system->execute(
             new AlreadyInGame($request->getAttribute('decodedToken')['id'])

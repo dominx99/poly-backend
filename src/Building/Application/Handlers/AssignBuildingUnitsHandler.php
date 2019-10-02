@@ -12,6 +12,7 @@ use App\Map\Domain\Map\Unit\Power;
 use App\Map\Domain\Map\Unit\Defense;
 use App\Gold\Domain\EarningPoints;
 use App\Map\Domain\Map;
+use App\System\Infrastructure\Exceptions\BusinessException;
 use Ramsey\Uuid\Uuid;
 
 final class AssignBuildingUnitsHandler
@@ -28,12 +29,14 @@ final class AssignBuildingUnitsHandler
     }
 
     /**
-     * @param \App\Map\Application\Events\MapGenerated $event
+     * @param \App\Building\Application\Commands\AssignBuildingUnits $command
      * @return void
      */
     public function handle(AssignBuildingUnits $command): void
     {
-        $map = $this->entityManager->getRepository(Map::class)->find($command->mapId());
+        if (! $map = $this->entityManager->getRepository(Map::class)->find($command->mapId())) {
+            throw new BusinessException('Map not found.');
+        }
 
         foreach ($command->buildings() as $building) {
             $buildingUnit = new BuildingUnit(

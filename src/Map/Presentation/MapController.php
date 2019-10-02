@@ -2,7 +2,7 @@
 
 namespace App\Map\Presentation;
 
-use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\System\System;
 use App\Map\Application\FindMap;
@@ -23,7 +23,7 @@ final class MapController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function show(Request $request): Response

@@ -13,7 +13,7 @@ use App\User\Application\RegisterSocial;
 use App\User\Application\Validation\ProviderAuthValidator;
 use App\User\Responses\LoginFail;
 use App\System\Infrastructure\StatusMessage;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class LoginController
@@ -49,10 +49,10 @@ class LoginController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function login(RequestInterface $request): ResponseInterface
+    public function login(ServerRequestInterface $request): ResponseInterface
     {
         $params = $request->getParams();
 
@@ -64,12 +64,12 @@ class LoginController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param string $provider
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function loginByProvider(
-        RequestInterface $request,
+        ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
     ): ResponseInterface {

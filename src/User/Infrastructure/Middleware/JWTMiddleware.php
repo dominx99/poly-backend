@@ -9,7 +9,7 @@ use UnexpectedValueException;
 use App\System\Infrastructure\JWT;
 use App\System\Infrastructure\StatusMessage;
 use App\System\Responses\Fail;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -26,11 +26,11 @@ class JWTMiddleware
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (empty($request->getHeader('Authorization'))) {
             return (new Fail(['error' => StatusMessage::TOKEN_REQUIRED]))->toResponse();

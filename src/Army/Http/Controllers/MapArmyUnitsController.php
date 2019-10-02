@@ -3,7 +3,7 @@
 namespace App\Army\Http\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
 use App\System\System;
 use App\Army\Application\Commands\GetArmyUnits;
@@ -24,10 +24,10 @@ final class MapArmyUnitsController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index(RequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
         $routeContext = RouteContext::fromRequest($request);
         $route        = $routeContext->getRoute();

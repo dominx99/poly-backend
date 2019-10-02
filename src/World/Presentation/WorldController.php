@@ -7,7 +7,7 @@ use App\System\System;
 use App\World\Application\FindWorld;
 use App\System\Responses\Fail;
 use App\World\Responses\WorldSuccess;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\System\Infrastructure\StatusCode;
 
@@ -27,10 +27,10 @@ class WorldController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(RequestInterface $request): ResponseInterface
+    public function show(ServerRequestInterface $request): ResponseInterface
     {
         $route = $request->getAttribute('route');
 

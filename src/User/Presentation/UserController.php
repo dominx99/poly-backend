@@ -5,7 +5,7 @@ namespace App\User\Presentation;
 use App\System\System;
 use App\User\Application\FindUser;
 use App\User\Responses\UserSuccess;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\System\Responses\Fail;
 use App\System\Infrastructure\StatusMessage;
@@ -28,10 +28,10 @@ class UserController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(RequestInterface $request): ResponseInterface
+    public function show(ServerRequestInterface $request): ResponseInterface
     {
         try {
             $user = $this->system->execute(new FindUser($request->getAttribute('decodedToken')['id']));

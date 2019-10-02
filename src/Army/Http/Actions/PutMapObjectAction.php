@@ -2,7 +2,7 @@
 
 namespace App\Army\Http\Actions;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\System\System;
 use App\Map\Application\Commands\CanPutMapObject;
@@ -44,11 +44,11 @@ final class PutMapObjectAction
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \App\System\Infrastructure\Exceptions\UnexpectedException
      */
-    public function __invoke(RequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         // TODO: Add validation
         $this->validator->validate($request->getParams());

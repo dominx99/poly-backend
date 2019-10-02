@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use App\Map\Domain\Map\Unit\Power;
 use App\Map\Domain\Map\Unit\Defense;
+use App\System\Infrastructure\Exceptions\BusinessException;
 
 final class DoctrineArmyUnits implements ArmyUnitWriteRepository
 {
@@ -42,7 +43,9 @@ final class DoctrineArmyUnits implements ArmyUnitWriteRepository
      */
     public function addMany(string $mapId, array $armies): void
     {
-        $map = $this->entityManager->getRepository(Map::class)->find($mapId);
+        if (! $map = $this->entityManager->getRepository(Map::class)->find($mapId)) {
+            throw new BusinessException('Map not found.');
+        }
 
         foreach ($armies as $army) {
             $armyUnit = new ArmyUnit(

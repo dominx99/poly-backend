@@ -3,7 +3,7 @@
 namespace App\User\Http\Controllers;
 
 use App\System\System;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\User\Application\Commands\GetPlayers;
 
@@ -21,10 +21,10 @@ final class PlayersController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index(RequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
         $players = $this->system->execute(new GetPlayers($request->getParam('world_id')));
 

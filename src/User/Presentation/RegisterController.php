@@ -7,7 +7,7 @@ use App\System\System;
 use App\User\Application\LoginStandard;
 use App\User\Application\RegisterStandard;
 use App\User\Application\Validation\UserStoreValidator;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class RegisterController
@@ -32,10 +32,10 @@ class RegisterController
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function register(RequestInterface $request): ResponseInterface
+    public function register(ServerRequestInterface $request): ResponseInterface
     {
         $validation = $this->validator->validate($request->getParams() ?? []);
 

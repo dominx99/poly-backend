@@ -3,10 +3,10 @@
 namespace App\User\Http\Actions;
 
 use App\System\Responses\SuccessResponse;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\User\Application\Commands\UpdateUserResources;
 use App\System\System;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class UpdateUserResourcesAction
 {
@@ -22,10 +22,10 @@ final class UpdateUserResourcesAction
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(RequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $this->system->handle(
             new UpdateUserResources(
