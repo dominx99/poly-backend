@@ -41,12 +41,39 @@ class Gold
      * @param int $cost
      * @return void
      */
-    public function reduce(int $cost): void
+    public function reduce(int $amount): void
     {
+        $this->gold -= $amount;
+    }
+
+    /**
+     * @param int $cost
+     * @return void
+     */
+    public function increase(int $amount): void
+    {
+        if ($amount < 0) {
+            throw new BusinessException('Increase amount cannot be less than 0');
+        }
+
+        $this->gold += $amount;
+    }
+
+    /**
+     * @param int $cost
+     * @return void
+     * @throws \App\System\Infrastructure\Exceptions\BusinessException
+     */
+    public function buy(int $cost): void
+    {
+        if ($cost < 0) {
+            throw new BusinessException('Cost cannot be less than 0');
+        }
+
         if (($this->gold - $cost) < 0) {
             throw new BusinessException('You do not afford to buy this.');
         }
 
-        $this->gold -= $cost;
+        $this->reduce($cost);
     }
 }

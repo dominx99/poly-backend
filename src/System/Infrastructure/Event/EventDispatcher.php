@@ -13,6 +13,9 @@ use App\Map\Application\Events\PushPlacedMapObjectNotificationHandler;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
 use Psr\Log\LoggerInterface;
 use App\Map\Application\Events\PlacedMapObject;
+use App\Map\Application\Handlers\UpdateEarnedAtOfMapObjectsByUserHandler;
+use App\Map\Application\Events\CollectedMoneyFromMapObjectsByUser;
+use App\Building\Application\Handlers\AssignDefaultBuildingUnitsHandler;
 
 class EventDispatcher implements EventDispatcherInterface
 {
@@ -37,9 +40,13 @@ class EventDispatcher implements EventDispatcherInterface
         MapGenerated::class => [
             AssignUserBaseKitHandler::class,
             AssignDefaultArmyUnitsHandler::class,
+            AssignDefaultBuildingUnitsHandler::class,
         ],
         PlacedMapObject::class => [
             PushPlacedMapObjectNotificationHandler::class,
+        ],
+        CollectedMoneyFromMapObjectsByUser::class => [
+            UpdateEarnedAtOfMapObjectsByUserHandler::class,
         ],
     ];
 

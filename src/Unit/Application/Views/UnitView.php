@@ -4,24 +4,16 @@ namespace App\Unit\Application\Views;
 
 class UnitView
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $displayName;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $cost;
 
     /** @var int */
@@ -29,6 +21,9 @@ class UnitView
 
     /** @var int */
     private $defense;
+
+    /** @var int */
+    private $earningPoints;
 
     /**
      * @param string $id
@@ -38,14 +33,22 @@ class UnitView
      * @param int $power
      * @param int $defense
      */
-    public function __construct(string $id, string $name, string $displayName, int $cost, int $power, int $defense)
-    {
-        $this->id          = $id;
-        $this->name        = $name;
-        $this->displayName = $displayName;
-        $this->cost        = $cost;
-        $this->power       = $power;
-        $this->defense     = $defense;
+    public function __construct(
+        string $id,
+        string $name,
+        string $displayName,
+        int $cost,
+        int $power,
+        int $defense,
+        int $earningPoints
+    ) {
+        $this->id            = $id;
+        $this->name          = $name;
+        $this->displayName   = $displayName;
+        $this->cost          = $cost;
+        $this->power         = $power;
+        $this->defense       = $defense;
+        $this->earningPoints = $earningPoints;
     }
 
     /**
@@ -60,7 +63,8 @@ class UnitView
             $unit['display_name'],
             (int) $unit['cost'],
             (int) $unit['power'],
-            (int) $unit['defense']
+            (int) $unit['defense'],
+            (int) $unit['earning_points']
         );
     }
 
@@ -125,5 +129,13 @@ class UnitView
     public function defense(): int
     {
         return $this->defense;
+    }
+
+    /**
+     * @return int
+     */
+    public function earningPoints(): int
+    {
+        return $this->earningPoints;
     }
 }

@@ -113,6 +113,11 @@ $container->set(
 );
 
 $container->set(
+    \App\Building\Application\Commands\AssignBuildingUnits::class,
+    Di\autowire(\App\Building\Application\Handlers\AssignBuildingUnitsHandler::class)
+);
+
+$container->set(
     \App\Army\Application\Commands\GetArmyUnits::class,
     Di\autowire(\App\Army\Application\Queries\GetArmyUnitsHandler::class)
 );
@@ -142,6 +147,11 @@ $container->set(
     Di\autowire(\App\User\Application\Handlers\AssignUserColorsHandler::class)
 );
 
+$container->set(
+    \App\User\Application\Commands\UpdateUserResources::class,
+    Di\autowire(\App\User\Application\Handlers\UpdateUserResourcesHandler::class)
+);
+
 $container->Set(
     \App\User\Application\Commands\CanUserAffordUnit::class,
     Di\autowire(\App\User\Application\Queries\CanUserAffordUnitQuery::class)
@@ -160,6 +170,11 @@ $container->set(
 $container->set(
     \App\User\Application\Commands\GetPlayers::class,
     Di\autowire(\App\User\Application\Queries\GetPlayersQuery::class)
+);
+
+$container->set(
+    \App\User\Application\Commands\GetUserMapObjects::class,
+    Di\autowire(\App\User\Application\Queries\GetUserMapObjectsQuery::class)
 );
 
 $container->set(
@@ -200,6 +215,11 @@ $container->set(
 $container->set(
     \App\Map\Contracts\FieldQueryRepository::class,
     Di\autowire(\App\Map\Infrastructure\Repositories\DbalFields::class)
+);
+
+$container->set(
+    \App\System\Contracts\GoldIncomeCalculator::class,
+    Di\autowire(\App\Resource\Infrastructure\GoldMapObjectsIncomeCalculator::class)
 );
 
 $container->set(EntityManagerInterface::class, function () use ($container) {

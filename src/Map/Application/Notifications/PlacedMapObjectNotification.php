@@ -39,6 +39,14 @@ class PlacedMapObjectNotification implements SocketEvent
      */
     public function data(): array
     {
-        return $this->mapObject->toArray();
+        return [
+            'id'        => $this->mapObject->id(),
+            'field_id'  => $this->mapObject->fieldId(),
+            'user_id'   => $this->mapObject->userId(),
+            'map_id'    => $this->mapObject->mapId(),
+            'unit_name' => $this->mapObject->unit()->name(),
+            'defense'   => $this->mapObject->unit()->defense(),
+            'power'     => $this->mapObject->unit()->power(),
+        ];
     }
 }

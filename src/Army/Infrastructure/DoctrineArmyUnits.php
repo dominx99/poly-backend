@@ -4,6 +4,7 @@ namespace App\Army\Infrastructure;
 
 use App\Army\Contracts\ArmyUnitWriteRepository;
 use App\Army\Domain\ArmyUnit;
+use App\Gold\Domain\EarningPoints;
 use App\Map\Domain\Map\Unit\Name;
 use App\Map\Domain\Map\Unit\DisplayName;
 use App\Map\Domain\Map\Unit\Cost;
@@ -51,6 +52,7 @@ final class DoctrineArmyUnits implements ArmyUnitWriteRepository
                 new Cost($army['cost']),
                 new Power($army['power']),
                 new Defense($army['defense']),
+                new EarningPoints($army['earning_points'])
             );
 
             $armyUnit->addMap($map);

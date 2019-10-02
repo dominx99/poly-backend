@@ -3,6 +3,7 @@
 namespace Tests\Feature\Army;
 
 use App\Army\Domain\ArmyUnit;
+use App\Gold\Domain\EarningPoints;
 use App\Map\Domain\Map\Unit\Name;
 use App\Map\Domain\Map\Unit\DisplayName;
 use App\Map\Domain\Map\Unit\Cost;
@@ -45,7 +46,8 @@ final class ArmyTest extends BaseTestCase
             new DisplayName('pikinier'),
             new Cost(175),
             new Power(3),
-            new Defense(3)
+            new Defense(3),
+            new EarningPoints(-1)
         );
 
         $resource = Resource::createDefault();

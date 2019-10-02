@@ -44,6 +44,14 @@ class MapSuccess extends Success
      */
     public function mapObject(MapObjectView $mapObject): array
     {
-        return $mapObject->toArray();
+        return [
+            'id'        => $mapObject->id(),
+            'field_id'  => $mapObject->fieldId(),
+            'user_id'   => $mapObject->userId(),
+            'map_id'    => $mapObject->mapId(),
+            'unit_name' => $mapObject->unit()->name(),
+            'defense'   => $mapObject->unit()->defense(),
+            'power'     => $mapObject->unit()->power(),
+        ];
     }
 }

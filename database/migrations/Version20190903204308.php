@@ -22,6 +22,7 @@ class Version20190903204308 extends AbstractMigration
         $table->addColumn('cost', 'integer');
         $table->addColumn('power', 'integer')->setDefault(0);
         $table->addColumn('defense', 'integer')->setDefault(0);
+        $table->addColumn('earning_points', 'integer')->setDefault(0);
         $table->addColumn('type', 'string');
 
         $table->addColumn('created_at', 'datetime', [

@@ -8,6 +8,7 @@ use App\Map\Application\Query\MapView;
 use App\Map\Application\Query\FieldView;
 use App\Map\Application\Query\MapObjectView;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
+use App\Unit\Application\Views\UnitView;
 
 class DbalMaps implements MapQueryRepository
 {
@@ -79,7 +80,7 @@ class DbalMaps implements MapQueryRepository
     private function getMapObjectsByWorld(string $worldId): array
     {
         $qb = $this->connection->createQueryBuilder()
-            ->select('mo.*, u.name, u.power, u.defense')
+            ->select('mo.*', 'u.*')
             ->from('maps', 'm')
             ->leftJoin('m', 'worlds', 'w', 'w.id = m.world_id')
             ->innerJoin('m', 'map_objects', 'mo', 'mo.map_id = m.id')
@@ -87,8 +88,11 @@ class DbalMaps implements MapQueryRepository
             ->where('w.id = :worldId')
             ->setParameter('worldId', $worldId);
 
-        return array_map(function ($mapObject) {
-            return MapObjectView::createFromDatabase($mapObject);
+        return array_map(function ($row) {
+            $mapObject = MapObjectView::createFromDatabase($row);
+            $mapObject->setUnit(UnitView::createFromDatabase($row));
+
+            return $mapObject;
         }, $this->connection->fetchAll($qb->getSQL(), $qb->getParameters()));
     }
 
