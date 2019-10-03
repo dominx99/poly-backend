@@ -12,8 +12,9 @@ use App\System\Responses\Fail;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
-class JWTMiddleware
+class JWTMiddleware implements MiddlewareInterface
 {
     /**
      * @var string
@@ -30,7 +31,7 @@ class JWTMiddleware
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (empty($request->getHeader('Authorization'))) {
             return (new Fail(['error' => StatusMessage::TOKEN_REQUIRED]))->toResponse();

@@ -10,15 +10,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\System\Infrastructure\Exceptions\BusinessException;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
+use Psr\Http\Server\MiddlewareInterface;
 
-final class ExceptionMiddleware
+final class ExceptionMiddleware implements MiddlewareInterface
 {
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
             $response = $handler->handle($request);

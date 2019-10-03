@@ -37,6 +37,6 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
 
             $group->get('/world/{worldId}', [WorldController::class, 'show']);
             $group->get('/world/{worldId}/map', [MapController::class, 'show']);
-        })->add(new UserBelongToWorld($app->getContainer()->get(System::class)));
-    })->add(new JWTMiddleware());
+        })->addMiddleware(new UserBelongToWorld($app->getContainer()->get(System::class)));
+    })->addMiddleware(new JWTMiddleware());
 });

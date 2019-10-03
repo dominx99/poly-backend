@@ -23,7 +23,7 @@ class JWTMiddlewareTest extends BaseTestCase
             $response->getBody()->write('authorized');
 
             return $response;
-        })->add(new JWTMiddleware());
+        })->addMiddleware(new JWTMiddleware());
     }
 
     /** @test */
