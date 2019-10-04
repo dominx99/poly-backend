@@ -3,7 +3,7 @@
 namespace App\User\Presentation;
 
 use App\System\System;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\User\Application\GetUserResources;
 
@@ -22,7 +22,7 @@ class UserResourcesController
         $this->system = $system;
     }
 
-    public function show(RequestInterface $request): ResponseInterface
+    public function show(ServerRequestInterface $request): ResponseInterface
     {
         $result = $this->system->execute(
             new GetUserResources($request->getAttribute('decodedToken')['id'])

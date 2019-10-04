@@ -46,7 +46,7 @@ final class App
 
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
-        $app->add(new ExceptionMiddleware());
+        $app->addMiddleware(new ExceptionMiddleware());
         $app->addErrorMiddleware(true, false, false);
 
         return $app;

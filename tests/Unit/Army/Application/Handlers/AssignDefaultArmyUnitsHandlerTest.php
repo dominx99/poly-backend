@@ -11,6 +11,8 @@ use App\Army\Domain\ArmyUnit;
 use App\World\Domain\World\Status;
 use App\World\Domain\World;
 use App\Army\Application\Handlers\AssignDefaultArmyUnitsHandler;
+use App\Building\Application\Handlers\AssignDefaultBuildingUnitsHandler;
+use App\Building\Domain\BuildingUnit;
 use App\System\System;
 
 class AssignDefaultArmyUnitsHandlerTest extends BaseTestCase
@@ -29,16 +31,17 @@ class AssignDefaultArmyUnitsHandlerTest extends BaseTestCase
         $this->entityManager->persist($map);
         $this->entityManager->flush();
 
-        $assignArmiesHandler = new AssignDefaultArmyUnitsHandler($this->container->get(System::class));
+        $assignArmiesHandler    = new AssignDefaultArmyUnitsHandler($this->container->get(System::class));
+        $assignBuildingsHandler = new AssignDefaultBuildingUnitsHandler($this->container->get(System::class));
         $assignArmiesHandler->handle(new MapGenerated($mapId));
+        $assignBuildingsHandler->handle(new MapGenerated($mapId));
 
         foreach (ArmyUnit::DEFAULT_ARMIES as $army) {
-            $this->assertDatabaseHas('units', [
-                'map_id'       => $mapId,
-                'name'         => $army['name'],
-                'display_name' => $army['display_name'],
-                'cost'         => $army['cost'],
-            ]);
+            $this->assertDatabaseHas('units', array_merge(['map_id' => $mapId], $army));
+        }
+
+        foreach (BuildingUnit::DEFAULT_BUILDINGS as $building) {
+            $this->assertDatabaseHas('units', array_merge(['map_id' => $mapId], $building));
         }
     }
 }

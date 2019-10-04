@@ -3,6 +3,7 @@
 namespace App\User\Domain\Resource;
 
 use App\System\Infrastructure\Exceptions\BusinessException;
+use App\System\Infrastructure\Exceptions\UnexpectedException;
 use \Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,11 +20,12 @@ class Gold
 
     /**
      * @param int $gold
+     * @throws \App\System\Infrastructure\Exceptions\UnexpectedException
      */
     public function __construct(int $gold)
     {
         if ($gold < 0) {
-            throw new \Exception('Gold can not be less than 0.');
+            throw new UnexpectedException('Gold can not be less than 0.');
         }
 
         $this->gold = $gold;
@@ -38,15 +40,43 @@ class Gold
     }
 
     /**
-     * @param int $cost
+     * @param int $amount
      * @return void
      */
-    public function reduce(int $cost): void
+    public function reduce(int $amount): void
     {
+        $this->gold -= $amount;
+    }
+
+    /**
+     * @param int $amount
+     * @return void
+     * @throws \App\System\Infrastructure\Exceptions\BusinessException
+     */
+    public function increase(int $amount): void
+    {
+        if ($amount < 0) {
+            throw new BusinessException('Increase amount cannot be less than 0');
+        }
+
+        $this->gold += $amount;
+    }
+
+    /**
+     * @param int $cost
+     * @return void
+     * @throws \App\System\Infrastructure\Exceptions\BusinessException
+     */
+    public function buy(int $cost): void
+    {
+        if ($cost < 0) {
+            throw new BusinessException('Cost cannot be less than 0');
+        }
+
         if (($this->gold - $cost) < 0) {
             throw new BusinessException('You do not afford to buy this.');
         }
 
-        $this->gold -= $cost;
+        $this->reduce($cost);
     }
 }

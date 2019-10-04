@@ -2,6 +2,7 @@
 
 namespace App\Map\Domain\Map;
 
+use App\Gold\Domain\EarningPoints;
 use App\Map\Domain\Map;
 use \Doctrine\ORM\Mapping as ORM;
 use App\Map\Domain\Map\Unit\Name;
@@ -17,7 +18,7 @@ use App\System\Contracts\Buyable;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\Table(name="units")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"army" = "\App\Army\Domain\ArmyUnit"})
+ * @ORM\DiscriminatorMap({"army" = "\App\Army\Domain\ArmyUnit", "building" = "\App\Building\Domain\BuildingUnit"})
  */
 abstract class Unit implements Buyable
 {
@@ -73,6 +74,13 @@ abstract class Unit implements Buyable
     protected $defense;
 
     /**
+     * @var \App\Gold\Domain\EarningPoints
+     *
+     * @ORM\Embedded(class="\App\Gold\Domain\EarningPoints", columnPrefix=false)
+     */
+    private $earningPoints;
+
+    /**
      * @var \Doctrine\Common\Collections\ArrayCollection|\App\Map\Domain\Map\MapObject[]
      *
      * @ORM\OneToMany(targetEntity="\App\Map\Domain\Map\MapObject", mappedBy="unit", cascade={"persist"})
@@ -93,15 +101,17 @@ abstract class Unit implements Buyable
         DisplayName $displayName,
         Cost $cost,
         Power $power,
-        Defense $defense
+        Defense $defense,
+        EarningPoints $earningPoints
     ) {
-        $this->id          = $id;
-        $this->name        = $name;
-        $this->displayName = $displayName;
-        $this->cost        = $cost;
-        $this->power       = $power;
-        $this->defense     = $defense;
-        $this->mapObjects  = new ArrayCollection();
+        $this->id            = $id;
+        $this->name          = $name;
+        $this->displayName   = $displayName;
+        $this->cost          = $cost;
+        $this->power         = $power;
+        $this->defense       = $defense;
+        $this->earningPoints = $earningPoints;
+        $this->mapObjects    = new ArrayCollection();
     }
 
     /**

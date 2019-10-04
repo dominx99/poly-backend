@@ -94,8 +94,23 @@ class Resource
      * @param int $cost
      * @return void
      */
-    public function reduceGold(int $cost): void
+    public function buy(int $cost): void
     {
-        $this->gold->reduce($cost);
+        $this->gold->buy($cost);
+    }
+
+    /**
+     * @param int $amount
+     * @return void
+     */
+    public function updateGold(int $amount): void
+    {
+        if ($amount > 0) {
+            $this->gold->increase($amount);
+        }
+
+        if ($amount < 0) {
+            $this->gold->reduce(abs($amount));
+        }
     }
 }

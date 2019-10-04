@@ -11,7 +11,7 @@ use App\User\Domain\User;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\Table(name="map_objects")
  * @ORM\DiscriminatorColumn(name="unit_type", type="string")
- * @ORM\DiscriminatorMap({"army" = "Army"})
+ * @ORM\DiscriminatorMap({"army" = "\App\Map\Domain\Map\Army", "building" = "\App\Building\Domain\Building"})
  */
 abstract class MapObject
 {
@@ -24,6 +24,13 @@ abstract class MapObject
      * @ORM\Column(type="uuid", unique=true)
      */
     protected $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="earned_at", type="datetime")
+     */
+    protected $earnedAt;
 
     /**
      * @var \App\Map\Domain\Map\Field
@@ -119,5 +126,13 @@ abstract class MapObject
 
         $this->unit = $unit;
         $unit->addMapObject($this);
+    }
+
+    /**
+     * @return void
+     */
+    public function updateEarnedAt(): void
+    {
+        $this->earnedAt = new \DateTime('now');
     }
 }

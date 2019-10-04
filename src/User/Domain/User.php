@@ -176,7 +176,7 @@ class User
      */
     public function buy(Buyable $unit): void
     {
-        $this->resource->reduceGold($unit->getCost());
+        $this->resource->buy($unit->getCost());
     }
 
     /**

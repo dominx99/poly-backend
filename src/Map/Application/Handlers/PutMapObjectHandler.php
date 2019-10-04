@@ -58,6 +58,8 @@ final class PutMapObjectHandler
             $this->entityManager->getRepository(Unit::class)->find($command->unitId())
         );
 
+        $mapObject->updateEarnedAt();
+
         $this->entityManager->persist($mapObject);
         $this->entityManager->flush();
 

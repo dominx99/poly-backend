@@ -2,6 +2,9 @@
 
 namespace App\Map\Application\Query;
 
+use App\Unit\Application\Views\UnitView;
+use App\System\ValueObjects\DateTime;
+
 final class MapObjectView
 {
     /** @var string */
@@ -16,38 +19,30 @@ final class MapObjectView
     /** @var string */
     private $mapId;
 
-    /** @var string */
-    private $unitName;
+    /** @var \DateTime */
+    private $earnedAt;
 
-    /** @var int */
-    private $power;
-
-    /** @var int */
-    private $defense;
+    /** @var \App\Unit\Application\Views\UnitView */
+    private $unit;
 
     /**
      * @param string $id
      * @param string $fieldId
      * @param string $userId
      * @param string $mapId
-     * @param string $unitName
      */
     public function __construct(
         string $id,
         string $fieldId,
         string $userId,
         string $mapId,
-        string $unitName,
-        int $power,
-        int $defense
+        $earnedAt
     ) {
-        $this->id       = $id;
-        $this->fieldId  = $fieldId;
-        $this->userId   = $userId;
-        $this->mapId    = $mapId;
-        $this->unitName = $unitName;
-        $this->power    = $power;
-        $this->defense  = $defense;
+        $this->id         = $id;
+        $this->fieldId    = $fieldId;
+        $this->userId     = $userId;
+        $this->mapId      = $mapId;
+        $this->earnedAt   = $earnedAt;
     }
 
     /**
@@ -61,9 +56,7 @@ final class MapObjectView
             $mapObject['field_id'],
             $mapObject['user_id'],
             $mapObject['map_id'],
-            $mapObject['name'],
-            (int) $mapObject['power'],
-            (int) $mapObject['defense']
+            $mapObject['earned_at']
         );
     }
 
@@ -77,10 +70,16 @@ final class MapObjectView
             'field_id'  => $this->fieldId(),
             'user_id'   => $this->userId(),
             'map_id'    => $this->mapId(),
-            'unit_name' => $this->unitName(),
-            'power'     => $this->power(),
-            'defense'   => $this->defense(),
         ];
+    }
+
+    /**
+     * @param \App\Unit\Application\Views\UnitView $unit
+     * @return void
+     */
+    public function setUnit(UnitView $unit): void
+    {
+        $this->unit = $unit;
     }
 
     /**
@@ -110,32 +109,27 @@ final class MapObjectView
     /**
      * @return string
      */
-    public function unitName(): string
-    {
-        return $this->unitName;
-    }
-
-    /**
-     * @return string
-     */
     public function mapId(): string
     {
         return $this->mapId;
     }
 
     /**
-     * @return int
+     * @return \App\Unit\Application\Views\UnitView
      */
-    public function power(): int
+    public function unit(): UnitView
     {
-        return $this->power;
+        return $this->unit;
     }
 
     /**
      * @return int
      */
-    public function defense(): int
+    public function earnedAtInSeconds()
     {
-        return $this->defense;
+        $earnedAt = DateTime::createFromFormat('Y-m-d H:i:s', $this->earnedAt);
+        $now      = time();
+
+        return $now - $earnedAt->getTimestamp();
     }
 }

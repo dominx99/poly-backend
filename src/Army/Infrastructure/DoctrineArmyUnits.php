@@ -4,6 +4,7 @@ namespace App\Army\Infrastructure;
 
 use App\Army\Contracts\ArmyUnitWriteRepository;
 use App\Army\Domain\ArmyUnit;
+use App\Gold\Domain\EarningPoints;
 use App\Map\Domain\Map\Unit\Name;
 use App\Map\Domain\Map\Unit\DisplayName;
 use App\Map\Domain\Map\Unit\Cost;
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use App\Map\Domain\Map\Unit\Power;
 use App\Map\Domain\Map\Unit\Defense;
+use App\System\Infrastructure\Exceptions\BusinessException;
 
 final class DoctrineArmyUnits implements ArmyUnitWriteRepository
 {
@@ -41,7 +43,9 @@ final class DoctrineArmyUnits implements ArmyUnitWriteRepository
      */
     public function addMany(string $mapId, array $armies): void
     {
-        $map = $this->entityManager->getRepository(Map::class)->find($mapId);
+        if (! $map = $this->entityManager->getRepository(Map::class)->find($mapId)) {
+            throw new BusinessException('Map not found.');
+        }
 
         foreach ($armies as $army) {
             $armyUnit = new ArmyUnit(
@@ -51,6 +55,7 @@ final class DoctrineArmyUnits implements ArmyUnitWriteRepository
                 new Cost($army['cost']),
                 new Power($army['power']),
                 new Defense($army['defense']),
+                new EarningPoints($army['earning_points'])
             );
 
             $armyUnit->addMap($map);

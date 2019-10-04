@@ -5,20 +5,21 @@ namespace App\System\Infrastructure\Middleware;
 use App\System\Application\Exceptions\ValidationException;
 use App\System\Infrastructure\StatusCode;
 use App\System\Responses\JsonResponse;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\System\Infrastructure\Exceptions\BusinessException;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
+use Psr\Http\Server\MiddlewareInterface;
 
-final class ExceptionMiddleware
+final class ExceptionMiddleware implements MiddlewareInterface
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Server\RequestHandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(RequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
             $response = $handler->handle($request);

@@ -8,7 +8,7 @@ use Tests\BaseTestCase;
 use Tests\DatabaseTrait;
 use App\System\Infrastructure\StatusMessage;
 use App\User\Infrastructure\Middleware\JWTMiddleware;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class JWTMiddlewareTest extends BaseTestCase
@@ -19,11 +19,11 @@ class JWTMiddlewareTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->app->get('/token', function (RequestInterface $request, ResponseInterface $response) {
+        $this->app->get('/token', function (ServerRequestInterface $request, ResponseInterface $response) {
             $response->getBody()->write('authorized');
 
             return $response;
-        })->add(new JWTMiddleware());
+        })->addMiddleware(new JWTMiddleware());
     }
 
     /** @test */

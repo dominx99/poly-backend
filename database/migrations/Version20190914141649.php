@@ -22,6 +22,10 @@ class Version20190914141649 extends AbstractMigration
         $table->addColumn('unit_id', 'string');
         $table->addColumn('unit_type', 'string');
 
+        $table->addColumn('earned_at', 'datetime', [
+            'columnDefinition' => 'timestamp default current_timestamp',
+        ]);
+
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
         ]);
