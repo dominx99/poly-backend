@@ -6,8 +6,15 @@ use Psr\Http\Message\ResponseInterface;
 
 final class SuccessResponse extends JsonResponse
 {
-    public static function respond(): ResponseInterface
+    /**
+     * @param array $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function respond(array $data = []): ResponseInterface
     {
-        return JsonResponse::create(['status' => 'success']);
+        return JsonResponse::create(array_merge(
+            ['status' => 'success'],
+            ['data'   => $data]
+        ));
     }
 }

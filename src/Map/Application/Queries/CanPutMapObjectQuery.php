@@ -49,11 +49,36 @@ final class CanPutMapObjectQuery
             throw new BusinessException('You already have map object there.');
         }
 
+        if ($this->isYourField()) {
+            return true;
+        }
+
         if (! $this->hasEnoughPower()) {
             throw new BusinessException("You don't have enough power.");
         }
 
         return true;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isYourField(): bool
+    {
+        $qb = $this->connection
+            ->createQueryBuilder()
+            ->select('f.user_id')
+            ->from('fields', 'f')
+            ->where('user_id = :userId')
+            ->andWhere('f.id = :fieldId')
+            ->setParameters([
+                'fieldId' => $this->command->fieldId(),
+                'userId'  => $this->command->userId(),
+            ]);
+
+        $stmt = $this->connection->executeQuery($qb->getSQL(), $qb->getParameters());
+
+        return (bool) $stmt->fetchColumn();
     }
 
     /**

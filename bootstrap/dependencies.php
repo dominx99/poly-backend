@@ -178,6 +178,11 @@ $container->set(
 );
 
 $container->set(
+    \App\Building\Application\Commands\GetBuildingUnitsByMap::class,
+    Di\autowire(\App\Building\Application\Queries\GetBuildingUnitsByMapQuery::class)
+);
+
+$container->set(
     \App\World\Contracts\WorldsQueryRepository::class,
     Di\autowire(\App\World\Infrastructure\DbalWorlds::class)
 );

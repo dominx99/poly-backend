@@ -13,6 +13,7 @@ use Slim\Routing\RouteCollectorProxy;
 use App\User\Presentation\UserResourcesController;
 use App\Army\Http\Controllers\MapArmyUnitsController;
 use App\Army\Http\Actions\PutMapObjectAction;
+use App\Building\Http\Controllers\MapBuildingUnitsController;
 use App\User\Http\Actions\UpdateUserResourcesAction;
 use App\User\Http\Controllers\PlayersController;
 
@@ -27,10 +28,12 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($app) {
         $group->get('/user/resources', [UserResourcesController::class, 'show']);
         $group->post('/user/resources/update', UpdateUserResourcesAction::class);
 
-        $group->get('/map/{mapId}/army-units', [MapArmyUnitsController::class, 'index']);
         $group->post('/map/put', PutMapObjectAction::class);
 
         $group->post('/worlds', [WorldJoinController::class, 'store']);
+
+        $group->get('/map/{mapId}/army-units', [MapArmyUnitsController::class, 'index']);
+        $group->get('/map/{mapId}/building-units', [MapBuildingUnitsController::class, 'index']);
 
         $group->group('', function (RouteCollectorProxy $group) {
             $group->get('/world/players', [PlayersController::class, 'index']);

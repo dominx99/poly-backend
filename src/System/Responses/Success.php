@@ -3,7 +3,6 @@
 namespace App\System\Responses;
 
 use App\System\Contracts\Responsable;
-use App\System\Infrastructure\StatusMessage;
 use Psr\Http\Message\ResponseInterface;
 
 class Success implements Responsable
@@ -29,13 +28,20 @@ class Success implements Responsable
     }
 
     /**
+     * @param array $data
+     * @param integer $status
+     * @return self
+     */
+    public static function create(array $data = [], int $status = 200): self
+    {
+        return new static($data, $status);
+    }
+
+    /**
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function toResponse(): ResponseInterface
     {
-        return JsonResponse::create([
-            'data'   => $this->data,
-            'status' => StatusMessage::SUCCESS,
-        ], $this->status);
+        return SuccessResponse::respond($this->data);
     }
 }

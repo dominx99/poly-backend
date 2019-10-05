@@ -2,6 +2,7 @@
 
 namespace App\Map\Application\Factories;
 
+use App\Building\Domain\Building;
 use App\Map\Domain\Map\MapObject;
 use App\Map\Domain\Map\Army;
 use App\System\Infrastructure\Exceptions\UnexpectedException;
@@ -30,5 +31,14 @@ final class MapObjectFactory
     public static function createArmy(string $id): Army
     {
         return new Army($id);
+    }
+
+    /**
+     * @param string $id
+     * @return \App\Building\Domain\Building
+     */
+    public static function createBuilding(string $id): Building
+    {
+        return new Building($id);
     }
 }
