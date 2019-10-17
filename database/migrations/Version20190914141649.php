@@ -26,6 +26,10 @@ class Version20190914141649 extends AbstractMigration
             'columnDefinition' => 'timestamp default current_timestamp',
         ]);
 
+        $table->addColumn('last_moved', 'datetime', [
+            'columnDefinition' => 'timestamp default current_timestamp',
+        ]);
+
         $table->addColumn('created_at', 'datetime', [
             'columnDefinition' => 'timestamp default current_timestamp',
         ]);
